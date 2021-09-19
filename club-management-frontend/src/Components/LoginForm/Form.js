@@ -75,13 +75,6 @@ export const FormControl = styled.form`
   }
 `;
 
-const Footer = styled.footer`
-  & p {
-    text-align: center;
-    font-weight: 600;
-  }
-`;
-
 const Form = () => {
   const [isLogin, setIsLogin] = useState(true);
 
@@ -96,9 +89,6 @@ const Form = () => {
       ) : (
         <RegisForm onClick={changeFormHandler} />
       )}
-      <Footer>
-        <p>Copyright &copy; {new Date().getFullYear()}</p>
-      </Footer>
     </div>
   );
 };
