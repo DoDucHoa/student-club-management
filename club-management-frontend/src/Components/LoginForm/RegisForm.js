@@ -4,14 +4,14 @@ import { FormControl } from "./Form";
 
 const RePasswordInput = styled.input`
   border-color: ${(props) =>
-    props.value != props.prevPass ? "red" : "#89cff0"} !important;
+    props.value !== props.prevPass ? "red" : "#89cff0"} !important;
 `;
 
 const RegisForm = (props) => {
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
 
-  const onSubmitHandler = () => {
+  const submitHandler = () => {
     console.log(1);
   };
 
@@ -24,7 +24,7 @@ const RegisForm = (props) => {
   };
 
   return (
-    <FormControl onSubmit={onSubmitHandler}>
+    <FormControl onSubmit={submitHandler}>
       <h1>sign up</h1>
       <input type="email" placeholder="Email" required />
       <input type="text" placeholder="Full Name" required />
