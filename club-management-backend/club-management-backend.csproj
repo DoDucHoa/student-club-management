@@ -16,4 +16,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BAL_CRUD\BAL_CRUD.csproj" />
+    <ProjectReference Include="..\DAL_CRUD\DAL_CRUD.csproj" />
+  </ItemGroup>
+
 </Project>

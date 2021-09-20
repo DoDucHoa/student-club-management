@@ -1,0 +1,12 @@
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\BAL_CRUD.deps.json
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\BAL_CRUD.dll
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\BAL_CRUD.pdb
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\DAL_CRUD.dll
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\DAL_CRUD.pdb
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.csprojAssemblyReference.cache
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.AssemblyInfoInputs.cache
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.AssemblyInfo.cs
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.csproj.CoreCompileInputs.cache
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.csproj.CopyComplete
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.dll
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.pdb

@@ -1,0 +1,9 @@
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\bin\Debug\netcoreapp3.1\DAL_CRUD.deps.json
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\bin\Debug\netcoreapp3.1\DAL_CRUD.dll
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\bin\Debug\netcoreapp3.1\DAL_CRUD.pdb
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.csprojAssemblyReference.cache
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.AssemblyInfoInputs.cache
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.AssemblyInfo.cs
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.csproj.CoreCompileInputs.cache
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.dll
+D:\Study\SEM7\GroupProject\student-club-management\DAL_CRUD\obj\Debug\netcoreapp3.1\DAL_CRUD.pdb
