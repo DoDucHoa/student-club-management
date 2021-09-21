@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Study\\SEM7\\GroupProject\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj": {}
+    "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj": {}
   },
   "projects": {
-    "D:\\Study\\SEM7\\GroupProject\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj": {
+    "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj",
+        "projectUniqueName": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj",
         "projectName": "BAL_CRUD",
-        "projectPath": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\BAL_CRUD\\obj\\",
+        "projectPath": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\BAL_CRUD\\BAL_CRUD.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\BAL_CRUD\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -32,8 +28,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj": {
-                "projectPath": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj"
+              "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj": {
+                "projectPath": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj"
               }
             }
           }
@@ -74,26 +70,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj": {
+    "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj",
+        "projectUniqueName": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj",
         "projectName": "DAL_CRUD",
-        "projectPath": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "D:\\Study\\SEM7\\GroupProject\\student-club-management\\DAL_CRUD\\obj\\",
+        "projectPath": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\DAL_CRUD.csproj",
+        "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
+        "outputPath": "D:\\Study\\SoftwareArchitect\\ClubManagement\\student-club-management\\DAL_CRUD\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\LENOVO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -156,7 +148,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
