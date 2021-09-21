@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
-import { FormControl } from "./Form";
+
+import { FormControl, ButtonControl, TextBoxControl } from "./Form";
 
 const LoginForm = (props) => {
   const emailInputRef = useRef("");
@@ -13,18 +14,24 @@ const LoginForm = (props) => {
   return (
     <FormControl onSubmit={submitHandler}>
       <h1>Welcome</h1>
-      <input type="email" ref={emailInputRef} placeholder="Email" required />
-      <input
+      <TextBoxControl
+        type="email"
+        ref={emailInputRef}
+        placeholder="Email"
+        required
+      />
+      <TextBoxControl
         type="password"
         ref={passwordInputRef}
         placeholder="Password"
         required
       />
-      <button type="submit">sign in</button>
+
+      <ButtonControl type="submit">sign in</ButtonControl>
       <p>Don't have an account?</p>
-      <button type="button" onClick={props.onClick}>
+      <ButtonControl type="button" onClick={props.onClick}>
         sign up
-      </button>
+      </ButtonControl>
     </FormControl>
   );
 };

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { FormControl } from "./Form";
 
-const RePasswordInput = styled.input`
-  border-color: ${(props) =>
-    props.value !== props.prevPass ? "red" : "#89cff0"} !important;
-`;
+import {
+  FormControl,
+  ButtonControl,
+  TextBoxControl,
+  RePasswordInput,
+} from "./Form";
 
 const RegisForm = (props) => {
   const [password, setPassword] = useState("");
@@ -26,10 +26,10 @@ const RegisForm = (props) => {
   return (
     <FormControl onSubmit={submitHandler}>
       <h1>sign up</h1>
-      <input type="email" placeholder="Email" required />
-      <input type="text" placeholder="Full Name" required />
-      <input type="tel" placeholder="Phone" />
-      <input
+      <TextBoxControl type="email" placeholder="Email" required />
+      <TextBoxControl type="text" placeholder="Full Name" required />
+      <TextBoxControl type="tel" placeholder="Phone" />
+      <TextBoxControl
         type="password"
         value={password}
         onChange={passwordChangeHandler}
@@ -44,11 +44,11 @@ const RegisForm = (props) => {
         onChange={repasswordChangeHandler}
         required
       />
-      <button type="submit">Register</button>
+      <ButtonControl type="submit">Register</ButtonControl>
       <p>Already have an account?</p>
-      <button type="button" onClick={props.onClick}>
+      <ButtonControl type="button" onClick={props.onClick}>
         sign in
-      </button>
+      </ButtonControl>
     </FormControl>
   );
 };
