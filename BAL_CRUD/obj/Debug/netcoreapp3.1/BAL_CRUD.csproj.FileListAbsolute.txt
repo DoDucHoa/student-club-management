@@ -10,3 +10,6 @@ D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp
 D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.csproj.CopyComplete
 D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.dll
 D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.pdb
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\BAL_CRUD.runtimeconfig.json
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\bin\Debug\netcoreapp3.1\BAL_CRUD.runtimeconfig.dev.json
+D:\Study\SEM7\GroupProject\student-club-management\BAL_CRUD\obj\Debug\netcoreapp3.1\BAL_CRUD.genruntimeconfig.cache

@@ -1,7 +1,6 @@
 using BAL_CRUD.Service;
-using DAL_CRUD.Data;
+using DAL_CRUD.Database;
 using DAL_CRUD.Interface;
-using DAL_CRUD.Models;
 using DAL_CRUD.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,7 +32,7 @@ namespace club_management_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddHttpClient();
             services.AddTransient<IRepository<UserInfo>, UserInforRepository>();

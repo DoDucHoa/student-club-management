@@ -1,6 +1,5 @@
-﻿using DAL_CRUD.Data;
+﻿using DAL_CRUD.Database;
 using DAL_CRUD.Interface;
-using DAL_CRUD.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +11,14 @@ namespace DAL_CRUD.Repository
     public class UserInforRepository : IRepository<UserInfo>
     {
 
-        ApplicationDBContext _dbContext;
-        public UserInforRepository(ApplicationDBContext applicationDbContext)
+        ApplicationDbContext _dbContext;
+        public UserInforRepository(ApplicationDbContext applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }
         public async Task<UserInfo> Create(UserInfo _object)
         {
-            var obj = await _dbContext.UserInfo.AddAsync(_object);
+            var obj = await _dbContext.UserInfos.AddAsync(_object);
             _dbContext.SaveChanges();
             return obj.Entity;
         }
@@ -32,17 +31,17 @@ namespace DAL_CRUD.Repository
 
         public IEnumerable<UserInfo> GetAll()
         {
-            return _dbContext.UserInfo.ToList();
+            return _dbContext.UserInfos.ToList();
         }
 
         public UserInfo GetById(int Id)
         {
-            return _dbContext.UserInfo.Where(x => x.Id == Id).FirstOrDefault();
+            return _dbContext.UserInfos.Where(x => x.Id == Id).FirstOrDefault();
         }
 
         public void Update(UserInfo _object)
         {
-            _dbContext.UserInfo.Update(_object);
+            _dbContext.UserInfos.Update(_object);
             _dbContext.SaveChanges();
         }
     }

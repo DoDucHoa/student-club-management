@@ -82,3 +82,5 @@ D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\D
 D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\Debug\net5.0\DAL_CRUD.dll
 D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\Debug\net5.0\BAL_CRUD.pdb
 D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\Debug\net5.0\DAL_CRUD.pdb
+D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\Debug\net5.0\Humanizer.dll
+D:\Study\SEM7\GroupProject\student-club-management\club-management-backend\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll

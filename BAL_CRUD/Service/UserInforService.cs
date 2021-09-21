@@ -1,5 +1,5 @@
-﻿using DAL_CRUD.Interface;
-using DAL_CRUD.Models;
+﻿using DAL_CRUD.Database;
+using DAL_CRUD.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +19,7 @@ namespace BAL_CRUD.Service
 
         public IEnumerable<UserInfo> GetPersonByUserId(string email)
         {
-            return _userInfo.GetAll().Where(x => x.email == email).ToList();
+            return _userInfo.GetAll().Where(x => x.Email == email).ToList();
         }
         //GET All Perso Details   
         public IEnumerable<UserInfo> GetAllUsersInfor()
@@ -29,9 +29,9 @@ namespace BAL_CRUD.Service
         //Get Person by Person Name  
         public UserInfo GetUserByName(string name)
         {
-            return _userInfo.GetAll().Where(x => x.name == name).FirstOrDefault();
+            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
         }
-        //Add Person  
+        //Add Person
         public async Task<UserInfo> AddPerson(UserInfo user)
         {
             return await _userInfo.Create(user);
@@ -42,7 +42,7 @@ namespace BAL_CRUD.Service
 
             try
             {
-                var DataList = _userInfo.GetAll().Where(x => x.email == email).ToList();
+                var DataList = _userInfo.GetAll().Where(x => x.Email == email).ToList();
                 foreach (var item in DataList)
                 {
                     _userInfo.Delete(item);
