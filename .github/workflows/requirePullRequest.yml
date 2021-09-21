@@ -1,0 +1,14 @@
+name: require pull request
+
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+
+jobs:
+  job:
+    name: require pull request
+    runs-on: windows-latest
+    steps:
+      - run: echo hello
