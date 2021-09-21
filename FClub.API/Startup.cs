@@ -37,10 +37,11 @@ namespace FClub.API
             services.AddHttpClient();
             services.AddTransient<IRepository<UserInfo>, UserInforRepository>();
             services.AddTransient<UserInforService, UserInforService>();
-            services.AddControllers();
+            services.AddTransient<IRepository<University>, UniversityRepository>();
+            services.AddTransient<UniversityService, UniversityService>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "club_management_backend", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });
             });
         }
 
@@ -51,7 +52,7 @@ namespace FClub.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "club_management_backend v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"));
             }
 
             app.UseHttpsRedirection();
