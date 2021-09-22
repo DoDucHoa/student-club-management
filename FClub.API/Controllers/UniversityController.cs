@@ -13,25 +13,25 @@ namespace FClub.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserInforController : ControllerBase
+    public class UniversityController : ControllerBase
     {
-        private readonly UserInforService _userInforService;
+        private readonly UniversityService _universityService;
 
-        private readonly IRepository<UserInfo> _UserInfor;
+        private readonly IRepository<University> _repository;
 
-        public UserInforController(IRepository<UserInfo> UserInfor, UserInforService UsertService)
+        public UniversityController(IRepository<University> University, UniversityService UniversityService)
         {
-            _userInforService = UsertService;
-            _UserInfor = UserInfor;
+            _universityService = UniversityService;
+            _repository = University;
 
         }
         //Add User  
-        [HttpPost("AddUser")]
-        public async Task<Object> AddUser([FromBody] UserInfo user)
+        [HttpPost("AddUniversity")]
+        public async Task<Object> AddUniversity([FromBody] University university)
         {
             try
             {
-                await _userInforService.AddPerson(user);
+                await _universityService.AddUniversity(university);
                 return true;
             }
             catch (Exception)
@@ -41,12 +41,12 @@ namespace FClub.API.Controllers
             }
         }
         //Delete User  
-        [HttpDelete("DeleteUser")]
-        public bool DeleteUser(string email)
+        [HttpDelete("DeleteUniversityByName")]
+        public bool DeleteUniversityByName(string name)
         {
             try
             {
-                _userInforService.DeleteUser(email);
+                _universityService.DeleteUniversityByName(name);
                 return true;
             }
             catch (Exception)
@@ -55,12 +55,12 @@ namespace FClub.API.Controllers
             }
         }
         //Delete User  
-        [HttpPut("UpdateUser")]
-        public bool UpdateUser(UserInfo Object)
+        [HttpPut("UpdateUniversity")]
+        public bool UpdateUniversity(University Object)
         {
             try
             {
-                _userInforService.UpdateUser(Object);
+                _universityService.UpdateUniversity(Object);
                 return true;
             }
             catch (Exception)
@@ -69,10 +69,10 @@ namespace FClub.API.Controllers
             }
         }
         //GET All User by Name  
-        [HttpGet("GetAllUserByName")]
-        public Object GetAllUserByName(string name)
+        [HttpGet("GetAllUniversityByName")]
+        public Object GetAllUniversityByName(string name)
         {
-            var data = _userInforService.GetUserByName(name);
+            var data = _universityService.GetUniversityByName(name);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -82,10 +82,23 @@ namespace FClub.API.Controllers
             return json;
         }
         //GET All User  
-        [HttpGet("GetAllUsers")]
-        public Object GetAllUsers()
+        [HttpGet("GetAllUniversity")]
+        public Object GetAllUniversity()
         {
-            var data = _userInforService.GetAllUsersInfor();
+            var data = _universityService.GetAllUniversity();
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+
+        [HttpGet("GetUniversityById")]
+        public Object GetUniversityById(string id)
+        {
+            var data = _universityService.GetUniversityById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
