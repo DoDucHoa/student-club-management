@@ -1,19 +1,20 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { FormControl } from "./Form";
+import React, { useState, useEffect } from "react";
 
-const RePasswordInput = styled.input`
-  border-color: ${(props) =>
-    props.value !== props.prevPass ? "red" : "#89cff0"} !important;
-`;
+import {
+  FormControl,
+  ButtonControl,
+  TextBoxControl,
+  RePasswordInput,
+} from "./Form";
 
 const RegisForm = (props) => {
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const [repasswordIsValid, setRepasswordIsValid] = useState(null);
 
-  const submitHandler = () => {
-    console.log(1);
-  };
+  useEffect(() => {
+    setRepasswordIsValid(password === repassword);
+  }, [password, repassword]);
 
   const passwordChangeHandler = (event) => {
     setPassword(event.target.value);
@@ -23,13 +24,17 @@ const RegisForm = (props) => {
     setRepassword(event.target.value);
   };
 
+  const submitHandler = () => {
+    console.log(1);
+  };
+
   return (
     <FormControl onSubmit={submitHandler}>
       <h1>sign up</h1>
-      <input type="email" placeholder="Email" required />
-      <input type="text" placeholder="Full Name" required />
-      <input type="tel" placeholder="Phone" />
-      <input
+      <TextBoxControl type="email" placeholder="Email" required />
+      <TextBoxControl type="text" placeholder="Full Name" required />
+      <TextBoxControl type="tel" placeholder="Phone" />
+      <TextBoxControl
         type="password"
         value={password}
         onChange={passwordChangeHandler}
@@ -40,15 +45,15 @@ const RegisForm = (props) => {
         type="password"
         placeholder="Re-enter Password"
         value={repassword}
-        prevPass={password}
         onChange={repasswordChangeHandler}
+        isValid={repasswordIsValid}
         required
       />
-      <button type="submit">Register</button>
+      <ButtonControl type="submit">Register</ButtonControl>
       <p>Already have an account?</p>
-      <button type="button" onClick={props.onClick}>
+      <ButtonControl type="button" onClick={props.onClick}>
         sign in
-      </button>
+      </ButtonControl>
     </FormControl>
   );
 };

@@ -27,52 +27,55 @@ export const FormControl = styled.form`
   & p {
     font-weight: 600;
   }
+`;
+export const ButtonControl = styled.button`
+  border: 2px solid #059dc0;
+  background: #059dc0;
+  display: block;
+  text-align: center;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  border-radius: 20px;
+  width: 12rem;
+  color: white;
+  text-transform: uppercase;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+  transition: 0.25s;
 
-  & input {
-    border: 2px solid #89cff0;
-    display: block;
-    text-align: center;
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    border-radius: 20px;
-    outline: none;
-    width: 13rem;
-    color: black;
-    max-width: 90%;
-    transition: 0.25s;
-  }
-
-  & input:hover {
-    width: 18rem;
-    border-color: #85d4ca;
-  }
-
-  & input:focus {
-    width: 18rem;
-    border-color: #85d4ca;
-  }
-
-  & button {
-    border: 2px solid #059dc0;
-    background: #059dc0;
-    display: block;
-    text-align: center;
-    margin: 0.5rem auto;
-    padding: 0.5rem;
-    border-radius: 20px;
-    width: 12rem;
-    color: white;
-    text-transform: uppercase;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
-    transition: 0.25s;
-  }
-
-  & button:hover {
+  :hover {
     width: 15rem;
     color: white;
     border-color: #00a8a8;
     background: #00a8a8;
   }
+`;
+export const TextBoxControl = styled.input`
+  border: 2px solid #89cff0;
+  display: block;
+  text-align: center;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  border-radius: 20px;
+  outline: none;
+  width: 13rem;
+  color: black;
+  max-width: 90%;
+  transition: 0.25s;
+
+  :hover {
+    width: 18rem;
+    border-color: #85d4ca;
+  }
+
+  :focus {
+    width: 18rem;
+    border-color: #85d4ca;
+  }
+`;
+export const RePasswordInput = styled(TextBoxControl)`
+  border-color: ${(props) => (!props.isValid ? "red" : "#89cff0")} !important;
+  background-color: ${(props) =>
+    !props.isValid ? "#ffdbdb" : "white"} !important;
 `;
 
 const Form = () => {

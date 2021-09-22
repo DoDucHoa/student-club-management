@@ -4,7 +4,7 @@ This system is about managing student clubs in FPT university
 ## Technology
 - `ReactJS`
 - `ASP.NET Core 5.0`
-- `MongoDB`
+- `MS SQL Server`
 ## Member Profile
 - [Đỗ Đức Hòa](https://www.facebook.com/MinOrMaxZee)
 - [Nguyễn Việt Hồng](https://www.facebook.com/Pinku0712)

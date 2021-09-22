@@ -1,16 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FClub.Data.Interface
 {
-    public interface IRepository<T>
+    public interface IRepository<T> where T : class
     {
-        public Task<T> Create(T _object);
-        public void Update(T _object);
-        public IEnumerable<T> GetAll();
-        public T GetById(int Id);
-        public void Delete(T _object);
+        //Get theo Id
+        T Get(string id);
+
+        //Get theo dạng list có sort, filter và includeProperties
+        IEnumerable<T> GetAll(
+            Expression<Func<T, bool>> filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            string includeProperties = null
+            );
+
+        //Get thằng đầu tiên thấy có filter, incldueProperties
+        T GetFirstOrDefault(
+            Expression<Func<T, bool>> filter = null,
+            string includeProperties = null
+            );
+        void Add(T entity);
+        //Remove theo Id
+        void Remove(String id);
+        //Remove theo entity
+        void Remove(T entity);
+        //Remove một chuỗi entity
+        void RemoveRange(IEnumerable<T> entity);
+        bool SaveDbChange();
     }
 }
