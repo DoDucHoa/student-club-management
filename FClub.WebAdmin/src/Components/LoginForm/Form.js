@@ -73,8 +73,9 @@ export const TextBoxControl = styled.input`
   }
 `;
 export const RePasswordInput = styled(TextBoxControl)`
-  border-color: ${(props) =>
-    props.value !== props.prevPass ? "red" : "#89cff0"} !important;
+  border-color: ${(props) => (!props.isValid ? "red" : "#89cff0")} !important;
+  background-color: ${(props) =>
+    !props.isValid ? "#ffdbdb" : "white"} !important;
 `;
 
 const Form = () => {
