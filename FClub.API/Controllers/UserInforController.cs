@@ -1,4 +1,4 @@
-﻿using FClub.Business.Service;
+﻿/*using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Interface;
 using Microsoft.AspNetCore.Http;
@@ -96,3 +96,4 @@ namespace FClub.API.Controllers
         }
     }
 }
+*/

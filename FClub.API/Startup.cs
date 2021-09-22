@@ -35,10 +35,12 @@ namespace FClub.API
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddHttpClient();
-            services.AddTransient<IRepository<UserInfo>, UserInforRepository>();
-            services.AddTransient<UserInforService, UserInforService>();
-            services.AddTransient<IRepository<University>, UniversityRepository>();
-            services.AddTransient<UniversityService, UniversityService>();
+            /*           services.AddTransient<IRepository<UserInfo>, UserInforRepository>();
+                       services.AddTransient<UserInforService, UserInforService>();
+                       services.AddTransient<IRepository<University>, UniversityRepository>();
+                       services.AddTransient<UniversityService, UniversityService>();*/
+            services.AddTransient<IClubRepository, ClubRepository>();
+            services.AddTransient<ClubService, ClubService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });

@@ -1,4 +1,4 @@
-﻿using FClub.Data.Database;
+﻿/*using FClub.Data.Database;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -66,3 +66,4 @@ namespace FClub.Business.Service
         }
     }
 }
+*/
