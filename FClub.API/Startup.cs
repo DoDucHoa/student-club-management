@@ -41,6 +41,8 @@ namespace FClub.API
                        services.AddTransient<UniversityService, UniversityService>();*/
             services.AddTransient<IClubRepository, ClubRepository>();
             services.AddTransient<ClubService, ClubService>();
+            services.AddTransient<IEventRepository, EventRepository>();
+            services.AddTransient<EventInfoService, EventInfoService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });
