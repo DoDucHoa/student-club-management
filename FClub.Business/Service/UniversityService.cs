@@ -20,22 +20,22 @@ namespace FClub.Business.Service
         {
             return _university.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
-        //GET All Perso Details   
+        //GET All University Details   
         public IEnumerable<University> GetAllUniversity()
         {
             return _university.GetAll().ToList();
         }
-        //Get Person by Person Name  
+        //Get University by University Name  
         public University GetUniversityById(string id)
         {
             return _university.GetAll().Where(x => x.Id.Equals(id)).FirstOrDefault();
         }
-        //Add Person
+        //Add University
         public async Task<University> AddUniversity(University university)
         {
             return await _university.Create(university);
         }
-        //Delete Person   
+        //Delete University  
         public bool DeleteUniversityByName(string name)
         {
 
@@ -51,7 +51,7 @@ namespace FClub.Business.Service
             }
 
         }
-        //Update Person Details  
+        //Update University Details  
         public bool UpdateUniversity(University university)
         {
             try
