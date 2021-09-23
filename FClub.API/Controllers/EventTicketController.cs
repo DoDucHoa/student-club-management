@@ -1,25 +1,30 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace FClub.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class EventTicketController : ControllerBase
     {
-        private readonly EventInfoService _eventService;
+        private readonly EventTicketService _ticketService;
 
-        public EventController(EventInfoService eventService)
+        public EventTicketController(EventTicketService ticketService)
         {
-            _eventService = eventService;
+            _ticketService = ticketService;
         }
 
-        [HttpGet()]
-        public Object GetAllEvent()
+        [HttpGet("{id}")]
+        public Object GetTicketById(int id)
         {
-            var data = _eventService.getAll();
+            var data = _ticketService.GetTicketById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -29,10 +34,23 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{id}")]
-        public Object GetEventById(int id)
+        [HttpGet("{parId}")]
+        public Object GetTicketByParticipant(int parId)
         {
-            var data = _eventService.GetEventById(id);
+            var data = _ticketService.GetTicketByParticipant(parId);
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+
+        [HttpGet()]
+        public Object GetAllTicket()
+        {
+            var data = _ticketService.getAll();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -43,11 +61,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost()]
-        public void AddEvent(EventInfo eventinfo)
+        public void AddTicket(EventTicket ticket)
         {
             try
             {
-                _eventService.Add(eventinfo);
+                _ticketService.Add(ticket);
             }
             catch (Exception e)
             {
@@ -57,11 +75,11 @@ namespace FClub.API.Controllers
 
 
         [HttpPut()]
-        public void UpdateEvent(EventInfo eventinfo)
+        public void UpdateTicket(EventTicket ticket)
         {
             try
             {
-                _eventService.UpdateEvent(eventinfo);
+                _ticketService.Update(ticket);
             }
             catch (Exception e)
             {
@@ -69,12 +87,12 @@ namespace FClub.API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public bool DisableById(int id)
+        [HttpDelete()]
+        public bool DeleteTicket(EventTicket ticket)
         {
             try
             {
-                _eventService.DisableEventById(id);
+                _ticketService.Delete(ticket);
                 return true;
             }
             catch (Exception)

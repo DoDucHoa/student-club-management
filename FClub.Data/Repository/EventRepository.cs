@@ -20,31 +20,10 @@ namespace FClub.Data.Repository
             _dbContext = applicationDbContext;
         }
 
-        public void AddEvent(EventInfo eventinfo)
-        {
-            _dbContext.EventInfos.Add(eventinfo);
-        }
-
         public void DisableEvent(int id)
         {
             var eventinfo = _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
             eventinfo.Status = false;
-            _dbContext.EventInfos.Update(eventinfo);
-            _dbContext.SaveChanges();
-        }
-
-        public IEnumerable<EventInfo> GetAllEvent()
-        {
-            return _dbContext.EventInfos.ToList();
-        }
-        
-        public EventInfo GetEventById(int id)
-        {
-            return _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
-        }
-        
-        public void UpdateEvent(EventInfo eventinfo)
-        {
             _dbContext.EventInfos.Update(eventinfo);
             _dbContext.SaveChanges();
         }

@@ -8,10 +8,6 @@ namespace FClub.Data.Interface
 {
     public interface IEventRepository : IRepository<EventInfo>
     {
-        EventInfo GetEventById(int id);
-        void AddEvent(EventInfo eventinfo);
-        void UpdateEvent(EventInfo eventinfo);
         void DisableEvent(int id);
-        public IEnumerable<EventInfo> GetAllEvent();
     }
 }

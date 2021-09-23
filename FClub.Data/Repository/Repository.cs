@@ -90,6 +90,11 @@ namespace FClub.Data.Repository
             dbSet.RemoveRange(entity);
         }
 
+        public void Update(T entity)
+        {
+            dbSet.Update(entity);
+        }
+
         public bool SaveDbChange()
         {
             return (_db.SaveChanges() >= 0);
