@@ -11,9 +11,9 @@ namespace FClub.Business.Service
     {
         private readonly IEventTicketRepository _ticketRepo;
 
-        public EventTicketService(IEventTicketRepository eventTicket)
+        public EventTicketService(IEventTicketRepository eventTicketRepo)
         {
-            _ticketRepo = eventTicket;
+            _ticketRepo = eventTicketRepo;
         }
         //GET All Ticket 
         public IEnumerable<EventTicket> getAll()
@@ -32,20 +32,29 @@ namespace FClub.Business.Service
         {
             return _ticketRepo.GetByParticipant(parId);
         }
+        //Get Ticket by type  
+        public IEnumerable<EventTicket> GetTicketByType(string typeId)
+        {
+            return _ticketRepo.GetByType(typeId);
+        }
         //Add Ticket
         public void Add(EventTicket ticket)
         {
             _ticketRepo.Add(ticket);
+            _ticketRepo.SaveDbChange();
         }
-        //Delete Ticket
-        public void Delete(EventTicket ticket)
+        //Delete Ticket by id
+        public void DeleteById(int id)
         {
+            var ticket = _ticketRepo.GetById(id);
             _ticketRepo.Remove(ticket);
+            _ticketRepo.SaveDbChange();
         }
         //Update Ticket Details  
         public void Update(EventTicket ticket)
         {
             _ticketRepo.Update(ticket);
+            _ticketRepo.SaveDbChange();
         }
     }
 }
