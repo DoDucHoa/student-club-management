@@ -9,20 +9,19 @@ using System.Threading.Tasks;
 namespace FClub.Data.Repository
 {
 
-    public class UniversityRepository : IRepository<University>
+    public class UniversityRepository : Repository<University> , IUniversityRepository
     {
 
         ApplicationDbContext _dbContext;
-        public UniversityRepository(ApplicationDbContext applicationDbContext)
+        public UniversityRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }
 
-        public async Task<University> Create(University _object)
+        public void Create(University _object)
         {
-            var obj = await _dbContext.Universities.AddAsync(_object);
+            _dbContext.Universities.AddAsync(_object);
             _dbContext.SaveChanges();
-            return obj.Entity;
         }
 
         public void Delete(University _object)
@@ -36,7 +35,7 @@ namespace FClub.Data.Repository
             return _dbContext.Universities.ToList();
         }
 
-        public University GetById(int Id)
+        public University GetById(string Id)
         {
             return _dbContext.Universities.Where(x => x.Id.Equals(Id)).FirstOrDefault();
         }

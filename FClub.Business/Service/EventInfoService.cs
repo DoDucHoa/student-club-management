@@ -8,63 +8,39 @@ using System.Threading.Tasks;
 
 namespace FClub.Business.Service
 {
-    class EventInfoService
+    public class EventInfoService
     {
-        private readonly IRepository<EventInfo> _eventInfo;
+        private readonly IEventRepository _eventRepo;
 
-        public EventInfoService(IRepository<EventInfo> eventInfo)
+        public EventInfoService(IEventRepository eventInfo)
         {
-            _eventInfo = eventInfo;
+            _eventRepo = eventInfo;
         }
-        //Get Event by event title  
-        public IEnumerable<EventInfo> GetEventByTitle(string title)
+        //GET All Event Details  
+        public IEnumerable<EventInfo> getAll()
         {
-            return _eventInfo.GetAll().Where(x => x.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            return _eventRepo.GetAllEvent();
         }
-        //GET All Event Details   
-        public IEnumerable<EventInfo> GetAllEvent()
-        {
-            return _eventInfo.GetAll().ToList();
-        }
+
         //Get Event by event id  
-        public EventInfo GetEventById(string id)
+        public EventInfo GetEventById(int id)
         {
-            return _eventInfo.GetAll().Where(x => x.Id.Equals(id)).FirstOrDefault();
+            return _eventRepo.GetEventById(id);
         }
         //Add Event
-        public async Task<EventInfo> AddUniversity(EventInfo eventInfo)
+        public void Add(EventInfo eventInfo)
         {
-            return await _eventInfo.Create(eventInfo);
+            _eventRepo.AddEvent(eventInfo);
         }
         //Disable Event 
-        public bool DisableUniversityById(int id)
+        public void DisableEventById(int id)
         {
-
-            try
-            {
-                var eventInfo = _eventInfo.GetAll().Where(x => x.Id == id).FirstOrDefault();
-                eventInfo.Status = false;
-                _eventInfo.Update(eventInfo);
-                return true;
-            }
-            catch (Exception)
-            {
-                return true;
-            }
-
+            _eventRepo.DisableEvent(id);           
         }
         //Update Event Details  
-        public bool UpdateEvent(EventInfo eventInfo)
+        public void UpdateEvent(EventInfo eventInfo)
         {
-            try
-            {
-                _eventInfo.Update(eventInfo);
-                return true;
-            }
-            catch (Exception)
-            {
-                return true;
-            }
+            _eventRepo.UpdateEvent(eventInfo);
         }
     }
 }

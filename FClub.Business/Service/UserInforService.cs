@@ -10,52 +10,47 @@ namespace FClub.Business.Service
 {
     public class UserInforService
     {
-        private readonly IRepository<UserInfo> _userInfo;
+        private readonly IUserInfoRepository _userInfo;
 
-        public UserInforService(IRepository<UserInfo> userInfo)
+        public UserInforService(IUserInfoRepository userInfo)
         {
             _userInfo = userInfo;
         }
 
-        public IEnumerable<UserInfo> GetPersonByUserId(string email)
-        {
-            return _userInfo.GetAll().Where(x => x.Email == email).ToList();
-        }
-        //GET All Perso Details   
+        //GET All User Details   
         public IEnumerable<UserInfo> GetAllUsersInfor()
         {
             return _userInfo.GetAll().ToList();
         }
-        //Get Person by Person Name  
-        public UserInfo GetUserByName(string name)
+
+        //Get Users by User Name  
+        public IEnumerable<UserInfo> GetUsersByName(string name)
         {
-            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
-        //Add Person
-        public async Task<UserInfo> AddPerson(UserInfo user)
+        //Add User
+        public void AddUserInfo(UserInfo _object)
         {
-            return await _userInfo.Create(user);
+            _userInfo.Add(_object);
+            _userInfo.SaveDbChange();
         }
-        //Delete Person   
-        public bool DeleteUser(string email)
+        //Delete User   
+        public bool DeleteUser(UserInfo _object)
         {
 
             try
             {
-                var DataList = _userInfo.GetAll().Where(x => x.Email == email).ToList();
-                foreach (var item in DataList)
-                {
-                    _userInfo.Delete(item);
-                }
+                _userInfo.Remove(_object);
+                _userInfo.SaveDbChange();
                 return true;
             }
             catch (Exception)
             {
-                return true;
+                return false;
             }
 
         }
-        //Update Person Details  
+        //Update User Details  
         public bool UpdateUser(UserInfo user)
         {
             try
@@ -65,8 +60,13 @@ namespace FClub.Business.Service
             }
             catch (Exception)
             {
-                return true;
+                return false;
             }
+        }
+        //Check Login
+        public UserInfo CheckLogin(string email, string password)
+        {
+            return _userInfo.GetAll().Where(x => x.Email.Equals(email) && x.Password.Equals(password)).FirstOrDefault();
         }
     }
 }

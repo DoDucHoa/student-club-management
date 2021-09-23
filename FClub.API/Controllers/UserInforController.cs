@@ -17,21 +17,17 @@ namespace FClub.API.Controllers
     {
         private readonly UserInforService _userInforService;
 
-        private readonly IRepository<UserInfo> _UserInfor;
-
-        public UserInforController(IRepository<UserInfo> UserInfor, UserInforService UsertService)
+        public UserInforController(UserInforService UsertService)
         {
             _userInforService = UsertService;
-            _UserInfor = UserInfor;
-
         }
         //Add User  
         [HttpPost("AddUser")]
-        public async Task<Object> AddUser([FromBody] UserInfo user)
+        public bool AddUser([FromBody] UserInfo user)
         {
             try
             {
-                await _userInforService.AddPerson(user);
+                _userInforService.AddUserInfo(user);
                 return true;
             }
             catch (Exception)
@@ -42,37 +38,21 @@ namespace FClub.API.Controllers
         }
         //Delete User  
         [HttpDelete("DeleteUser")]
-        public bool DeleteUser(string email)
+        public bool DeleteUser(UserInfo _object)
         {
-            try
-            {
-                _userInforService.DeleteUser(email);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return _userInforService.DeleteUser(_object);
         }
         //Delete User  
         [HttpPut("UpdateUser")]
         public bool UpdateUser(UserInfo Object)
         {
-            try
-            {
-                _userInforService.UpdateUser(Object);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return _userInforService.UpdateUser(Object);
         }
         //GET All User by Name  
         [HttpGet("GetAllUserByName")]
         public Object GetAllUserByName(string name)
         {
-            var data = _userInforService.GetUserByName(name);
+            var data = _userInforService.GetUsersByName(name);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -86,6 +66,19 @@ namespace FClub.API.Controllers
         public Object GetAllUsers()
         {
             var data = _userInforService.GetAllUsersInfor();
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+        //Check Login
+        [HttpGet("CheckLogin")]
+        public Object CheckLogin(string email, string password)
+        {
+            var data = _userInforService.CheckLogin(email, password);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {

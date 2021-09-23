@@ -1,49 +1,51 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FClub.Data.Repository
 {
 
-    public class EventRepository : IRepository<EventInfo>
+    public class EventRepository : Repository<EventInfo>, IEventRepository 
     {
 
         ApplicationDbContext _dbContext;
-        public EventRepository(ApplicationDbContext applicationDbContext)
+        public EventRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }
 
-        public async Task<EventInfo> Create(EventInfo _object)
+        public void AddEvent(EventInfo eventinfo)
         {
-            var obj = await _dbContext.EventInfos.AddAsync(_object);
-            _dbContext.SaveChanges();
-            return obj.Entity;
+            _dbContext.EventInfos.Add(eventinfo);
         }
 
-        public void Delete(EventInfo _object)
+        public void DisableEvent(int id)
         {
-            _dbContext.Remove(_object);
+            var eventinfo = _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
+            eventinfo.Status = false;
+            _dbContext.EventInfos.Update(eventinfo);
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<EventInfo> GetAll()
+        public IEnumerable<EventInfo> GetAllEvent()
         {
             return _dbContext.EventInfos.ToList();
         }
-
-        public EventInfo GetById(int Id)
+        
+        public EventInfo GetEventById(int id)
         {
-            return _dbContext.EventInfos.Where(x => x.Id.Equals(Id)).FirstOrDefault();
+            return _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
         }
-
-        public void Update(EventInfo _object)
+        
+        public void UpdateEvent(EventInfo eventinfo)
         {
-            _dbContext.EventInfos.Update(_object);
+            _dbContext.EventInfos.Update(eventinfo);
             _dbContext.SaveChanges();
         }
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   FormControl,
@@ -10,10 +10,11 @@ import {
 const RegisForm = (props) => {
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
+  const [repasswordIsValid, setRepasswordIsValid] = useState(null);
 
-  const submitHandler = () => {
-    console.log(1);
-  };
+  useEffect(() => {
+    setRepasswordIsValid(password === repassword);
+  }, [password, repassword]);
 
   const passwordChangeHandler = (event) => {
     setPassword(event.target.value);
@@ -21,6 +22,10 @@ const RegisForm = (props) => {
 
   const repasswordChangeHandler = (event) => {
     setRepassword(event.target.value);
+  };
+
+  const submitHandler = () => {
+    console.log(1);
   };
 
   return (
@@ -40,8 +45,8 @@ const RegisForm = (props) => {
         type="password"
         placeholder="Re-enter Password"
         value={repassword}
-        prevPass={password}
         onChange={repasswordChangeHandler}
+        isValid={repasswordIsValid}
         required
       />
       <ButtonControl type="submit">Register</ButtonControl>

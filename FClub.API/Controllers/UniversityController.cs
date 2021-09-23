@@ -17,58 +17,29 @@ namespace FClub.API.Controllers
     {
         private readonly UniversityService _universityService;
 
-        private readonly IRepository<University> _repository;
-
-        public UniversityController(IRepository<University> University, UniversityService UniversityService)
+        public UniversityController(UniversityService UniversityService)
         {
             _universityService = UniversityService;
-            _repository = University;
-
         }
-        //Add User  
+        //Add University  
         [HttpPost("AddUniversity")]
-        public async Task<Object> AddUniversity([FromBody] University university)
+        public bool AddUniversity([FromBody] University university)
         {
-            try
-            {
-                await _universityService.AddUniversity(university);
-                return true;
-            }
-            catch (Exception)
-            {
-
-                return false;
-            }
+            return _universityService.AddUniversity(university);
         }
-        //Delete User  
+        //Delete University  
         [HttpDelete("DeleteUniversityByName")]
         public bool DeleteUniversityByName(string name)
         {
-            try
-            {
-                _universityService.DeleteUniversityByName(name);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return _universityService.DeleteUniversityByName(name);
         }
-        //Delete User  
+        //Update University  
         [HttpPut("UpdateUniversity")]
         public bool UpdateUniversity(University Object)
         {
-            try
-            {
-                _universityService.UpdateUniversity(Object);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return _universityService.UpdateUniversity(Object);
         }
-        //GET All User by Name  
+        //GET All University By Name  
         [HttpGet("GetAllUniversityByName")]
         public Object GetAllUniversityByName(string name)
         {
@@ -81,7 +52,7 @@ namespace FClub.API.Controllers
             );
             return json;
         }
-        //GET All User  
+        //GET All University  
         [HttpGet("GetAllUniversity")]
         public Object GetAllUniversity()
         {
