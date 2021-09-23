@@ -1,4 +1,4 @@
-﻿/*using FClub.Data.Database;
+﻿using FClub.Data.Database;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,48 +10,58 @@ namespace FClub.Business.Service
 {
     public class UniversityService
     {
-        private readonly IRepository<University> _university;
+        private readonly IUniversityRepository _university;
 
-        public UniversityService(IRepository<University> university)
+        public UniversityService(IUniversityRepository university)
         {
             _university = university;
         }
+        //GET All University Details By Name
         public IEnumerable<University> GetUniversityByName(string name)
         {
             return _university.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
-        //GET All Perso Details   
+        //GET All University Details   
         public IEnumerable<University> GetAllUniversity()
         {
             return _university.GetAll().ToList();
         }
-        //Get Person by Person Name  
+        //Get University by University Id  
         public University GetUniversityById(string id)
         {
             return _university.GetAll().Where(x => x.Id.Equals(id)).FirstOrDefault();
         }
-        //Add Person
-        public async Task<University> AddUniversity(University university)
+        //Add University
+        public bool AddUniversity(University university)
         {
-            return await _university.Create(university);
+            try
+            {
+                _university.Add(university);
+                _university.SaveDbChange();
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
         }
-        //Delete Person   
+        //Delete University   
         public bool DeleteUniversityByName(string name)
         {
 
             try
             {
                 var University = _university.GetAll().Where(x => x.Name.Equals(name)).FirstOrDefault();
-                _university.Delete(University);
+                _university.Remove(University);
+                _university.SaveDbChange();
                 return true;
             }
             catch (Exception)
             {
-                return true;
+                return false;
             }
 
         }
-        //Update Person Details  
+        //Update University Details  
         public bool UpdateUniversity(University university)
         {
             try
@@ -61,9 +71,8 @@ namespace FClub.Business.Service
             }
             catch (Exception)
             {
-                return true;
+                return false;
             }
         }
     }
 }
-*/
