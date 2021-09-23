@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace FClub.Data.Repository
 {
 
-    public class EventRepository : Repository<EventInfo>, IEventRepository
+    public class EventRepository : Repository<EventInfo>, IEventRepository 
     {
 
         ApplicationDbContext _dbContext;
@@ -36,12 +37,12 @@ namespace FClub.Data.Repository
         {
             return _dbContext.EventInfos.ToList();
         }
-
+        
         public EventInfo GetEventById(int id)
         {
             return _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
         }
-
+        
         public void UpdateEvent(EventInfo eventinfo)
         {
             _dbContext.EventInfos.Update(eventinfo);
