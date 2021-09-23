@@ -19,18 +19,18 @@ namespace FClub.Business.Service
         //GET All Event Details  
         public IEnumerable<EventInfo> getAll()
         {
-            return _eventRepo.GetAllEvent();
+            return _eventRepo.GetAll().ToList();
         }
 
         //Get Event by event id  
         public EventInfo GetEventById(int id)
         {
-            return _eventRepo.GetEventById(id);
+            return _eventRepo.GetAll().FirstOrDefault(e => e.Id == id);
         }
         //Add Event
         public void Add(EventInfo eventInfo)
         {
-            _eventRepo.AddEvent(eventInfo);
+            _eventRepo.Add(eventInfo);
         }
         //Disable Event 
         public void DisableEventById(int id)
@@ -40,7 +40,7 @@ namespace FClub.Business.Service
         //Update Event Details  
         public void UpdateEvent(EventInfo eventInfo)
         {
-            _eventRepo.UpdateEvent(eventInfo);
+            _eventRepo.Update(eventInfo);
         }
     }
 }
