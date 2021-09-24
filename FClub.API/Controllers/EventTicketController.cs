@@ -47,6 +47,19 @@ namespace FClub.API.Controllers
             return json;
         }
 
+        [HttpGet("{typeId}")]
+        public Object GetTicketByType(string typeId)
+        {
+            var data = _ticketService.GetTicketByType(typeId);
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+
         [HttpGet()]
         public Object GetAllTicket()
         {
@@ -87,12 +100,12 @@ namespace FClub.API.Controllers
             }
         }
 
-        [HttpDelete()]
-        public bool DeleteTicket(EventTicket ticket)
+        [HttpDelete("{id}")]
+        public bool DeleteTicket(int id)
         {
             try
             {
-                _ticketService.Delete(ticket);
+                _ticketService.DeleteById(id);
                 return true;
             }
             catch (Exception)

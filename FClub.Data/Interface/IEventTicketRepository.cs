@@ -7,5 +7,6 @@ namespace FClub.Data.Interface
     {
         EventTicket GetById(int id);
         IEnumerable<EventTicket> GetByParticipant(int parId);
+        IEnumerable<EventTicket> GetByType(string typeId);
     }
 }
