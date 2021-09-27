@@ -99,10 +99,5 @@ namespace FClub.Data.Repository
         {
             return (_db.SaveChanges() >= 0);
         }
-
-        public void Update(T entity)
-        {
-            dbSet.Update(entity);
-        }
     }
 }
