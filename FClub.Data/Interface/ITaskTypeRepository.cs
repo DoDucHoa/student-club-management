@@ -5,8 +5,7 @@ using System.Text;
 
 namespace FClub.Data.Interface
 {
-    public interface IClubRepository : IRepository<Club>
+    public interface ITaskTypeRepository : IRepository<TaskType>
     {
-        bool CheckIdExistance(String id);
     }
 }

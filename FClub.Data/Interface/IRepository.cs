@@ -31,6 +31,8 @@ namespace FClub.Data.Interface
         void Remove(T entity);
         //Remove một chuỗi entity
         void RemoveRange(IEnumerable<T> entity);
+        //Update
+        void Update(T entity);
         bool SaveDbChange();
     }
 }

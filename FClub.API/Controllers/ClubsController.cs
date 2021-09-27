@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/clubs")]
     [ApiController]
-    public class ClubController : ControllerBase
+    public class ClubsController : ControllerBase
     {
         private readonly ClubService _clubService;
 
-        public ClubController(ClubService clubService)
+        public ClubsController(ClubService clubService)
         {
             _clubService = clubService;
         }
