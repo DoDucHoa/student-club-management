@@ -1,25 +1,31 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace FClub.API.Controllers
 {
-    [Route("api/events")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class ParticipantController : ControllerBase
     {
-        private readonly EventInfoService _eventService;
+        private readonly ParticipantService _participantService;
 
-        public EventsController(EventInfoService eventService)
+        public ParticipantController(ParticipantService participantService)
         {
-            _eventService = eventService;
+            _participantService = participantService;
         }
 
-        [HttpGet()]
-        public Object GetAllEvent()
+
+        [HttpGet("{eventId}")]
+        public Object GetParticipantByEvent(int eventId)
         {
-            var data = _eventService.getAll();
+            var data = _participantService.GetParticipantByEvent(eventId);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -29,10 +35,10 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{id}")]
-        public Object GetEventById(int id)
+        [HttpGet("{attendance}")]
+        public Object GetParticipantByAttendance(bool attended)
         {
-            var data = _eventService.GetEventById(id);
+            var data = _participantService.GetParticipantByAttendance(attended);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -43,11 +49,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost()]
-        public void AddEvent(EventInfo eventinfo)
+        public void AddParticipant(Participant participant)
         {
             try
             {
-                _eventService.Add(eventinfo);
+                _participantService.Add(participant);
             }
             catch (Exception e)
             {
@@ -57,11 +63,11 @@ namespace FClub.API.Controllers
 
 
         [HttpPut()]
-        public void UpdateEvent(EventInfo eventinfo)
+        public void UpdateParticipant(Participant participant)
         {
             try
             {
-                _eventService.UpdateEvent(eventinfo);
+                _participantService.Update(participant);
             }
             catch (Exception e)
             {
@@ -69,12 +75,13 @@ namespace FClub.API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public bool DisableById(int id)
+        [HttpDelete("{id}")]
+        public bool DeleteParticipant(int id)
         {
             try
             {
-                _eventService.DisableEventById(id);
+                Participant participant = _participantService.getAll().FirstOrDefault(p => p.Id == id);
+                _participantService.Delete(participant);
                 return true;
             }
             catch (Exception)

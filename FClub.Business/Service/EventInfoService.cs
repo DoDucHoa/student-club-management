@@ -12,35 +12,38 @@ namespace FClub.Business.Service
     {
         private readonly IEventRepository _eventRepo;
 
-        public EventInfoService(IEventRepository eventInfo)
+        public EventInfoService(IEventRepository eventRepo)
         {
-            _eventRepo = eventInfo;
+            _eventRepo = eventRepo;
         }
         //GET All Event Details  
         public IEnumerable<EventInfo> getAll()
         {
-            return _eventRepo.GetAllEvent();
+            return _eventRepo.GetAll().ToList();
         }
 
         //Get Event by event id  
         public EventInfo GetEventById(int id)
         {
-            return _eventRepo.GetEventById(id);
+            return _eventRepo.GetAll().FirstOrDefault(e => e.Id == id);
         }
         //Add Event
         public void Add(EventInfo eventInfo)
         {
-            _eventRepo.AddEvent(eventInfo);
+            _eventRepo.Add(eventInfo);
+            _eventRepo.SaveDbChange();
         }
         //Disable Event 
         public void DisableEventById(int id)
         {
-            _eventRepo.DisableEvent(id);           
+            _eventRepo.DisableEvent(id);
+            _eventRepo.SaveDbChange();
         }
         //Update Event Details  
         public void UpdateEvent(EventInfo eventInfo)
         {
-            _eventRepo.UpdateEvent(eventInfo);
+            _eventRepo.Update(eventInfo);
+            _eventRepo.SaveDbChange();
         }
     }
 }

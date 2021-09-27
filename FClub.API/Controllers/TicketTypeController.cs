@@ -3,23 +3,24 @@ using FClub.Data.Database;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
+
 namespace FClub.API.Controllers
 {
-    [Route("api/events")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class EventsController : ControllerBase
+    public class TicketTypeController : ControllerBase
     {
-        private readonly EventInfoService _eventService;
+        private readonly TicketTypeService _ticketTypeService;
 
-        public EventsController(EventInfoService eventService)
+        public TicketTypeController(TicketTypeService ticketTypeService)
         {
-            _eventService = eventService;
+            _ticketTypeService = ticketTypeService;
         }
 
         [HttpGet()]
-        public Object GetAllEvent()
+        public Object GetAllType()
         {
-            var data = _eventService.getAll();
+            var data = _ticketTypeService.getAll();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -30,9 +31,9 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetEventById(int id)
+        public Object GetTypeById(string id)
         {
-            var data = _eventService.GetEventById(id);
+            var data = _ticketTypeService.GetTicketTypeById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -43,11 +44,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost()]
-        public void AddEvent(EventInfo eventinfo)
+        public void AddType(TicketType ticketType)
         {
             try
             {
-                _eventService.Add(eventinfo);
+                _ticketTypeService.Add(ticketType);
             }
             catch (Exception e)
             {
@@ -57,11 +58,11 @@ namespace FClub.API.Controllers
 
 
         [HttpPut()]
-        public void UpdateEvent(EventInfo eventinfo)
+        public void UpdateType(TicketType ticketType)
         {
             try
             {
-                _eventService.UpdateEvent(eventinfo);
+                _ticketTypeService.Update(ticketType);
             }
             catch (Exception e)
             {
@@ -69,12 +70,13 @@ namespace FClub.API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public bool DisableById(int id)
+        [HttpDelete("{id}")]
+        public bool DeleteType(string id)
         {
             try
             {
-                _eventService.DisableEventById(id);
+                TicketType ticketType = _ticketTypeService.GetTicketTypeById(id);
+                _ticketTypeService.Delete(ticketType);
                 return true;
             }
             catch (Exception)
