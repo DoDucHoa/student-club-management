@@ -27,6 +27,8 @@ namespace FClub.Data.Interface
         void Add(T entity);
         //Remove theo Id
         void Remove(String id);
+        //Update theo entity
+        void Update(T entity);
         //Remove theo entity
         void Remove(T entity);
         //Remove một chuỗi entity

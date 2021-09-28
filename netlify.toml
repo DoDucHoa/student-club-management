@@ -1,0 +1,7 @@
+[build]
+
+  base = "FClub.WebAdmin/"
+
+  publish = "build/"
+
+  command = "npm run build"
