@@ -1,5 +1,6 @@
 ﻿using FClub.Data.Database;
 using FClub.Data.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,13 @@ using System.Threading.Tasks;
 
 namespace FClub.Data.Repository
 {
-    public class UserInforRepository : Repository<UserInfo>, IUserInfoRepository
+    public class UserInfoRepository : Repository<UserInfo>, IUserInfoRepository
     {
-        readonly ApplicationDbContext _dbContext;
+        ApplicationDbContext _dbContext;
 
-        public UserInforRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public UserInfoRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }
-
     }
 }

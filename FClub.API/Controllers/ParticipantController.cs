@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/participant")]
     [ApiController]
     public class ParticipantController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpGet("{eventId}")]
+        [HttpGet("event/{eventId}")]
         public Object GetParticipantByEvent(int eventId)
         {
             var data = _participantService.GetParticipantByEvent(eventId);

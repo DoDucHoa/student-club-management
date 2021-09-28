@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,11 @@ namespace FClub.Business.Service
             _eventRepo = eventRepo;
         }
         //GET All Event Details  
-        public IEnumerable<EventInfo> GetAll()
+        public PagedList<EventInfo> GetEvents(PagingParameter eventParameter)
         {
-            return _eventRepo.GetAll().ToList();
+            return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
+            eventParameter.PageNumber,
+            eventParameter.PageSize);
         }
 
         //Get Event by event id  
@@ -44,6 +47,12 @@ namespace FClub.Business.Service
         {
             _eventRepo.Update(eventInfo);
             _eventRepo.SaveDbChange();
+        }
+
+        public IEnumerable<EventInfo> getByPage(int pageNumber)
+        {
+            int pageSize = 5;
+            return _eventRepo.GetAll().AsQueryable().Skip(pageSize * (pageNumber-1)).Take(pageSize).ToList();
         }
     }
 }
