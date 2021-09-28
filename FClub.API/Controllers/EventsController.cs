@@ -6,13 +6,13 @@ using Newtonsoft.Json;
 using System;
 namespace FClub.API.Controllers
 {
-    [Route("api/event")]
+    [Route("api/events")]
     [ApiController]
-    public class EventController : ControllerBase
+    public class EventsController : ControllerBase
     {
         private readonly EventInfoService _eventService;
 
-        public EventController(EventInfoService eventService)
+        public EventsController(EventInfoService eventService)
         {
             _eventService = eventService;
         }

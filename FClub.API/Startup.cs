@@ -35,12 +35,28 @@ namespace FClub.API
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddHttpClient();
-            services.AddTransient<IUserInfoRepository, UserInforRepository>();
+
+            services.AddTransient<IUserInfoRepository, UserInfoRepository>();
             services.AddTransient<UserInforService, UserInforService>();
+
             services.AddTransient<IUniversityRepository, UniversityRepository>();
             services.AddTransient<UniversityService, UniversityService>();
+
             services.AddTransient<IClubRepository, ClubRepository>();
             services.AddTransient<ClubService, ClubService>();
+
+            services.AddTransient<IMemberRepository, MemberRepository>();
+            services.AddTransient<MemberService, MemberService>();
+
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<TaskService, TaskService>();
+
+            services.AddTransient<ITaskTypeRepository, TaskTypeRepository>();
+            services.AddTransient<TaskTypeService, TaskTypeService>();
+
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<RoleService, RoleService>();
+
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<EventInfoService, EventInfoService>();
             services.AddTransient<IEventTicketRepository, EventTicketRepository>();
