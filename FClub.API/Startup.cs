@@ -65,6 +65,11 @@ namespace FClub.API
             services.AddTransient<TicketTypeService, TicketTypeService>();
             services.AddTransient<IParticipantRepository, ParticipantRepository>();
             services.AddTransient<ParticipantService, ParticipantService>();
+
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });

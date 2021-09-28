@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -58,18 +59,28 @@ namespace FClub.API.Controllers
             _userInforService.UpdateUser(_object);
             return Ok();
         }
-        //GET All User by Name  
-        [HttpGet("{name}")]
-        public ActionResult<List<UserInfo>> GetAllUserByName(string name)
+        //GET All User by Name
+        [HttpGet("fields")]
+        public IActionResult GetUsers([FromQuery] UserParameter user, [FromQuery] PagingParameter param)
         {
-            var data = _userInforService.GetUsersByName(name);
-            return data;
+            var data = _userInforService.GetUsersInfor(user, param);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
         }
         //GET All User  
         [HttpGet]
         public ActionResult<List<UserInfo>> GetAllUsers()
         {
-            var data = _userInforService.GetAllUsersInfor();;
+            var data = _userInforService.GetAllUsersInfor();
             return data;
         }
         //Check Login

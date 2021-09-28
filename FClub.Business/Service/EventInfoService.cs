@@ -18,7 +18,7 @@ namespace FClub.Business.Service
             _eventRepo = eventRepo;
         }
         //GET All Event Details  
-        public PagedList<EventInfo> GetEvents(QueryStringParameters eventParameter)
+        public PagedList<EventInfo> GetEvents(PagingParameter eventParameter)
         {
             return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
             eventParameter.PageNumber,

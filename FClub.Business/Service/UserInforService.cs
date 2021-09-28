@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -24,9 +25,46 @@ namespace FClub.Business.Service
         }
 
         //Get Users by User Name  
-        public List<UserInfo> GetUsersByName(string name)
+        public PagedList<UserInfo> GetUsersInfor(UserParameter user, PagingParameter paging)
         {
-            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            Console.WriteLine("Run Service");
+
+            var values = _userInfo.GetAll();
+
+            if (user.id != null)
+            {
+                Console.WriteLine("GetID");
+                values = values.Where(x => x.Id == user.id);
+            }
+            if (!string.IsNullOrWhiteSpace(user.name))
+            {
+                values = values.Where(x => x.Name.Contains(user.name, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(user.email))
+            {
+                values = values.Where(x => x.Email.Contains(user.email, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(user.phone))
+            {
+                values = values.Where(x => x.Phone.Equals(user.phone));
+            }
+
+            if (!string.IsNullOrWhiteSpace(user.sort))
+            {
+                switch (user.sort)
+                {
+                    case "Id":
+                        if (user.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (user.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+
+            return PagedList<UserInfo>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
         }
         //Get Users by User Id
         public UserInfo GetUsersById(int id)
