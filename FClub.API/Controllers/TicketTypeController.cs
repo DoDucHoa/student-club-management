@@ -20,7 +20,7 @@ namespace FClub.API.Controllers
         [HttpGet()]
         public Object GetAllType()
         {
-            var data = _ticketTypeService.getAll();
+            var data = _ticketTypeService.GetAll();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {

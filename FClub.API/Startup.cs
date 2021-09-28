@@ -70,6 +70,12 @@ namespace FClub.API
                     .AddNewtonsoftJson(options =>
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                     );
+            services.AddTransient<ITransactionDetailRepository, TransactionDetailRepository>();
+            services.AddTransient<TransactionDetailService, TransactionDetailService>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
+            services.AddTransient<WalletService, WalletService>();
+            services.AddTransient<IMemberTaskRepository, MemberTaskRepository>();
+            services.AddTransient<MemberTaskService, MemberTaskService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });

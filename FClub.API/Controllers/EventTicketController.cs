@@ -63,7 +63,7 @@ namespace FClub.API.Controllers
         [HttpGet()]
         public Object GetAllTicket()
         {
-            var data = _ticketService.getAll();
+            var data = _ticketService.GetAll();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {

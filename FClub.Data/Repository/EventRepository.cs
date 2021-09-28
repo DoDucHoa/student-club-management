@@ -14,7 +14,7 @@ namespace FClub.Data.Repository
     public class EventRepository : Repository<EventInfo>, IEventRepository
     {
 
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
         public EventRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
