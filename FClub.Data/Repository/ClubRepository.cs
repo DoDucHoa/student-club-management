@@ -14,7 +14,6 @@ namespace FClub.Data.Repository
         {
             _db = db;
         }
-
         public bool CheckIdExistance(String id)
         {
             var objFromDb = _db.Clubs.FirstOrDefault(s => s.Id == id);

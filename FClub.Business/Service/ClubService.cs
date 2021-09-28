@@ -70,5 +70,11 @@ namespace FClub.Business.Service
             var club = _clubRepository.Get(id);
             return club;
         }
+
+        public IEnumerable<Club> GetList()
+        {
+            var clubList = _clubRepository.GetAll();
+            return clubList;
+        }
     }
 }

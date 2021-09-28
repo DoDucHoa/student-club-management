@@ -16,7 +16,7 @@ namespace FClub.Business.Service
             _ticketRepo = eventTicketRepo;
         }
         //GET All Ticket 
-        public IEnumerable<EventTicket> getAll()
+        public IEnumerable<EventTicket> GetAll()
         {
             return _ticketRepo.GetAll().ToList();
         }

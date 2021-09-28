@@ -1,5 +1,5 @@
-﻿using FClub.Business.Service;
-using FClub.Data.Database;
+﻿using FClub.Data.Database;
+using FClub.Business.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/clubs")]
+    [Route("api/transactionDetails")]
     [ApiController]
-    public class ClubsController : ControllerBase
+    public class TransactionDetailController : ControllerBase
     {
-        private readonly ClubService _clubService;
+        private readonly TransactionDetailService _transactionDetailService;
 
-        public ClubsController(ClubService clubService)
+        public TransactionDetailController(TransactionDetailService transactionDetailService)
         {
-            _clubService = clubService;
+            _transactionDetailService = transactionDetailService;
         }
 
         [HttpGet("{id}")]
-        public Object GetClubById(string id)
+        public Object GetTransactionDetailById(int id)
         {
-            var data = _clubService.GetClubById(id);
+            var data = _transactionDetailService.GetTransactionDetailById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -37,7 +37,7 @@ namespace FClub.API.Controllers
         [HttpGet]
         public Object GetList()
         {
-            var data = _clubService.GetList();
+            var data = _transactionDetailService.GetList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -48,25 +48,25 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddClub(Club club)
+        public void AddTransactionDetail(TransactionDetail transactionDetail)
         {
             try
             {
-                _clubService.Add(club);
+                _transactionDetailService.Add(transactionDetail);
             }
             catch(Exception e)
             {
-                e.Message.ToString();
+                Console.WriteLine(e.Message.ToString());
             }
         }
 
 
         [HttpPut]
-        public void UpdateClub(Club club)
+        public void UpdateTransactionDetail(TransactionDetail transactionDetail)
         {
             try
             {
-                _clubService.Update(club);
+                _transactionDetailService.Update(transactionDetail);
             }
             catch (Exception e)
             {
@@ -75,11 +75,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteClubById(string id)
+        public bool DeleteTransactionDetailById(int id)
         {
             try
             {
-                _clubService.DeleteById(id);
+                _transactionDetailService.DeleteById(id);
                 return true;
             }
             catch (Exception)

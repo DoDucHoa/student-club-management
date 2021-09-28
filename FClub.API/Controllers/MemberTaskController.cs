@@ -1,5 +1,5 @@
-﻿using FClub.Business.Service;
-using FClub.Data.Database;
+﻿using FClub.Data.Database;
+using FClub.Business.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/clubs")]
+    [Route("api/memberTasks")]
     [ApiController]
-    public class ClubsController : ControllerBase
+    public class MemberTaskController : ControllerBase
     {
-        private readonly ClubService _clubService;
+        private readonly MemberTaskService _memberTaskService;
 
-        public ClubsController(ClubService clubService)
+        public MemberTaskController(MemberTaskService memberTaskService)
         {
-            _clubService = clubService;
+            _memberTaskService = memberTaskService;
         }
 
         [HttpGet("{id}")]
-        public Object GetClubById(string id)
+        public Object GetMemberTaskById(int id)
         {
-            var data = _clubService.GetClubById(id);
+            var data = _memberTaskService.GetMemberTaskById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -37,7 +37,7 @@ namespace FClub.API.Controllers
         [HttpGet]
         public Object GetList()
         {
-            var data = _clubService.GetList();
+            var data = _memberTaskService.GetList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -48,25 +48,25 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddClub(Club club)
+        public void AddMemberTask(MemberTask memberTask)
         {
             try
             {
-                _clubService.Add(club);
+                _memberTaskService.Add(memberTask);
             }
             catch(Exception e)
             {
-                e.Message.ToString();
+                Console.WriteLine(e.Message.ToString());
             }
         }
 
 
         [HttpPut]
-        public void UpdateClub(Club club)
+        public void UpdateMemberTask(MemberTask memberTask)
         {
             try
             {
-                _clubService.Update(club);
+                _memberTaskService.Update(memberTask);
             }
             catch (Exception e)
             {
@@ -75,11 +75,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteClubById(string id)
+        public bool DeleteMemberTaskById(int id)
         {
             try
             {
-                _clubService.DeleteById(id);
+                _memberTaskService.DeleteById(id);
                 return true;
             }
             catch (Exception)
