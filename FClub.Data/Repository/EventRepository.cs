@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace FClub.Data.Repository
 {
 
-    public class EventRepository : Repository<EventInfo>, IEventRepository 
+    public class EventRepository : Repository<EventInfo>, IEventRepository
     {
 
         ApplicationDbContext _dbContext;
@@ -27,5 +27,6 @@ namespace FClub.Data.Repository
             _dbContext.EventInfos.Update(eventinfo);
             _dbContext.SaveChanges();
         }
+
     }
 }
