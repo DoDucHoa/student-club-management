@@ -58,18 +58,21 @@ namespace FClub.API.Controllers
             _userInforService.UpdateUser(_object);
             return Ok();
         }
-        //GET All User by Name  
-        [HttpGet("{name}")]
-        public ActionResult<List<UserInfo>> GetAllUserByName(string name)
+        //GET All User by Name
+        [HttpGet]
+        public IQueryable<UserInfo> GetUsers(
+            int? id = null, string name = "", string email = "", string phone = "",
+            string dir = "asc", string sort = "",
+            string fields = "")
         {
-            var data = _userInforService.GetUsersByName(name);
+            var data = _userInforService.GetUsersInfor(id, name, email, phone, dir, sort, fields);
             return data;
         }
         //GET All User  
         [HttpGet]
         public ActionResult<List<UserInfo>> GetAllUsers()
         {
-            var data = _userInforService.GetAllUsersInfor();;
+            var data = _userInforService.GetAllUsersInfor();
             return data;
         }
         //Check Login

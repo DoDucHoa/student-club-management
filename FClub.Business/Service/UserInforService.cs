@@ -24,9 +24,44 @@ namespace FClub.Business.Service
         }
 
         //Get Users by User Name  
-        public List<UserInfo> GetUsersByName(string name)
+        public IQueryable<UserInfo> GetUsersInfor(
+            int? id, string name = null, string email = null, string phone = null,
+            string dir = "asc", string sort = null,
+            string fields = null)
         {
-            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            Console.WriteLine("Run Service");
+            IQueryable<UserInfo> values = _userInfo.GetAll().AsQueryable();
+            if (id != null)
+            {
+                Console.WriteLine("GetID");
+                values = values.Where(x => x.Id == id).AsQueryable();
+            }
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                values = values.Where(x => x.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).AsQueryable();
+            }
+            if (!string.IsNullOrWhiteSpace(email))
+            {
+                values = values.Where(x => x.Email.Contains(email, StringComparison.InvariantCultureIgnoreCase)).AsQueryable();
+            }
+            if (!string.IsNullOrWhiteSpace(phone))
+            {
+                values = values.Where(x => x.Phone.Equals(phone)).AsQueryable();
+            }
+
+            if (!string.IsNullOrWhiteSpace(sort))
+            {
+                switch (sort)
+                {
+                    case "Id":
+                        if (dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+            return values;
         }
         //Get Users by User Id
         public UserInfo GetUsersById(int id)

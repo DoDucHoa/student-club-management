@@ -44,7 +44,7 @@ namespace FClub.Data.Repository
             if (includeProperties != null)
             {
                 foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
+                {   
                     query = query.Include(includeProp);
                 }
             }
