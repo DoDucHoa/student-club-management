@@ -2,11 +2,14 @@ name: Build and deploy .NET Core application to windows webapp club-management-s
 on:
   push:
     branches:
-    - hoadd-feature
+    - master
+  pull_request:
+    branches:
+    - master
 env:
   AZURE_WEBAPP_NAME: club-management-service
   DOTNET_CORE_VERSION: 5.0.x
-  WORKING_DIRECTORY: .
+  WORKING_DIRECTORY: ./FClub.API/
   CONFIGURATION: Release
   AZURE_WEBAPP_PACKAGE_PATH: ./publish
   AZURE_APIM_RESOURCE_PATH: /
