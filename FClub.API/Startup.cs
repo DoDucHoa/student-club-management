@@ -19,7 +19,10 @@ using System.Threading.Tasks;
 
 namespace FClub.API
 {
-    public class Startup
+  public class Startup
+  {
+    private readonly IConfiguration _configuration;
+    public Startup(IConfiguration configuration)
     {
         private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
@@ -104,4 +107,77 @@ namespace FClub.API
             });
         }
     }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+      services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+      services.AddControllers();
+      services.AddHttpClient();
+
+      services.AddTransient<IUserInfoRepository, UserInfoRepository>();
+      services.AddTransient<UserInforService, UserInforService>();
+
+      services.AddTransient<IUniversityRepository, UniversityRepository>();
+      services.AddTransient<UniversityService, UniversityService>();
+
+      services.AddTransient<IClubRepository, ClubRepository>();
+      services.AddTransient<ClubService, ClubService>();
+
+      services.AddTransient<IMemberRepository, MemberRepository>();
+      services.AddTransient<MemberService, MemberService>();
+
+      services.AddTransient<ITaskRepository, TaskRepository>();
+      services.AddTransient<TaskService, TaskService>();
+
+      services.AddTransient<ITaskTypeRepository, TaskTypeRepository>();
+      services.AddTransient<TaskTypeService, TaskTypeService>();
+
+      services.AddTransient<IRoleRepository, RoleRepository>();
+      services.AddTransient<RoleService, RoleService>();
+
+      services.AddTransient<IEventRepository, EventRepository>();
+      services.AddTransient<EventInfoService, EventInfoService>();
+      services.AddTransient<IEventTicketRepository, EventTicketRepository>();
+      services.AddTransient<EventTicketService, EventTicketService>();
+      services.AddTransient<ITicketTypeRepository, TicketTypeRepository>();
+      services.AddTransient<TicketTypeService, TicketTypeService>();
+      services.AddTransient<IParticipantRepository, ParticipantRepository>();
+      services.AddTransient<ParticipantService, ParticipantService>();
+
+      services.AddControllersWithViews()
+              .AddNewtonsoftJson(options =>
+              options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+              );
+      services.AddSwaggerGen(c =>
+      {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });
+      });
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      if (env.IsDevelopment())
+      {
+        app.UseDeveloperExceptionPage();
+      }
+
+      app.UseSwagger();
+      app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"); c.RoutePrefix = string.Empty; });
+
+      app.UseHttpsRedirection();
+
+      app.UseRouting();
+
+      app.UseAuthorization();
+
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
+    }
+  }
 }
