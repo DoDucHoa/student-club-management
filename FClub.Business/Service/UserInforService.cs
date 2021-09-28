@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -24,44 +25,46 @@ namespace FClub.Business.Service
         }
 
         //Get Users by User Name  
-        public IQueryable<UserInfo> GetUsersInfor(
-            int? id, string name = null, string email = null, string phone = null,
-            string dir = "asc", string sort = null,
-            string fields = null)
+        public PagedList<UserInfo> GetUsersInfor(UserParameter user, PagingParameter paging)
         {
             Console.WriteLine("Run Service");
-            IQueryable<UserInfo> values = _userInfo.GetAll().AsQueryable();
-            if (id != null)
+
+            var values = _userInfo.GetAll();
+
+            if (user.id != null)
             {
                 Console.WriteLine("GetID");
-                values = values.Where(x => x.Id == id).AsQueryable();
+                values = values.Where(x => x.Id == user.id);
             }
-            if (!string.IsNullOrWhiteSpace(name))
+            if (!string.IsNullOrWhiteSpace(user.name))
             {
-                values = values.Where(x => x.Name.Contains(name, StringComparison.InvariantCultureIgnoreCase)).AsQueryable();
+                values = values.Where(x => x.Name.Contains(user.name, StringComparison.InvariantCultureIgnoreCase));
             }
-            if (!string.IsNullOrWhiteSpace(email))
+            if (!string.IsNullOrWhiteSpace(user.email))
             {
-                values = values.Where(x => x.Email.Contains(email, StringComparison.InvariantCultureIgnoreCase)).AsQueryable();
+                values = values.Where(x => x.Email.Contains(user.email, StringComparison.InvariantCultureIgnoreCase));
             }
-            if (!string.IsNullOrWhiteSpace(phone))
+            if (!string.IsNullOrWhiteSpace(user.phone))
             {
-                values = values.Where(x => x.Phone.Equals(phone)).AsQueryable();
+                values = values.Where(x => x.Phone.Equals(user.phone));
             }
 
-            if (!string.IsNullOrWhiteSpace(sort))
+            if (!string.IsNullOrWhiteSpace(user.sort))
             {
-                switch (sort)
+                switch (user.sort)
                 {
                     case "Id":
-                        if (dir == "asc")
+                        if (user.dir == "asc")
                             values = values.OrderBy(d => d.Id);
-                        else if (dir == "desc")
+                        else if (user.dir == "desc")
                             values = values.OrderByDescending(d => d.Id);
                         break;
                 }
             }
-            return values;
+
+            return PagedList<UserInfo>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
         }
         //Get Users by User Id
         public UserInfo GetUsersById(int id)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FClub.Data.Helper
 {
-    public class QueryStringParameters
+    public class PagingParameter
     {
         const int maxPageSize = 50;
         public int PageNumber { get; set; } = 1;
