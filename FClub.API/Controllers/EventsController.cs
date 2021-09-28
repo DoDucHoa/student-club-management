@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -17,9 +18,26 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet()]
-        public Object GetAllEvent()
+        public IActionResult GetAllEvent([FromQuery] QueryStringParameters eventParameter)
         {
-            var data = _eventService.getAll();
+            var data = _eventService.GetEvents(eventParameter);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
+        }
+
+        [HttpGet("{id}")]
+        public Object GetEventById(int id)
+        {
+            var data = _eventService.GetEventById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -29,10 +47,10 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{id}")]
-        public Object GetEventById(int id)
+        [HttpGet("page/{pageId}")]
+        public Object GetEventByPage(int pageId)
         {
-            var data = _eventService.GetEventById(id);
+            var data = _eventService.getByPage(pageId);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -82,5 +100,6 @@ namespace FClub.API.Controllers
                 return false;
             }
         }
+
     }
 }
