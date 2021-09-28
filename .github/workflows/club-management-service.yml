@@ -9,7 +9,8 @@ on:
 env:
   AZURE_WEBAPP_NAME: club-management-service
   DOTNET_CORE_VERSION: 5.0.x
-  WORKING_DIRECTORY: ./FClub.API/
+  WORKING_DIRECTORY: ./FClub.API/FClub.API.csproj
+  WORKING_DIRECTORY_BUCK: ./FClub.API/
   CONFIGURATION: Release
   AZURE_WEBAPP_PACKAGE_PATH: ./publish
   AZURE_APIM_RESOURCE_PATH: /
@@ -45,7 +46,7 @@ jobs:
       run: dotnet publish ${{ env.WORKING_DIRECTORY }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     - name: Install Swashbuckle CLI .NET Global Tool
       run: dotnet tool install --global Swashbuckle.AspNetCore.Cli --version ${{ env.SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION }}
-      working-directory: ${{ env.WORKING_DIRECTORY }}
+      working-directory: ${{ env.WORKING_DIRECTORY_BUCK }}
     - name: Generate Open API Specification Document
       run: swagger tofile --output "${{ env.API_IMPORT_SPECIFICATION_PATH }}" "${{ env.API_IMPORT_DLL }}" "${{ env.API_IMPORT_VERSION }}"
     - name: Publish Artifacts
