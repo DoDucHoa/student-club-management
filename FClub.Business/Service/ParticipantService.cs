@@ -17,7 +17,7 @@ namespace FClub.Business.Service
         }
 
         //GET All Participant
-        public IEnumerable<Participant> getAll()
+        public IEnumerable<Participant> GetAll()
         {
             return _participantRepo.GetAll().ToList();
         }

@@ -17,7 +17,7 @@ namespace FClub.Business.Service
             _eventRepo = eventRepo;
         }
         //GET All Event Details  
-        public IEnumerable<EventInfo> getAll()
+        public IEnumerable<EventInfo> GetAll()
         {
             return _eventRepo.GetAll().ToList();
         }

@@ -1,5 +1,5 @@
-﻿using FClub.Business.Service;
-using FClub.Data.Database;
+﻿using FClub.Data.Database;
+using FClub.Business.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,22 +10,21 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/transactionDetails")]
     [ApiController]
-    public class ParticipantController : ControllerBase
+    public class TransactionDetailController : ControllerBase
     {
-        private readonly ParticipantService _participantService;
+        private readonly TransactionDetailService _transactionDetailService;
 
-        public ParticipantController(ParticipantService participantService)
+        public TransactionDetailController(TransactionDetailService transactionDetailService)
         {
-            _participantService = participantService;
+            _transactionDetailService = transactionDetailService;
         }
 
-
-        [HttpGet("{eventId}")]
-        public Object GetParticipantByEvent(int eventId)
+        [HttpGet("{id}")]
+        public Object GetTransactionDetailById(int id)
         {
-            var data = _participantService.GetParticipantByEvent(eventId);
+            var data = _transactionDetailService.GetTransactionDetailById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -35,10 +34,10 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{attendance}")]
-        public Object GetParticipantByAttendance(bool attended)
+        [HttpGet]
+        public Object GetList()
         {
-            var data = _participantService.GetParticipantByAttendance(attended);
+            var data = _transactionDetailService.GetList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -48,26 +47,26 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpPost()]
-        public void AddParticipant(Participant participant)
+        [HttpPost]
+        public void AddTransactionDetail(TransactionDetail transactionDetail)
         {
             try
             {
-                _participantService.Add(participant);
+                _transactionDetailService.Add(transactionDetail);
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                e.Message.ToString();
+                Console.WriteLine(e.Message.ToString());
             }
         }
 
 
-        [HttpPut()]
-        public void UpdateParticipant(Participant participant)
+        [HttpPut]
+        public void UpdateTransactionDetail(TransactionDetail transactionDetail)
         {
             try
             {
-                _participantService.Update(participant);
+                _transactionDetailService.Update(transactionDetail);
             }
             catch (Exception e)
             {
@@ -76,12 +75,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteParticipant(int id)
+        public bool DeleteTransactionDetailById(int id)
         {
             try
             {
-                Participant participant = _participantService.GetAll().FirstOrDefault(p => p.Id == id);
-                _participantService.Delete(participant);
+                _transactionDetailService.DeleteById(id);
                 return true;
             }
             catch (Exception)

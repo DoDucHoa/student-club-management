@@ -9,7 +9,7 @@ namespace FClub.Data.Repository
 {
     public class TicketTypeRepository : Repository<TicketType>, ITicketTypeRepository
     {
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
         public TicketTypeRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;

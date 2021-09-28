@@ -7,7 +7,6 @@ namespace FClub.Data.Interface
 {
     public interface IClubRepository : IRepository<Club>
     {
-        void Update(Club club);
         bool CheckIdExistance(String id);
     }
 }

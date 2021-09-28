@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FClub.Data.Interface
 {
-    public interface ITransactionDetailRepository : IRepository<TransactionDetail>
+    public interface IMemberTaskRepository : IRepository<MemberTask>
     {
 
     }

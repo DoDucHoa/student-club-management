@@ -8,10 +8,10 @@ using System.Text;
 
 namespace FClub.Data.Repository
 {
-    public class TransactionDetailRepository : Repository<TransactionDetail>, ITransactionDetailRepository
+    public class MemberTaskRepository : Repository<MemberTask>, IMemberTaskRepository
     {
         private readonly ApplicationDbContext _db;
-        public TransactionDetailRepository(ApplicationDbContext db) : base(db)
+        public MemberTaskRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }

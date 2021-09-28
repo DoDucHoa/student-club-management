@@ -12,7 +12,7 @@ namespace FClub.Data.Repository
     public class UniversityRepository : Repository<University> , IUniversityRepository
     {
 
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
         public UniversityRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
@@ -40,10 +40,5 @@ namespace FClub.Data.Repository
             return _dbContext.Universities.Where(x => x.Id.Equals(Id)).FirstOrDefault();
         }
 
-        public void Update(University _object)
-        {
-            _dbContext.Universities.Update(_object);
-            _dbContext.SaveChanges();
-        }
     }
 }

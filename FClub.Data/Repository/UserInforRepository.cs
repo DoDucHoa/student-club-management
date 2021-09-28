@@ -10,17 +10,12 @@ namespace FClub.Data.Repository
 {
     public class UserInforRepository : Repository<UserInfo>, IUserInfoRepository
     {
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
 
         public UserInforRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }
 
-        public void Update(UserInfo _object)
-        {
-            _dbContext.UserInfos.Update(_object);
-            _dbContext.SaveChanges();
-        }
     }
 }

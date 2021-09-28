@@ -8,6 +8,5 @@ namespace FClub.Data.Interface
 {
     public interface IUserInfoRepository : IRepository<UserInfo>
     {
-        void Update(UserInfo _object);
     }
 }

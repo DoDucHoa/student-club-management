@@ -19,7 +19,7 @@ namespace FClub.API.Controllers
         [HttpGet()]
         public Object GetAllEvent()
         {
-            var data = _eventService.getAll();
+            var data = _eventService.GetAll();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
