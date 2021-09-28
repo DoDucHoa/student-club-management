@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/clubs")]
     [ApiController]
-    public class ClubController : ControllerBase
+    public class ClubsController : ControllerBase
     {
         private readonly ClubService _clubService;
 
-        public ClubController(ClubService clubService)
+        public ClubsController(ClubService clubService)
         {
             _clubService = clubService;
         }
 
-        [HttpGet("GetClubById")]
+        [HttpGet("{id}")]
         public Object GetClubById(string id)
         {
             var data = _clubService.GetClubById(id);
@@ -34,7 +34,20 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpPost("AddClub")]
+        [HttpGet]
+        public Object GetList()
+        {
+            var data = _clubService.GetList();
+            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                }
+            );
+            return json;
+        }
+
+        [HttpPost]
         public void AddClub(Club club)
         {
             try
@@ -48,7 +61,7 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpPut("UpdateClub")]
+        [HttpPut]
         public void UpdateClub(Club club)
         {
             try
@@ -61,7 +74,7 @@ namespace FClub.API.Controllers
             }
         }
 
-        [HttpDelete("DeleteClubById")]
+        [HttpDelete("{id}")]
         public bool DeleteClubById(string id)
         {
             try

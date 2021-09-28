@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,57 @@ namespace FClub.Business.Service
         }
 
         //GET All User Details   
-        public IEnumerable<UserInfo> GetAllUsersInfor()
+        public List<UserInfo> GetAllUsersInfor()
         {
             return _userInfo.GetAll().ToList();
         }
 
         //Get Users by User Name  
-        public IEnumerable<UserInfo> GetUsersByName(string name)
+        public PagedList<UserInfo> GetUsersInfor(UserParameter user, PagingParameter paging)
         {
-            return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
+            Console.WriteLine("Run Service");
+
+            var values = _userInfo.GetAll();
+
+            if (user.id != null)
+            {
+                Console.WriteLine("GetID");
+                values = values.Where(x => x.Id == user.id);
+            }
+            if (!string.IsNullOrWhiteSpace(user.name))
+            {
+                values = values.Where(x => x.Name.Contains(user.name, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(user.email))
+            {
+                values = values.Where(x => x.Email.Contains(user.email, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(user.phone))
+            {
+                values = values.Where(x => x.Phone.Equals(user.phone));
+            }
+
+            if (!string.IsNullOrWhiteSpace(user.sort))
+            {
+                switch (user.sort)
+                {
+                    case "Id":
+                        if (user.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (user.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+
+            return PagedList<UserInfo>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
+        }
+        //Get Users by User Id
+        public UserInfo GetUsersById(int id)
+        {
+            return _userInfo.GetAll().Where(x => x.Id == id).FirstOrDefault();
         }
         //Add User
         public void AddUserInfo(UserInfo _object)
@@ -56,6 +99,7 @@ namespace FClub.Business.Service
             try
             {
                 _userInfo.Update(user);
+                _userInfo.SaveDbChange();
                 return true;
             }
             catch (Exception)

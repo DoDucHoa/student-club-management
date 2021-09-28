@@ -7,6 +7,5 @@ namespace FClub.Data.Interface
 {
     public interface IUniversityRepository : IRepository<University>
     {
-        void Update(University _object);
     }
 }

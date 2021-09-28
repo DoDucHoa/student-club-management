@@ -12,6 +12,7 @@ namespace FClub.Data.Interface
         //Get theo Id
         T Get(string id);
 
+        T Get(int id);
         //Get theo dạng list có sort, filter và includeProperties
         IEnumerable<T> GetAll(
             Expression<Func<T, bool>> filter = null,
@@ -27,6 +28,9 @@ namespace FClub.Data.Interface
         void Add(T entity);
         //Remove theo Id
         void Remove(String id);
+        void Remove(int id);
+        //Update theo entity
+        void Update(T entity);
         //Remove theo entity
         void Remove(T entity);
         //Remove một chuỗi entity

@@ -110,7 +110,7 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<MemberTask>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                //entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.MemberTasks)

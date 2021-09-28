@@ -11,18 +11,13 @@ using System.Threading.Tasks;
 namespace FClub.Data.Repository
 {
 
-    public class EventRepository : Repository<EventInfo>, IEventRepository 
+    public class EventRepository : Repository<EventInfo>, IEventRepository
     {
 
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
         public EventRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
-        }
-
-        public void AddEvent(EventInfo eventinfo)
-        {
-            _dbContext.EventInfos.Add(eventinfo);
         }
 
         public void DisableEvent(int id)
@@ -33,20 +28,5 @@ namespace FClub.Data.Repository
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<EventInfo> GetAllEvent()
-        {
-            return _dbContext.EventInfos.ToList();
-        }
-        
-        public EventInfo GetEventById(int id)
-        {
-            return _dbContext.EventInfos.FirstOrDefault(s => s.Id == id);
-        }
-        
-        public void UpdateEvent(EventInfo eventinfo)
-        {
-            _dbContext.EventInfos.Update(eventinfo);
-            _dbContext.SaveChanges();
-        }
     }
 }

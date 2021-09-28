@@ -12,8 +12,7 @@ namespace FClub.Data.Database
     {
         [Key]
         [Column("id")]
-        [StringLength(32)]
-        public string Id { get; set; }
+        public int Id { get; set; }
         [Column("participant_id")]
         public int ParticipantId { get; set; }
         [Required]

@@ -35,14 +35,47 @@ namespace FClub.API
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
             services.AddHttpClient();
-            services.AddTransient<IUserInfoRepository, UserInforRepository>();
+
+            services.AddTransient<IUserInfoRepository, UserInfoRepository>();
             services.AddTransient<UserInforService, UserInforService>();
+
             services.AddTransient<IUniversityRepository, UniversityRepository>();
             services.AddTransient<UniversityService, UniversityService>();
+
             services.AddTransient<IClubRepository, ClubRepository>();
             services.AddTransient<ClubService, ClubService>();
+
+            services.AddTransient<IMemberRepository, MemberRepository>();
+            services.AddTransient<MemberService, MemberService>();
+
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<TaskService, TaskService>();
+
+            services.AddTransient<ITaskTypeRepository, TaskTypeRepository>();
+            services.AddTransient<TaskTypeService, TaskTypeService>();
+
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<RoleService, RoleService>();
+
             services.AddTransient<IEventRepository, EventRepository>();
             services.AddTransient<EventInfoService, EventInfoService>();
+            services.AddTransient<IEventTicketRepository, EventTicketRepository>();
+            services.AddTransient<EventTicketService, EventTicketService>();
+            services.AddTransient<ITicketTypeRepository, TicketTypeRepository>();
+            services.AddTransient<TicketTypeService, TicketTypeService>();
+            services.AddTransient<IParticipantRepository, ParticipantRepository>();
+            services.AddTransient<ParticipantService, ParticipantService>();
+
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                    );
+            services.AddTransient<ITransactionDetailRepository, TransactionDetailRepository>();
+            services.AddTransient<TransactionDetailService, TransactionDetailService>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
+            services.AddTransient<WalletService, WalletService>();
+            services.AddTransient<IMemberTaskRepository, MemberTaskRepository>();
+            services.AddTransient<MemberTaskService, MemberTaskService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });
