@@ -18,15 +18,20 @@ namespace FClub.Business.Service
         }
 
         //GET All User Details   
-        public IEnumerable<UserInfo> GetAllUsersInfor()
+        public List<UserInfo> GetAllUsersInfor()
         {
             return _userInfo.GetAll().ToList();
         }
 
         //Get Users by User Name  
-        public IEnumerable<UserInfo> GetUsersByName(string name)
+        public List<UserInfo> GetUsersByName(string name)
         {
             return _userInfo.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
+        }
+        //Get Users by User Id
+        public UserInfo GetUsersById(int id)
+        {
+            return _userInfo.GetAll().Where(x => x.Id == id).FirstOrDefault();
         }
         //Add User
         public void AddUserInfo(UserInfo _object)
@@ -56,6 +61,7 @@ namespace FClub.Business.Service
             try
             {
                 _userInfo.Update(user);
+                _userInfo.SaveDbChange();
                 return true;
             }
             catch (Exception)

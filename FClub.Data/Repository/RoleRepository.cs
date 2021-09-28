@@ -2,17 +2,15 @@
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FClub.Data.Repository
 {
-
-    public class UniversityRepository : Repository<University> , IUniversityRepository
+    public class RoleRepository : Repository<Role>, IRoleRepository
     {
         ApplicationDbContext _dbContext;
-        public UniversityRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+
+        public RoleRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;
         }

@@ -14,16 +14,7 @@ namespace FClub.Data.Repository
         {
             _db = db;
         }
-        public void Update(Club club)
-        {
-            var objFromDb = _db.Clubs.FirstOrDefault(s => s.Id == club.Id);
-            if (objFromDb != null)
-            {
-                objFromDb.Name = club.Name;
-                objFromDb.Balance = club.Balance;
-                objFromDb.Logo = club.Logo;
-            }
-        }
+
         public bool CheckIdExistance(String id)
         {
             var objFromDb = _db.Clubs.FirstOrDefault(s => s.Id == id);

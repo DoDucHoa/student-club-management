@@ -17,12 +17,12 @@ namespace FClub.Business.Service
             _university = university;
         }
         //GET All University Details By Name
-        public IEnumerable<University> GetUniversityByName(string name)
+        public List<University> GetUniversityByName(string name)
         {
             return _university.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
         //GET All University Details   
-        public IEnumerable<University> GetAllUniversity()
+        public List<University> GetAllUniversity()
         {
             return _university.GetAll().ToList();
         }
@@ -39,7 +39,7 @@ namespace FClub.Business.Service
                 _university.Add(university);
                 _university.SaveDbChange();
                 return true;
-            } catch (Exception)
+            } catch
             {
                 return false;
             }
@@ -55,7 +55,7 @@ namespace FClub.Business.Service
                 _university.SaveDbChange();
                 return true;
             }
-            catch (Exception)
+            catch
             {
                 return false;
             }
@@ -67,9 +67,24 @@ namespace FClub.Business.Service
             try
             {
                 _university.Update(university);
+                _university.SaveDbChange();
                 return true;
             }
-            catch (Exception)
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteUniversity(University _object)
+        {
+            try
+            {
+                _university.Remove(_object);
+                _university.SaveDbChange();
+                return true;
+            }
+            catch
             {
                 return false;
             }
