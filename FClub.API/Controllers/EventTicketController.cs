@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/event-ticket")]
     [ApiController]
     public class EventTicketController : ControllerBase
     {
@@ -34,7 +34,7 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{parId}")]
+        [HttpGet("participant/{parId}")]
         public Object GetTicketByParticipant(int parId)
         {
             var data = _ticketService.GetTicketByParticipant(parId);
@@ -47,7 +47,7 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet("{typeId}")]
+        [HttpGet("type/{typeId}")]
         public Object GetTicketByType(string typeId)
         {
             var data = _ticketService.GetTicketByType(typeId);
