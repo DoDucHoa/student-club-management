@@ -1,8 +1,11 @@
-name: Build and deploy .NET Core application to windows webapp club-management-service with API Management Service FClubAPIapi
+name: Build and deploy .NET Core application to windows webapp club-management-service with API Management Service FClubAPIService
 on:
   push:
     branches:
-    - hoadd-feature
+    - master
+  pull_request:
+    branches:
+    - master
 env:
   AZURE_WEBAPP_NAME: club-management-service
   DOTNET_CORE_VERSION: 5.0.x
@@ -12,7 +15,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: ./publish
   AZURE_APIM_RESOURCE_PATH: /
   AZURE_APIM_RESOURCEGROUP: ClubManagement
-  AZURE_APIM_SERVICENAME: FClubAPIapi
+  AZURE_APIM_SERVICENAME: FClubAPIService
   AZURE_APIM_API_ID: FClubAPI
   AZURE_APIM_APPSERVICEURL: https://club-management-service.azurewebsites.net
   SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
@@ -65,11 +68,11 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.club_management_service_2d69 }}
+        publish-profile: ${{ secrets.club_management_service_dfbc }}
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.FClubAPIapi_spn }}
+        creds: ${{ secrets.FClubAPIService_spn }}
     - name: Import API into Azure API Management
       run: az apim api import --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" --resource-group "${{ env.AZURE_APIM_RESOURCEGROUP }}" --service-name "${{ env.AZURE_APIM_SERVICENAME }}" --api-id "${{ env.AZURE_APIM_API_ID }}" --service-url "${{ env.AZURE_APIM_APPSERVICEURL }}" --specification-path "${{ env.API_IMPORT_SPECIFICATION_PATH }}" --specification-format OpenApi --subscription-required false
     - name: logout
