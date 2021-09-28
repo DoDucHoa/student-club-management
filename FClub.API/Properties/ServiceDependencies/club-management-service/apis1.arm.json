@@ -49,7 +49,7 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "FClubAPIapi",
+              "name": "FClubAPIService",
               "type": "Microsoft.ApiManagement/service",
               "location": "[parameters('resourceLocation')]",
               "properties": {
@@ -59,7 +59,7 @@
                 "hostnameConfigurations": [
                   {
                     "type": "Proxy",
-                    "hostName": "fclubapiapi.azure-api.net",
+                    "hostName": "fclubapiservice.azure-api.net",
                     "encodedCertificate": null,
                     "keyVaultId": null,
                     "certificatePassword": null,
@@ -94,7 +94,7 @@
             },
             {
               "type": "Microsoft.ApiManagement/service/apis",
-              "name": "FClubAPIapi/FClubAPI",
+              "name": "FClubAPIService/FClubAPI",
               "properties": {
                 "displayName": "FClubAPI",
                 "apiRevision": "1",
@@ -117,7 +117,7 @@
               },
               "apiVersion": "2019-12-01",
               "dependsOn": [
-                "FClubAPIapi"
+                "FClubAPIService"
               ]
             }
           ]
