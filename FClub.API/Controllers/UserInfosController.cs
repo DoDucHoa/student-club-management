@@ -48,7 +48,7 @@ namespace FClub.API.Controllers
             _userInforService.DeleteUser(_object);
             return Ok();
         }
-        //Delete User  
+        //Update User  
         [HttpPut]
         public IActionResult UpdateUser(UserInfo _object)
         {
@@ -60,7 +60,7 @@ namespace FClub.API.Controllers
             return Ok();
         }
         //GET All User by Name
-        [HttpGet("fields")]
+        [HttpGet]
         public IActionResult GetUsers([FromQuery] UserParameter user, [FromQuery] PagingParameter param)
         {
             var data = _userInforService.GetUsersInfor(user, param);
@@ -76,13 +76,7 @@ namespace FClub.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(data);
         }
-        //GET All User  
-        [HttpGet]
-        public ActionResult<List<UserInfo>> GetAllUsers()
-        {
-            var data = _userInforService.GetAllUsersInfor();
-            return data;
-        }
+        
         //Check Login
         [HttpGet("{email}/{password}")]
         public ActionResult<UserInfo> CheckLogin(string email, string password)

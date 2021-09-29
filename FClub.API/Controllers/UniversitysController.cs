@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,9 +56,9 @@ namespace FClub.API.Controllers
         }
         //GET All University  
         [HttpGet]
-        public ActionResult<List<University>> GetAllUniversity()
+        public ActionResult<PagedList<University>> GetUniversitys([FromQuery] UniversityParameter university, [FromQuery] PagingParameter paging)
         {
-            var data = _universityService.GetAllUniversity();
+            var data = _universityService.GetAllUniversity(university, paging);
             return data;
         }
 

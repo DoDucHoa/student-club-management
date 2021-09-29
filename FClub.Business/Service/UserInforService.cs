@@ -27,13 +27,11 @@ namespace FClub.Business.Service
         //Get Users by User Name  
         public PagedList<UserInfo> GetUsersInfor(UserParameter user, PagingParameter paging)
         {
-            Console.WriteLine("Run Service");
 
             var values = _userInfo.GetAll();
 
             if (user.id != null)
             {
-                Console.WriteLine("GetID");
                 values = values.Where(x => x.Id == user.id);
             }
             if (!string.IsNullOrWhiteSpace(user.name))
