@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,45 @@ namespace FClub.Business.Service
             return _university.GetAll().Where(x => x.Name.Contains(name, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }
         //GET All University Details   
-        public List<University> GetAllUniversity()
+        public PagedList<University> GetAllUniversity(UniversityParameter university, PagingParameter paging)
         {
-            return _university.GetAll().ToList();
+            var values = _university.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(university.id))
+            {
+                values = values.Where(x => x.Id == university.id);
+            }
+            if (!string.IsNullOrWhiteSpace(university.name))
+            {
+                values = values.Where(x => x.Name.Contains(university.name, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(university.address))
+            {
+                values = values.Where(x => x.Address.Contains(university.address, StringComparison.InvariantCultureIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(university.sort))
+            {
+                switch (university.sort)
+                {
+                    case "Id":
+                        if (university.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (university.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                    case "Name":
+                        if (university.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (university.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+
+            return PagedList<University>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
         }
         //Get University by University Id  
         public University GetUniversityById(string id)
