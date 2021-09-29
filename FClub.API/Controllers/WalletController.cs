@@ -1,5 +1,5 @@
-﻿using FClub.Business.Service;
-using FClub.Data.Database;
+﻿using FClub.Data.Database;
+using FClub.Business.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/clubs")]
+    [Route("api/wallets")]
     [ApiController]
-    public class ClubsController : ControllerBase
+    public class WalletController : ControllerBase
     {
-        private readonly ClubService _clubService;
+        private readonly WalletService _walletService;
 
-        public ClubsController(ClubService clubService)
+        public WalletController(WalletService walletService)
         {
-            _clubService = clubService;
+            _walletService = walletService;
         }
 
         [HttpGet("{id}")]
-        public Object GetClubById(string id)
+        public Object GetWalletById(int id)
         {
-            var data = _clubService.GetClubById(id);
+            var data = _walletService.GetWalletById(id);
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -37,7 +37,7 @@ namespace FClub.API.Controllers
         [HttpGet]
         public Object GetList()
         {
-            var data = _clubService.GetList();
+            var data = _walletService.GetList();
             var json = JsonConvert.SerializeObject(data, Formatting.Indented,
                 new JsonSerializerSettings()
                 {
@@ -48,25 +48,25 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddClub(Club club)
+        public void AddWallet(Wallet wallet)
         {
             try
             {
-                _clubService.Add(club);
+                _walletService.Add(wallet);
             }
             catch(Exception e)
             {
-                e.Message.ToString();
+                Console.WriteLine(e.Message.ToString());
             }
         }
 
 
         [HttpPut]
-        public void UpdateClub(Club club)
+        public void UpdateWallet(Wallet wallet)
         {
             try
             {
-                _clubService.Update(club);
+                _walletService.Update(wallet);
             }
             catch (Exception e)
             {
@@ -75,11 +75,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteClubById(string id)
+        public bool DeleteWalletById(int id)
         {
             try
             {
-                _clubService.DeleteById(id);
+                _walletService.DeleteById(id);
                 return true;
             }
             catch (Exception)

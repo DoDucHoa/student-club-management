@@ -31,6 +31,10 @@ namespace FClub.Data.Repository
             return dbSet.Find(id);
         }
 
+        public T Get(int id)
+        {
+            return dbSet.Find(id);
+        }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
@@ -98,6 +102,12 @@ namespace FClub.Data.Repository
         public bool SaveDbChange()
         {
             return (_db.SaveChanges() >= 0);
+        }
+
+        public void Remove(int id)
+        {
+            T entity = dbSet.Find(id);
+            Remove(entity);
         }
     }
 }

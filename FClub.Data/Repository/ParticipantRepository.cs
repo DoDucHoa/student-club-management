@@ -10,7 +10,7 @@ namespace FClub.Data.Repository
     public class ParticipantRepository : Repository<Participant>, IParticipantRepository
     {
 
-        ApplicationDbContext _dbContext;
+        readonly ApplicationDbContext _dbContext;
         public ParticipantRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
             _dbContext = applicationDbContext;

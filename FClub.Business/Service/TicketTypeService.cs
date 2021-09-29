@@ -17,7 +17,7 @@ namespace FClub.Business.Service
         }
 
         //GET All Ticket Type  
-        public IEnumerable<TicketType> getAll()
+        public IEnumerable<TicketType> GetAll()
         {
             return _ticketTypeRepo.GetAll().ToList();
         }

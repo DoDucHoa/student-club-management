@@ -80,7 +80,7 @@ namespace FClub.API.Controllers
         {
             try
             {
-                Participant participant = _participantService.getAll().FirstOrDefault(p => p.Id == id);
+                Participant participant = _participantService.GetAll().FirstOrDefault(p => p.Id == id);
                 _participantService.Delete(participant);
                 return true;
             }
