@@ -7,7 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+<<<<<<< HEAD
 namespace club_management_backend
+=======
+namespace FClub.API
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 {
     public class Program
     {

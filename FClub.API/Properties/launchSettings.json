@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
+=======
+{
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -8,6 +12,10 @@
       "sslPort": 44317
     }
   },
+<<<<<<< HEAD
+=======
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
@@ -17,6 +25,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+<<<<<<< HEAD
     "club_management_backend": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
@@ -29,3 +38,16 @@
     }
   }
 }
+=======
+    "FClub.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "remoteDebugEnabled": false
+    }
+  }
+}
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
