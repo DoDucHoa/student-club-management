@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+<<<<<<< HEAD
+=======
 using FClub.Data.Database;
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable

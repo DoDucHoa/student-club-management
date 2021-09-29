@@ -26,9 +26,15 @@ namespace FClub.Data.Database
         [StringLength(256)]
         public string Name { get; set; }
         [Column("bonus_point", TypeName = "numeric(19, 5)")]
+<<<<<<< HEAD
+        public decimal? BonusPoint { get; set; }
+        [Column("price", TypeName = "numeric(19, 5)")]
+        public decimal? Price { get; set; }
+=======
         public int BonusPoint { get; set; }
         [Column("price", TypeName = "numeric(19, 5)")]
         public decimal Price { get; set; }
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
         [InverseProperty(nameof(EventTicket.TicketType))]
         public virtual ICollection<EventTicket> EventTickets { get; set; }

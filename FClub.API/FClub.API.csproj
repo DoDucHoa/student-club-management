@@ -2,7 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+<<<<<<< HEAD
+    <RootNamespace>club_management_backend</RootNamespace>
+=======
     <RootNamespace>FClub.API</RootNamespace>
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +19,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+<<<<<<< HEAD
+    <PackageReference Include="MongoDB.Driver" Version="2.13.1" />
+=======
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
   </ItemGroup>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+<Project Sdk="Microsoft.NET.Sdk">
+=======
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -13,7 +17,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+<<<<<<< HEAD
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+=======
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
   </ItemGroup>
 
 </Project>
