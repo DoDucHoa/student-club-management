@@ -30,7 +30,6 @@ namespace FClub.Business.Service
             Console.WriteLine("Run Service");
 
             var values = _userInfo.GetAll();
-
             if (user.id != null)
             {
                 Console.WriteLine("GetID");

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/memberTasks")]
+    [Route("api/member_tasks")]
     [ApiController]
     public class MemberTaskController : ControllerBase
     {
