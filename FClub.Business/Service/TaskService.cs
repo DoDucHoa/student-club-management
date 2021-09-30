@@ -21,7 +21,7 @@ namespace FClub.Business.Service
 
         public PagedList<Task> GetBy(TaskParameter task, PagingParameter paging)
         {
-            var values = _repository.GetAll();
+            var values = _repository.GetAll(includeProperties: "Creator,Type");
 
             if (task.Id != null)
             {
