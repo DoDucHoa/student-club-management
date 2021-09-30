@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,9 +22,9 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Member>> Get()
+        public ActionResult<PagedList<Member>> Get([FromQuery] MemberParameter member, [FromQuery] PagingParameter paging)
         {
-            return _service.Get();
+            return _service.GetBy(member, paging);
         }
 
         [HttpGet("{id}")]

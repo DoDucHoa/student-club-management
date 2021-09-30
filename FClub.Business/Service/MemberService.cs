@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,45 @@ namespace FClub.Business.Service
         }
 
         public List<Member> Get() => _repository.GetAll().ToList();
+
+        public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
+        {
+            var values = _repository.GetAll();
+
+            if (member.Id != null)
+            {
+                values = values.Where(x => x.Id == member.Id);
+            }
+            if (member.UserId != null)
+            {
+                values = values.Where(x => x.UserId == member.UserId);
+            }
+            if (!string.IsNullOrWhiteSpace(member.ClubId))
+            {
+                values = values.Where(x => x.ClubId == member.ClubId);
+            }
+            if (member.RoleId != null)
+            {
+                values = values.Where(x => x.RoleId.Equals(member.RoleId));
+            }
+
+            if (!string.IsNullOrWhiteSpace(member.sort))
+            {
+                switch (member.sort)
+                {
+                    case "Id":
+                        if (member.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (member.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+
+            return PagedList<Member>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
+        }
 
         public Member GetById(int id) => _repository.GetAll().Where(x => x.Id == id).FirstOrDefault();
 
