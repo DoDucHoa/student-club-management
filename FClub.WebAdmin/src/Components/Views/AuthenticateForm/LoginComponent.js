@@ -2,9 +2,10 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { TextField, Grid, Button, Link } from "@mui/material";
 
-import * as Bi from "react-icons/bi";
+import { BiLogIn } from "react-icons/bi";
 import FormCard from "../../UI/FormCard";
 import { useHistory } from "react-router";
+import { motion } from "framer-motion";
 
 const useStyles = makeStyles((theme) => ({
   bottom: {
@@ -27,7 +28,7 @@ const LoginForm = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    history.push("/");
+    history.push("/manage-user");
   };
 
   const onLinkClick = (event) => {
@@ -37,7 +38,12 @@ const LoginForm = () => {
 
   return (
     <FormCard>
-      <h1 style={{ letterSpacing: "5px" }}>Welcome to Cluber!</h1>
+      <motion.h1
+        initial={{ fontSize: "0px" }}
+        animate={{ letterSpacing: "5px", fontSize: "33px" }}
+      >
+        Welcome to Cluber!
+      </motion.h1>
       <form onSubmit={submitHandler}>
         <Grid container spacing={3} direction="column">
           <Grid item>
@@ -46,6 +52,7 @@ const LoginForm = () => {
               placeholder="Enter your email"
               label="Email"
               variant="standard"
+              required
               fullWidth
             />
           </Grid>
@@ -55,6 +62,7 @@ const LoginForm = () => {
               label="Password"
               variant="standard"
               placeholder="Enter your password"
+              required
               fullWidth
             />
           </Grid>
@@ -64,7 +72,7 @@ const LoginForm = () => {
               variant="contained"
               size="large"
               fullWidth
-              startIcon={<Bi.BiLogIn />}
+              startIcon={<BiLogIn />}
             >
               Sign In
             </Button>
@@ -77,17 +85,12 @@ const LoginForm = () => {
         </Link>
       </div>
       <div className={classes.bottom}>
-        <p style={{ fontWeight: "600", marginRight: "15px" }}>
+        <p style={{ fontWeight: "600", marginRight: "10px" }}>
           Don't have an account?
         </p>
-        <Link
-          onClick={onLinkClick}
-          underline="none"
-          className={classes.btnBottom}
-          style={{ margin: "auto 0px" }}
-        >
+        <Button onClick={onLinkClick} className={classes.btnBottom}>
           Sign In
-        </Link>
+        </Button>
       </div>
     </FormCard>
   );
