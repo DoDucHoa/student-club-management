@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+<<<<<<< HEAD
+using Microsoft.EntityFrameworkCore;
+
+#nullable disable
+
+=======
 using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 namespace FClub.Data.Database
 {
     [Table("Participant")]

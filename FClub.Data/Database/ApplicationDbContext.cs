@@ -1,14 +1,27 @@
 ﻿using System;
+<<<<<<< HEAD
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+#nullable disable
+=======
 using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
 namespace FClub.Data.Database
 {
     public partial class ApplicationDbContext : DbContext
     {
+<<<<<<< HEAD
+        public ApplicationDbContext()
+        {
+        }
+=======
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -30,6 +43,9 @@ namespace FClub.Data.Database
         public virtual DbSet<UserInfo> UserInfos { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
 
+<<<<<<< HEAD
+
+=======
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -37,6 +53,7 @@ namespace FClub.Data.Database
                 optionsBuilder.UseSqlServer("Server=SE140057-LONGNH;Database=ClubManagementDB;Trusted_Connection=True;");
             }
         }
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -110,7 +127,11 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<MemberTask>(entity =>
             {
+<<<<<<< HEAD
+                entity.Property(e => e.Id).ValueGeneratedNever();
+=======
                 //entity.Property(e => e.Id).ValueGeneratedNever();
+>>>>>>> 06a398bc00f9aa0ce962b0e5e1661707d5b1dde6
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.MemberTasks)
