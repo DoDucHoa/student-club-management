@@ -1,7 +1,9 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FClub.Business.Service
@@ -47,15 +49,45 @@ namespace FClub.Business.Service
             return wallet;
         }
 
-        public IEnumerable<Wallet> GetList()
+        public PagedList<Wallet> GetAllWallet(WalletParameter wallet, PagingParameter paging)
         {
-            var walletList = _walletRepository.GetAll();
-            return walletList;
+            var values = _walletRepository.GetAll();
+
+            if (wallet.id != null)
+            {
+                values = values.Where(x => x.Id == wallet.id);
+            }
+            if (wallet.memberId != null)
+            {
+                values = values.Where(x => x.MemberId == wallet.memberId);
+            }
+            if (!string.IsNullOrWhiteSpace(wallet.sort))
+            {
+                switch (wallet.sort)
+                {
+                    case "Id":
+                        if (wallet.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (wallet.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                    case "MemberId":
+                        if (wallet.dir == "asc")
+                            values = values.OrderBy(d => d.MemberId);
+                        else if (wallet.dir == "desc")
+                            values = values.OrderByDescending(d => d.MemberId);
+                        break;
+                }
+            }
+
+            return PagedList<Wallet>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
         }
-    /*    public IEnumerable<Wallet> GetListDes()
-        {
-            var walletList = _walletRepository.GetAll(orderBy: x => x.);
-            return walletList;
-        }*/
+        /*    public IEnumerable<Wallet> GetListDes()
+            {
+                var walletList = _walletRepository.GetAll(orderBy: x => x.);
+                return walletList;
+            }*/
     }
 }
