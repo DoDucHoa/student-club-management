@@ -7,10 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FClub.Data.Helper;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/memberTasks")]
+    [Route("api/member-tasks")]
     [ApiController]
     public class MemberTaskController : ControllerBase
     {
@@ -35,16 +36,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet]
-        public Object GetList()
+        public ActionResult<PagedList<MemberTask>> GetMemberTasks([FromQuery] MemberTaskParameter memberTask, [FromQuery] PagingParameter paging)
         {
-            var data = _memberTaskService.GetList();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _memberTaskService.GetAllMemberTask(memberTask, paging);
+            return data;
         }
 
         [HttpPost]

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FClub.Data.Helper;
 
 namespace FClub.API.Controllers
 {
@@ -35,16 +36,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet]
-        public Object GetList()
+        public ActionResult<PagedList<Wallet>> GetWallets([FromQuery] WalletParameter wallet, [FromQuery] PagingParameter paging)
         {
-            var data = _walletService.GetList();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _walletService.GetAllWallet(wallet, paging);
+            return data;
         }
 
         [HttpPost]

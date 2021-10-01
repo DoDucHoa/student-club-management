@@ -1,7 +1,9 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace FClub.Business.Service
@@ -13,6 +15,56 @@ namespace FClub.Business.Service
         public ClubService(IClubRepository clubRepository)
         {
             _clubRepository = clubRepository;
+        }
+
+        public IEnumerable<Club> GetClubByName(String clubName)
+        {
+            return _clubRepository.GetAll(filter: x => x.Name == clubName);
+        }
+
+        public PagedList<Club> GetAllClub(ClubParameter club, PagingParameter paging)
+        {
+            var values = _clubRepository.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(club.id))
+            {
+                values = values.Where(x => x.Id == club.id);
+            }
+            if (!string.IsNullOrWhiteSpace(club.name))
+            {
+                values = values.Where(x => x.Name.Contains(club.name, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(club.universityID))
+            {
+                values = values.Where(x => x.UniversityId == club.universityID);
+            }
+            if (!string.IsNullOrWhiteSpace(club.sort))
+            {
+                switch (club.sort)
+                {
+                    case "Id":
+                        if (club.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (club.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                    case "Name":
+                        if (club.dir == "asc")
+                            values = values.OrderBy(d => d.Name);
+                        else if (club.dir == "desc")
+                            values = values.OrderByDescending(d => d.Name);
+                        break;
+                }
+            }
+
+            return PagedList<Club>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
+        }
+
+        public IEnumerable<Club> GetClubByID(String clubID)
+        {
+            return _clubRepository.GetAll(filter: x => x.Id == clubID);
         }
 
         public void Upsert(Club club)
@@ -39,10 +91,10 @@ namespace FClub.Business.Service
             }
 
         }
-       /* public bool CheckClubExist(string id)
-        {
-            return _clubRepository.CheckIdExistance(id);
-        }*/
+        /* public bool CheckClubExist(string id)
+         {
+             return _clubRepository.CheckIdExistance(id);
+         }*/
         public void Update(Club club)
         {
             bool checkExist = _clubRepository.CheckIdExistance(club.Id);
@@ -56,7 +108,7 @@ namespace FClub.Business.Service
         public bool DeleteById(string id)
         {
             var objFromDb = _clubRepository.Get(id);
-            if(objFromDb == null)
+            if (objFromDb == null)
             {
                 return false;
             }
