@@ -1,11 +1,11 @@
 import React from "react";
+import { theme } from "./Themes/index.js";
 
 // React Router
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 // material UI
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./Themes/index.js";
 import { CssBaseline } from "@mui/material";
 
 // Link component

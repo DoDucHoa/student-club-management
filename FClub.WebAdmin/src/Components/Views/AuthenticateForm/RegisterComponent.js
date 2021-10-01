@@ -1,5 +1,6 @@
-import { Grid, TextField } from "@mui/material";
 import React from "react";
+
+import { Grid, TextField } from "@mui/material";
 import FormCard from "../../UI/FormCard";
 
 const RegisterComponent = (props) => {
