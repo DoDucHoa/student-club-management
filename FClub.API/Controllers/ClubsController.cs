@@ -1,5 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Authorization;
+using FClub.Data.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/clubs")]
     [ApiController]
+    [Authorize]
     public class ClubsController : ControllerBase
     {
         private readonly ClubService _clubService;
@@ -35,16 +38,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet]
-        public Object GetList()
+        public ActionResult<PagedList<Club>> GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
         {
-            var data = _clubService.GetList();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _clubService.GetAllClub(club, paging);
+            return data;
         }
 
         [HttpPost]

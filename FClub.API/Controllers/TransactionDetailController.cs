@@ -7,11 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
     [Route("api/transactionDetails")]
     [ApiController]
+    [Authorize]
     public class TransactionDetailController : ControllerBase
     {
         private readonly TransactionDetailService _transactionDetailService;
@@ -35,16 +38,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet]
-        public Object GetList()
+        public ActionResult<PagedList<TransactionDetail>> GetTransactionDetails([FromQuery] TransactionDetailParameter transactionDetail, [FromQuery] PagingParameter paging)
         {
-            var data = _transactionDetailService.GetList();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _transactionDetailService.GetAllTransactionDetail(transactionDetail, paging);
+            return data;
         }
 
         [HttpPost]

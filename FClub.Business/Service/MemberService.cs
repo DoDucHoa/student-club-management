@@ -21,7 +21,7 @@ namespace FClub.Business.Service
 
         public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
         {
-            var values = _repository.GetAll();
+            var values = _repository.GetAll(includeProperties: member.includeProperties);
 
             if (member.Id != null)
             {

@@ -4,14 +4,13 @@ using System.Text;
 
 namespace FClub.Data.Helper
 {
-    public class UniversityParameter
+    public class TransactionDetailParameter
     {
-        public string id { get; set; } = null;
-        public string name { get; set; } = null;
-        public string address { get; set; } = null;
+        public int? id { get; set; } = null;
+        public int? walletId { get; set; } = null;
+        public DateTime? createDate { get; set; } = null;
         public string dir { get; set; } = "asc";
         public string sort { get; set; } = null;
         public string fields { get; set; } = null;
-        public string includeProperties { get; set; } = null;
     }
 }

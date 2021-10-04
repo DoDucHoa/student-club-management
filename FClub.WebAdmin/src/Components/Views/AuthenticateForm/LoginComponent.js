@@ -1,4 +1,5 @@
 import React from "react";
+
 import { makeStyles } from "@mui/styles";
 import { TextField, Grid, Button, Link } from "@mui/material";
 
@@ -44,6 +45,7 @@ const LoginForm = () => {
       >
         Welcome to Cluber!
       </motion.h1>
+
       <form onSubmit={submitHandler}>
         <Grid container spacing={3} direction="column">
           <Grid item>
@@ -68,8 +70,8 @@ const LoginForm = () => {
           </Grid>
           <Grid item>
             <Button
-              onClick={submitHandler}
               variant="contained"
+              type="submit"
               size="large"
               fullWidth
               startIcon={<BiLogIn />}
@@ -79,15 +81,18 @@ const LoginForm = () => {
           </Grid>
         </Grid>
       </form>
+
       <div style={{ marginTop: "15px" }}>
         <Link href="#" underline="always">
           Forgot Password
         </Link>
       </div>
+
       <div className={classes.bottom}>
         <p style={{ fontWeight: "600", marginRight: "10px" }}>
           Don't have an account?
         </p>
+
         <Button onClick={onLinkClick} className={classes.btnBottom}>
           Sign In
         </Button>
