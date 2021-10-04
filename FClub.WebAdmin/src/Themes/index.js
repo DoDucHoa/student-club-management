@@ -27,6 +27,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           maxWidth: "15rem",
+          textTransform: "none",
         },
       },
     },

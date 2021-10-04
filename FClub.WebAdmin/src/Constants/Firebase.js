@@ -1,6 +1,5 @@
 import * as firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqDw1-2F_ycVi-Y6VTztrfekcl3WBbs9I",
@@ -23,6 +22,7 @@ const firebaseConfig = {
 // };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().settings({ timestampsInSnapshots: true });
+
+export const auth = getAuth();
 
 export default firebase;

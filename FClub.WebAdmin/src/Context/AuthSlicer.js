@@ -1,19 +1,13 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import { auth } from "../Constants/Firebase";
+import { createSlice } from "@reduxjs/toolkit";
 
-// const initialAuthState = { currentUser: null };
+const initialAuthState = { currentUser: null };
 
-// const authSlice = createSlice({
-//   name: "authentication",
-//   initialState: initialAuthState,
-//   reducers: {
-//     login(state, action) {
-//       auth.createUserWithEmailAndPassword(
-//         action.payload.email,
-//         action.payload.password
-//       );
-//     },
-//   },
-// });
+const authSlice = createSlice({
+  name: "authentication",
+  initialState: initialAuthState,
+  reducers: {
+    login(state, action) {},
+  },
+});
 
-// export default authSlice;
+export default authSlice;
