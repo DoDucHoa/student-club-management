@@ -2,6 +2,7 @@
 using FClub.Data.Database;
 using FClub.Data.Helper;
 using FClub.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize]
     public class UserInfosController : ControllerBase
     {
         private readonly UserInforService _userInforService;
@@ -75,14 +77,6 @@ namespace FClub.API.Controllers
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(data);
-        }
-        
-        //Check Login
-        [HttpGet("{email}/{password}")]
-        public ActionResult<UserInfo> CheckLogin(string email, string password)
-        {
-            var data = _userInforService.CheckLogin(email, password);
-            return data;
         }
     }
 }

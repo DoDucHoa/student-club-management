@@ -1,5 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +10,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TicketTypeController : ControllerBase
     {
         private readonly TicketTypeService _ticketTypeService;
@@ -17,17 +20,21 @@ namespace FClub.API.Controllers
             _ticketTypeService = ticketTypeService;
         }
 
-        [HttpGet()]
-        public Object GetAllType()
+        [HttpGet]
+        public IActionResult GetTicketType([FromQuery] TicketTypeParameter ticketType, [FromQuery] PagingParameter param)
         {
-            var data = _ticketTypeService.GetAll();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _ticketTypeService.GetBy(ticketType, param);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
         }
 
         [HttpGet("{id}")]
@@ -43,7 +50,7 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpPost()]
+        [HttpPost]
         public void AddType(TicketType ticketType)
         {
             try
@@ -57,7 +64,7 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpPut()]
+        [HttpPut]
         public void UpdateType(TicketType ticketType)
         {
             try

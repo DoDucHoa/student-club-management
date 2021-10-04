@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Authorization;
 using FClub.Data.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/clubs")]
     [ApiController]
+    [Authorize]
     public class ClubsController : ControllerBase
     {
         private readonly ClubService _clubService;

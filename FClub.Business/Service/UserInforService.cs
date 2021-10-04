@@ -28,7 +28,7 @@ namespace FClub.Business.Service
         public PagedList<UserInfo> GetUsersInfor(UserParameter user, PagingParameter paging)
         {
 
-            var values = _userInfo.GetAll();
+            var values = _userInfo.GetAll(includeProperties: user.includeProperties);
 
             if (user.id != null)
             {

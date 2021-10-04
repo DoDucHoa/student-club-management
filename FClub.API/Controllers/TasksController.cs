@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/tasks")]
     [ApiController]
+    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly TaskService _service;

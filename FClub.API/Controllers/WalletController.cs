@@ -8,11 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
     [Route("api/wallets")]
     [ApiController]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly WalletService _walletService;

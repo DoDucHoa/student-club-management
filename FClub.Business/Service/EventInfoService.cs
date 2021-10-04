@@ -18,13 +18,98 @@ namespace FClub.Business.Service
             _eventRepo = eventRepo;
         }
         //GET All Event Details  
-        public PagedList<EventInfo> GetEvents(PagingParameter eventParameter)
+        public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter eventParameter)
         {
+            var values = _eventRepo.GetAll(includeProperties: eventInfo.includeProperties);
+
+            if (eventInfo.Id != null)
+            {
+                values = values.Where(x => x.Id == eventInfo.Id);
+            }
+            if (eventInfo.CreatorId != null)
+            {
+                values = values.Where(x => x.CreatorId == eventInfo.CreatorId);
+            }
+            if (!string.IsNullOrWhiteSpace(eventInfo.Title))
+            {
+                values = values.Where(x => x.Title.Contains(eventInfo.Title, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(eventInfo.Content))
+            {
+                values = values.Where(x => x.Content.Contains(eventInfo.Content, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (eventInfo.CreateDate != null)
+            {
+                values = values.Where(x => x.CreateDate == eventInfo.CreateDate);
+            }
+            if (eventInfo.RegisDate != null)
+            {
+                values = values.Where(x => x.RegisDate == eventInfo.RegisDate);
+            }
+            if (eventInfo.EndRegisDate != null)
+            {
+                values = values.Where(x => x.EndRegisDate == eventInfo.EndRegisDate);
+            }
+            if (eventInfo.BeginDate != null)
+            {
+                values = values.Where(x => x.BeginDate == eventInfo.BeginDate);
+            }
+            if (eventInfo.DueDate != null)
+            {
+                values = values.Where(x => x.DueDate == eventInfo.DueDate);
+            }
+            if (!string.IsNullOrWhiteSpace(eventInfo.Location))
+            {
+                values = values.Where(x => x.Location.Contains(eventInfo.Location, StringComparison.InvariantCultureIgnoreCase));
+            }
+
+            if (!string.IsNullOrWhiteSpace(eventInfo.sort))
+            {
+                switch (eventInfo.sort)
+                {
+                    case "Id":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                    case "CreateDate":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.CreateDate);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.CreateDate);
+                        break;
+                    case "RegisDate":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.RegisDate);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.RegisDate);
+                        break;
+                    case "EndRegisDate":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.EndRegisDate);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.EndRegisDate);
+                        break;
+                    case "BeginDate":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.BeginDate);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.BeginDate);
+                        break;
+                    case "DueDate":
+                        if (eventInfo.dir == "asc")
+                            values = values.OrderBy(d => d.DueDate);
+                        else if (eventInfo.dir == "desc")
+                            values = values.OrderByDescending(d => d.DueDate);
+                        break;
+                }
+            }
+
             return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
             eventParameter.PageNumber,
             eventParameter.PageSize);
         }
-
         //Get Event by event id  
         public EventInfo GetEventById(int id)
         {
