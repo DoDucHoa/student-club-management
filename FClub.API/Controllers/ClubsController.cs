@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;

@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,41 @@ namespace FClub.Business.Service
         {
             _ticketRepo.Update(ticket);
             _ticketRepo.SaveDbChange();
+        }
+
+        public PagedList<EventTicket> GetBy(EventTicketParameter eventTicket, PagingParameter eventParameter)
+        {
+            var values = _ticketRepo.GetAll(includeProperties: eventTicket.includeProperties);
+
+            if (eventTicket.Id != null)
+            {
+                values = values.Where(x => x.Id == eventTicket.Id);
+            }
+            if (eventTicket.ParticipantId != null)
+            {
+                values = values.Where(x => x.ParticipantId == eventTicket.ParticipantId);
+            }
+            if (!string.IsNullOrWhiteSpace(eventTicket.TicketTypeId))
+            {
+                values = values.Where(x => x.TicketTypeId.Equals(eventTicket.TicketTypeId));
+            }
+
+            if (!string.IsNullOrWhiteSpace(eventTicket.sort))
+            {
+                switch (eventTicket.sort)
+                {
+                    case "Id":
+                        if (eventTicket.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (eventTicket.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                }
+            }
+
+            return PagedList<EventTicket>.ToPagedList(_ticketRepo.GetAll().AsQueryable(),
+            eventParameter.PageNumber,
+            eventParameter.PageSize);
         }
     }
 }

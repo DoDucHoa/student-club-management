@@ -4,11 +4,12 @@ using System.Text;
 
 namespace FClub.Data.Helper
 {
-    public class UniversityParameter
+    public class EventTicketParameter
     {
-        public string id { get; set; } = null;
-        public string name { get; set; } = null;
-        public string address { get; set; } = null;
+        public int? Id { get; set; } = null;
+        public int? ParticipantId { get; set; } = null;
+        public string TicketTypeId { get; set; } = null;
+
         public string dir { get; set; } = "asc";
         public string sort { get; set; } = null;
         public string fields { get; set; } = null;

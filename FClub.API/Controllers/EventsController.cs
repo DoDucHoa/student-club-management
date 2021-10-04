@@ -18,9 +18,9 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetAllEvent([FromQuery] PagingParameter eventParameter)
+        public IActionResult GetAllEvent([FromQuery] PagingParameter eventParameter, [FromQuery] EventInfoParameter eventInfo)
         {
-            var data = _eventService.GetEvents(eventParameter);
+            var data = _eventService.GetEvents(eventInfo, eventParameter);
             var metadata = new
             {
                 data.TotalCount,
