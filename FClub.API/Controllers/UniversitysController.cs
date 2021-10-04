@@ -2,6 +2,7 @@
 using FClub.Data.Database;
 using FClub.Data.Helper;
 using FClub.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/universities")]
     [ApiController]
+    [Authorize]
     public class UniversitysController : ControllerBase
     {
         private readonly UniversityService _universityService;

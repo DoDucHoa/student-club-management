@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/tasktypes")]
     [ApiController]
+    [Authorize]
     public class TaskTypesController : ControllerBase
     {
         private readonly TaskTypeService _service;

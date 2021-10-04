@@ -5,8 +5,6 @@ using FClub.Data.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FClub.API
 {
@@ -87,13 +81,13 @@ namespace FClub.API
            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
-               options.Authority = "https://securetoken.google.com/test-first-firebase-5d974";
+               options.Authority = "https://securetoken.google.com/auth-club-management-dev";
                options.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuer = true,
-                   ValidIssuer = "https://securetoken.google.com/test-first-firebase-5d974",
+                   ValidIssuer = "https://securetoken.google.com/auth-club-management-dev",
                    ValidateAudience = true,
-                   ValidAudience = "test-first-firebase-5d974",
+                   ValidAudience = "auth-club-management-dev",
                    ValidateLifetime = true
                };
            });
@@ -111,7 +105,7 @@ namespace FClub.API
 
             //app.UseSwagger();
             //app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"); c.RoutePrefix = string.Empty; });
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();

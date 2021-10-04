@@ -1,5 +1,6 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/roles")]
     [ApiController]
+    [Authorize]
     public class RolesController : ControllerBase
     {
         private readonly RoleService _service;

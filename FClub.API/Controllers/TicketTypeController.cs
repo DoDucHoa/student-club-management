@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TicketTypeController : ControllerBase
     {
         private readonly TicketTypeService _ticketTypeService;

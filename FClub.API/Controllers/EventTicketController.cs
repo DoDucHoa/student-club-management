@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/event-ticket")]
     [ApiController]
+    [Authorize]
     public class EventTicketController : ControllerBase
     {
         private readonly EventTicketService _ticketService;
