@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/participants")]
     [ApiController]
-    [Authorize]
     public class ParticipantController : ControllerBase
     {
         private readonly ParticipantService _participantService;

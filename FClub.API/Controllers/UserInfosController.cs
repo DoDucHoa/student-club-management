@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+
+    [Authorize]
     [Route("api/users")]
     [ApiController]
-    [Authorize]
     public class UserInfosController : ControllerBase
     {
         private readonly UserInforService _userInforService;

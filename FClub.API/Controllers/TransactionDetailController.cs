@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/transactionDetails")]
     [ApiController]
-    [Authorize]
     public class TransactionDetailController : ControllerBase
     {
         private readonly TransactionDetailService _transactionDetailService;

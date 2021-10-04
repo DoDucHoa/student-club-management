@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/universities")]
     [ApiController]
-    [Authorize]
     public class UniversitysController : ControllerBase
     {
         private readonly UniversityService _universityService;
@@ -61,6 +61,15 @@ namespace FClub.API.Controllers
         public ActionResult<PagedList<University>> GetUniversitys([FromQuery] UniversityParameter university, [FromQuery] PagingParameter paging)
         {
             var data = _universityService.GetAllUniversity(university, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
             return data;
         }
 
