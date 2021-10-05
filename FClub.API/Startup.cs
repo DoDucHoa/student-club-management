@@ -102,12 +102,12 @@ namespace FClub.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"));
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"));
             }
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"); c.RoutePrefix = string.Empty; });
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "FClub.API v1"); c.RoutePrefix = string.Empty; });
 
             app.UseHttpsRedirection();
 
