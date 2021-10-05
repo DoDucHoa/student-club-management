@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/transactionDetails")]
     [ApiController]
     public class TransactionDetailController : ControllerBase

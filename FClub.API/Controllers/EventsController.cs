@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System;
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/events")]
     [ApiController]
     public class EventsController : ControllerBase
