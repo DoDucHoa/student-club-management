@@ -1,6 +1,7 @@
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   Input,
   InputAdornment,
@@ -31,7 +32,9 @@ const PasswordField = (props) => {
 
   return (
     <FormControl fullWidth variant="standard" required>
-      <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
+      <InputLabel error={props.isError} htmlFor={props.id}>
+        {props.label}
+      </InputLabel>
       <Input
         inputRef={props.inputRef}
         id={props.id}
@@ -39,6 +42,7 @@ const PasswordField = (props) => {
         value={values.password}
         placeholder={props.placeholder}
         onChange={handleChange("password")}
+        error={props.isError}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -51,6 +55,9 @@ const PasswordField = (props) => {
           </InputAdornment>
         }
       />
+      {props.isError && (
+        <FormHelperText error>{props.helperText}</FormHelperText>
+      )}
     </FormControl>
   );
 };

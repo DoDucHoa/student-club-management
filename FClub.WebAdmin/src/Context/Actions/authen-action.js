@@ -1,4 +1,7 @@
-import { auth } from "../Constants/Firebase";
+import { authActions } from "../Slicer/AuthSlicer";
+
+// firebase
+import { auth } from "../../Constants/Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -23,15 +26,20 @@ export const signUp = (email, password) => {
 export const signIn = (email, password) => {
   return async (dispatch) => {
     try {
+      dispatch(authActions.toggleLoading());
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
-      console.log(userCredential.user);
+      dispatch(authActions.toggleLoading());
+      dispatch(
+        authActions.signInHandler({
+          token: userCredential.user.accessToken,
+        })
+      );
     } catch (err) {
       console.log(err.code);
-      console.log(err.message);
     }
   };
 };

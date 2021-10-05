@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 // redux
 import { useDispatch } from "react-redux";
-import { signUp } from "../../../Context/authen-action";
+import { signUp } from "../../../Context/Actions/authen-action";
 
 // framer
 import { motion } from "framer-motion";

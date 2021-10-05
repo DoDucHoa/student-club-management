@@ -1,5 +1,8 @@
-import React, { useRef } from "react";
+// react
+import React, { useRef, useEffect } from "react";
 import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 // component
 import FormCard from "../../UI/FormCard";
@@ -9,22 +12,21 @@ import PasswordField from "../../UI/PasswordField";
 import { motion } from "framer-motion";
 
 // firebase
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 import { auth } from "../../../Constants/Firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 // material ui
 import { makeStyles } from "@mui/styles";
-import { TextField, Grid, Button, Link, Divider, Box } from "@mui/material";
+import { TextField, Grid, Button, Divider, Box } from "@mui/material";
 
 // icon
 import { BiLogIn } from "react-icons/bi";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { FcGoogle } from "react-icons/fc";
 import FacebookIcon from "@mui/icons-material/Facebook";
+
+// context
+import { signIn } from "../../../Context/Actions/authen-action";
 
 // ====================================================
 
@@ -47,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const inputEmailRef = useRef();
   const inputPasswordRef = useRef();
@@ -56,31 +62,25 @@ const LoginForm = () => {
     const enteredEmail = inputEmailRef.current.value;
     const enteredPassword = inputPasswordRef.current.value;
 
-    signInWithEmailAndPassword(auth, enteredEmail, enteredPassword)
-      .then((userCredential) => {
-        console.log(userCredential);
-        history.push("/manage-user");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+    dispatch(signIn(enteredEmail, enteredPassword));
+    if (isLoggedIn) {
+      history.push("/");
+    }
   };
 
-  const onLinkClick = (event) => {
-    event.preventDefault();
-    history.push("/register");
-  };
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push("/");
+    }
+  }, [isLoggedIn, history]);
 
   const signInWithGoogleHandler = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        auth.currentUser
-          .getIdToken(true)
-          .then((idToken) => console.log(idToken));
+        //const credential = GoogleAuthProvider.credentialFromResult(result);
+        console.log(result.user.accessToken);
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -116,17 +116,20 @@ const LoginForm = () => {
               label="Password"
               placeholder="Enter your password"
               inputRef={inputPasswordRef}
+              isError={false}
+              helperText="wrong pass"
             />
           </Grid>
           <Grid item>
             <Button
+              sx={{ marginTop: "1rem" }}
               variant="contained"
               type="submit"
               size="large"
               fullWidth
               startIcon={<BiLogIn />}
             >
-              SIGN IN
+              {!isLoading ? "SIGN IN" : "Loading ..."}
             </Button>
           </Grid>
         </Grid>
@@ -135,8 +138,13 @@ const LoginForm = () => {
       <div style={{ marginTop: "1rem" }}>
         <Grid container spacing={{ sm: 16 }}>
           <Grid item>
-            <Button onClick={onLinkClick} className={classes.btnBottom}>
-              Don't have an account?
+            <Button className={classes.btnBottom}>
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "#0E86D4" }}
+              >
+                Don't have an account?
+              </Link>
             </Button>
           </Grid>
           <Grid item>
@@ -144,7 +152,7 @@ const LoginForm = () => {
               <Link
                 href="#"
                 underline="always"
-                style={{ textDecoration: "none" }}
+                style={{ textDecoration: "none", color: "#0E86D4" }}
               >
                 Forgot password
               </Link>
