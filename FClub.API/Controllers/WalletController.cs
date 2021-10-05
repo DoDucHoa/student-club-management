@@ -14,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/wallets")]
     [ApiController]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly WalletService _walletService;

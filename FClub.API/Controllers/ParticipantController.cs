@@ -14,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/participants")]
     [ApiController]
+    [Authorize]
     public class ParticipantController : ControllerBase
     {
         private readonly ParticipantService _participantService;

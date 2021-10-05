@@ -14,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/event-tickets")]
     [ApiController]
+    [Authorize]
     public class EventTicketController : ControllerBase
     {
         private readonly EventTicketService _ticketService;

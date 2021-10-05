@@ -14,6 +14,7 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/member-tasks")]
     [ApiController]
+    [Authorize]
     public class MemberTaskController : ControllerBase
     {
         private readonly MemberTaskService _memberTaskService;
