@@ -8,7 +8,6 @@ using System;
 
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketTypeController : ControllerBase
