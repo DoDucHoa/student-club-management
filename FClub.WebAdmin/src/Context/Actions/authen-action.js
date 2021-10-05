@@ -51,6 +51,7 @@ export const signIn = (email, password) => {
       );
     } catch (err) {
       console.log(err.code);
+      dispatch(errorActions.turnOffError());
 
       if (err.code === "auth/wrong-password") {
         const message = "Wrong password!";
