@@ -1,5 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/participant")]
+    [Authorize]
+    [Route("api/participants")]
     [ApiController]
     public class ParticipantController : ControllerBase
     {
@@ -48,7 +51,7 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpPost()]
+        [HttpPost]
         public void AddParticipant(Participant participant)
         {
             try
@@ -62,7 +65,7 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpPut()]
+        [HttpPut]
         public void UpdateParticipant(Participant participant)
         {
             try
@@ -88,6 +91,23 @@ namespace FClub.API.Controllers
             {
                 return false;
             }
+        }
+
+        [HttpGet]
+        public IActionResult GetParticipant([FromQuery] ParticipantParameter participant, [FromQuery] PagingParameter param)
+        {
+            var data = _participantService.GetBy(participant, param);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
         }
     }
 }
