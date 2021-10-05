@@ -18,17 +18,33 @@ namespace FClub.Business.Service
         }
 
 
-        public void Add(TransactionDetail transactionDetail)
+        public bool Add(TransactionDetail transactionDetail)
         {
-            _transactionDetailRepository.Add(transactionDetail);
-            _transactionDetailRepository.SaveDbChange();
+            try
+            {
+                _transactionDetailRepository.Add(transactionDetail);
+                _transactionDetailRepository.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
            
         }
 
-        public void Update(TransactionDetail transactionDetail)
+        public bool Update(TransactionDetail transactionDetail)
         {
+            try
+            {
                 _transactionDetailRepository.Update(transactionDetail);
                 _transactionDetailRepository.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeleteById(int id)

@@ -25,16 +25,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetClubById(string id)
+        public ActionResult<Club> GetClubById(string id)
         {
             var data = _clubService.GetClubById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            
+            return data;
         }
 
         [HttpGet]
@@ -45,43 +40,43 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddClub(Club club)
+        public IActionResult AddClub(Club club)
         {
-            try
+            if(_clubService.Add(club))
             {
-                _clubService.Add(club);
+                return Ok();
             }
-            catch(Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateClub(Club club)
+        public IActionResult UpdateClub(Club club)
         {
-            try
+
+            if (_clubService.Update(club))
             {
-                _clubService.Update(club);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteClubById(string id)
+        public IActionResult DeleteClubById(string id)
         {
-            try
+            if (_clubService.DeleteById(id))
             {
-                _clubService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
     }

@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/transactionDetails")]
+    [Route("api/transaction-details")]
     [ApiController]
     [Authorize]
     public class TransactionDetailController : ControllerBase
@@ -25,16 +25,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetTransactionDetailById(int id)
+        public ActionResult<TransactionDetail> GetTransactionDetailById(int id)
         {
             var data = _transactionDetailService.GetTransactionDetailById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            return data;
         }
 
         [HttpGet]
@@ -45,43 +39,42 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddTransactionDetail(TransactionDetail transactionDetail)
+        public IActionResult AddTransactionDetail(TransactionDetail transactionDetail)
         {
-            try
+            if(_transactionDetailService.Add(transactionDetail))
             {
-                _transactionDetailService.Add(transactionDetail);
+                return Ok();
             }
-            catch(Exception e)
+            else
             {
-                Console.WriteLine(e.Message.ToString());
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateTransactionDetail(TransactionDetail transactionDetail)
+        public IActionResult UpdateTransactionDetail(TransactionDetail transactionDetail)
         {
-            try
+            if (_transactionDetailService.Update(transactionDetail))
             {
-                _transactionDetailService.Update(transactionDetail);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteTransactionDetailById(int id)
+        public IActionResult DeleteTransactionDetailById(int id)
         {
-            try
+            if (_transactionDetailService.DeleteById(id))
             {
-                _transactionDetailService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
     }

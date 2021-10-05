@@ -62,46 +62,28 @@ namespace FClub.Business.Service
             paging.PageSize);
         }
 
-        public IEnumerable<Club> GetClubByID(String clubID)
+        public bool Add(Club club)
         {
-            return _clubRepository.GetAll(filter: x => x.Id == clubID);
-        }
-
-        public void Upsert(Club club)
-        {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (!checkExist)
-            {
-                _clubRepository.Add(club);
-            }
-            else
-            {
-                _clubRepository.Update(club);
-            }
-            _clubRepository.SaveDbChange();
-        }
-
-        public void Add(Club club)
-        {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (!checkExist)
+            try
             {
                 _clubRepository.Add(club);
                 _clubRepository.SaveDbChange();
+                return true;
             }
+            catch { return false; }
 
         }
-        /* public bool CheckClubExist(string id)
-         {
-             return _clubRepository.CheckIdExistance(id);
-         }*/
-        public void Update(Club club)
+
+        public bool Update(Club club)
         {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (checkExist)
+            try
             {
                 _clubRepository.Update(club);
                 _clubRepository.SaveDbChange();
+                return true;
+            }
+            catch{
+                return false;
             }
         }
 
