@@ -1,30 +1,41 @@
-import React, { useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useRef, useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 // redux
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../../../Context/Actions/authen-action";
 
 // framer
 import { motion } from "framer-motion";
 
+// component
+import FormCard from "../../UI/FormCard";
+import PasswordField from "../../UI/PasswordField";
+
+// icons
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+
 // material ui
 import { Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import FormCard from "../../UI/FormCard";
-import PasswordField from "../../UI/PasswordField";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const useStyles = makeStyles((theme) => ({
   link: {
     marginTop: "20px",
+  },
+  textContainer: {
+    width: "22ch",
   },
 }));
 
 const RegisterComponent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isLoading = useSelector((state) => state.auth.isLoading);
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -38,6 +49,12 @@ const RegisterComponent = () => {
     dispatch(signUp(enteredEmail, enteredPassword));
   };
 
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push("/");
+    }
+  }, [isLoggedIn, history]);
+
   return (
     <FormCard>
       <motion.h1
@@ -49,26 +66,32 @@ const RegisterComponent = () => {
       <form onSubmit={submitHandler}>
         <Grid container spacing={4}>
           <Grid item>
-            <TextField
-              inputRef={emailInputRef}
-              id="standard-email"
-              placeholder="Enter your email"
-              label="Email"
-              variant="standard"
-              required
-            />
+            <div className={classes.textContainer}>
+              <TextField
+                inputRef={emailInputRef}
+                id="standard-email"
+                placeholder="Enter your email"
+                label="Email"
+                variant="standard"
+                required
+                fullWidth
+              />
+            </div>
           </Grid>
           <Grid item>
-            <TextField
-              id="standard-name"
-              placeholder="Enter your name"
-              label="Name"
-              variant="standard"
-              required
-            />
+            <div className={classes.textContainer}>
+              <TextField
+                id="standard-name"
+                placeholder="Enter your name"
+                label="Name"
+                variant="standard"
+                required
+                fullWidth
+              />
+            </div>
           </Grid>
           <Grid item>
-            <div style={{ width: "22ch" }}>
+            <div className={classes.textContainer}>
               <PasswordField
                 id="password"
                 label="Password"
@@ -78,7 +101,7 @@ const RegisterComponent = () => {
             </div>
           </Grid>
           <Grid item>
-            <div style={{ width: "22ch" }}>
+            <div className={classes.textContainer}>
               <PasswordField
                 id="re-password"
                 label="Confirm Password"
@@ -95,7 +118,7 @@ const RegisterComponent = () => {
               type="submit"
               startIcon={<CheckCircleOutlineIcon />}
             >
-              SIGN UP
+              {isLoading ? "Loading..." : "SIGN UP"}
             </Button>
           </Grid>
         </Grid>

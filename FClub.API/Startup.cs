@@ -1,3 +1,4 @@
+using FClub.API.Config;
 using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Interface;
@@ -30,6 +31,7 @@ namespace FClub.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigFirebaseAuth();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
@@ -37,6 +39,7 @@ namespace FClub.API
 
             services.AddTransient<IUserInfoRepository, UserInfoRepository>();
             services.AddTransient<UserInforService, UserInforService>();
+            services.AddTransient<AuthService, AuthService>();
 
             services.AddTransient<IUniversityRepository, UniversityRepository>();
             services.AddTransient<UniversityService, UniversityService>();
@@ -75,20 +78,7 @@ namespace FClub.API
             services.AddTransient<WalletService, WalletService>();
             services.AddTransient<IMemberTaskRepository, MemberTaskRepository>();
             services.AddTransient<MemberTaskService, MemberTaskService>();
-            services
-                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-            {
-                options.Authority = "https://securetoken.google.com/auth-club-management-dev";
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidIssuer = "https://securetoken.google.com/auth-club-management-dev",
-                    ValidateAudience = true,
-                    ValidAudience = "auth-club-management-dev",
-                    ValidateLifetime = true
-                };
-            });
+            
 
             services.AddSwaggerGen(c =>
             {

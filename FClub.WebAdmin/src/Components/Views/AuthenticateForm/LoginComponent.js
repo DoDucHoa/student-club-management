@@ -1,6 +1,6 @@
 // react
 import React, { useRef, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -11,13 +11,17 @@ import PasswordField from "../../UI/PasswordField";
 // framer
 import { motion } from "framer-motion";
 
-// firebase
-import { auth } from "../../../Constants/Firebase";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
 // material ui
 import { makeStyles } from "@mui/styles";
-import { TextField, Grid, Button, Divider, Box } from "@mui/material";
+import {
+  TextField,
+  Grid,
+  Button,
+  Divider,
+  Box,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 
 // icon
 import { BiLogIn } from "react-icons/bi";
@@ -26,7 +30,10 @@ import { FcGoogle } from "react-icons/fc";
 import FacebookIcon from "@mui/icons-material/Facebook";
 
 // context
-import { signIn } from "../../../Context/Actions/authen-action";
+import {
+  signIn,
+  signInWithGoogle,
+} from "../../../Context/Actions/authen-action";
 
 // ====================================================
 
@@ -48,11 +55,19 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = () => {
   const classes = useStyles();
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isLoading = useSelector((state) => state.auth.isLoading);
+  const isEmailError = useSelector((state) => state.error.isEmailError);
+  const emailErrorMessage = useSelector(
+    (state) => state.error.emailErrorMessage
+  );
+  const isPasswordError = useSelector((state) => state.error.isPasswordError);
+  const passwordErrorMessage = useSelector(
+    (state) => state.error.passwordErrorMessage
+  );
 
   const inputEmailRef = useRef();
   const inputPasswordRef = useRef();
@@ -63,9 +78,6 @@ const LoginForm = () => {
     const enteredPassword = inputPasswordRef.current.value;
 
     dispatch(signIn(enteredEmail, enteredPassword));
-    if (isLoggedIn) {
-      history.push("/");
-    }
   };
 
   useEffect(() => {
@@ -75,17 +87,7 @@ const LoginForm = () => {
   }, [isLoggedIn, history]);
 
   const signInWithGoogleHandler = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        //const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(result.user.accessToken);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        console.log(errorMessage);
-      });
+    dispatch(signInWithGoogle());
   };
 
   return (
@@ -98,7 +100,7 @@ const LoginForm = () => {
       </motion.h1>
 
       <form onSubmit={submitHandler}>
-        <Grid container spacing={3} direction="column">
+        <Grid container spacing={2} direction="column">
           <Grid item>
             <TextField
               inputRef={inputEmailRef}
@@ -108,6 +110,8 @@ const LoginForm = () => {
               variant="standard"
               required
               fullWidth
+              error={isEmailError}
+              helperText={emailErrorMessage}
             />
           </Grid>
           <Grid item>
@@ -116,13 +120,20 @@ const LoginForm = () => {
               label="Password"
               placeholder="Enter your password"
               inputRef={inputPasswordRef}
-              isError={false}
-              helperText="wrong pass"
+              isError={isPasswordError}
+              helperText={passwordErrorMessage}
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              sx={{ marginLeft: 2 }}
+              control={<Checkbox sx={{ margin: 0, padding: "0 10px 0 0" }} />}
+              label="Remember me"
             />
           </Grid>
           <Grid item>
             <Button
-              sx={{ marginTop: "1rem" }}
+              sx={{ margin: 0 }}
               variant="contained"
               type="submit"
               size="large"
@@ -150,7 +161,7 @@ const LoginForm = () => {
           <Grid item>
             <Button className={classes.btnBottom}>
               <Link
-                href="#"
+                to="/register"
                 underline="always"
                 style={{ textDecoration: "none", color: "#0E86D4" }}
               >
@@ -170,7 +181,7 @@ const LoginForm = () => {
       >
         <Divider className={classes.signDivider} orientation="horizontal" />
         <Button
-          sx={{ margin: "0px 20px", height: "25px" }}
+          sx={{ margin: "0px 20px", padding: 0 }}
           variant="outlined"
           disableRipple
           disabled
