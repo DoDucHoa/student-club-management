@@ -1,6 +1,6 @@
 name: Build and deploy .NET Core application to windows webapp TestDeploymentClub with API Management Service TestDeployAPIClub
 on:
-  push:
+  pull_request:
     branches:
     - hoadd-feature
 env:
