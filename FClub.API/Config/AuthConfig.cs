@@ -15,9 +15,13 @@ namespace FClub.API.Config
     {
         public static void ConfigFirebaseAuth(this IServiceCollection services)
         {
+            string startupPath = Environment.CurrentDirectory;
+            string realPath = startupPath + @"\auth-club-management-dev-firebase-adminsdk-j4jta-9138e37c11.json";
+            //Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "auth-club-management-dev-firebase-adminsdk-j4jta-9138e37c11.json");
             FirebaseApp.Create(new AppOptions
             {
-                Credential = GoogleCredential.FromFile("auth-club-management-dev-firebase-adminsdk-j4jta-9138e37c11.json"),
+                Credential = GoogleCredential.FromFile(realPath),
+                //Credential = GoogleCredential.GetApplicationDefault(),
             });
             services.AddAuthentication(opt =>
             {
