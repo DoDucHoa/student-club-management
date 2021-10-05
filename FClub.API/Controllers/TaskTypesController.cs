@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/tasktypes")]
     [ApiController]
     public class TaskTypesController : ControllerBase
