@@ -9,7 +9,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/events")]
     [ApiController]
-    [Authorize]
     public class EventsController : ControllerBase
     {
         private readonly EventInfoService _eventService;

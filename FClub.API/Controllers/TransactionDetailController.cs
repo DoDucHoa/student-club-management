@@ -14,7 +14,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/transaction-details")]
     [ApiController]
-    [Authorize]
     public class TransactionDetailController : ControllerBase
     {
         private readonly TransactionDetailService _transactionDetailService;

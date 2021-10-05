@@ -12,7 +12,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/roles")]
     [ApiController]
-    [Authorize]
     public class RolesController : ControllerBase
     {
         private readonly RoleService _service;

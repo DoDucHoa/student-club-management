@@ -4,22 +4,19 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "10rem auto",
-    width: "40rem",
-    height: "30rem",
-    padding: "3rem 5rem 5rem 5rem",
+    margin: "6rem auto",
+    width: "37rem",
+    padding: "3rem 5rem 3rem 5rem",
 
     [theme.breakpoints.down("md")]: {
-      margin: "6rem auto",
+      margin: "4rem auto",
       width: "35rem",
-      height: "31rem",
-      padding: "4rem",
+      padding: "3rem 4rem 4rem 4rem",
     },
     [theme.breakpoints.down("sm")]: {
       width: "20rem",
-      height: "35rem",
-      padding: "2rem 3rem",
-      margin: "5rem auto",
+      padding: "1rem 3rem 2rem 3rem",
+      margin: "2rem auto",
     },
   },
 }));

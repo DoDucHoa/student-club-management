@@ -15,7 +15,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/users")]
     [ApiController]
-    [Authorize]
     public class UserInfosController : ControllerBase
     {
         private readonly UserInforService _userInforService;

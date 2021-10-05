@@ -11,7 +11,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/task-types")]
     [ApiController]
-    [Authorize]
     public class TaskTypesController : ControllerBase
     {
         private readonly TaskTypeService _service;
@@ -24,7 +23,17 @@ namespace FClub.API.Controllers
         [HttpGet]
         public ActionResult<PagedList<TaskType>> Get([FromQuery] TaskTypeParameter taskType, [FromQuery] PagingParameter paging)
         {
-            return _service.GetBy(taskType, paging);
+            var data = _service.GetBy(taskType, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            return Ok(data);
         }
 
         [HttpGet("{id}")]

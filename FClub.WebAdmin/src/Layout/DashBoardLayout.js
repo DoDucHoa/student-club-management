@@ -39,9 +39,10 @@ const DashBoardLayout = ({ children }) => {
   return (
     <div className={classes.root}>
       <Drawer
+        open={true}
         className={classes.drawer}
         classes={{ paper: classes.drawerPaper }}
-        variant="permanent"
+        variant="persistent"
         anchor="left"
       >
         <div>

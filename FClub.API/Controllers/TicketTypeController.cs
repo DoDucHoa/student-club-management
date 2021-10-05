@@ -10,7 +10,6 @@ namespace FClub.API.Controllers
 {
     [Route("api/v1/ticket-types")]
     [ApiController]
-    [Authorize]
     public class TicketTypeController : ControllerBase
     {
         private readonly TicketTypeService _ticketTypeService;
