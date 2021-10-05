@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Welcome-Login-Signup-Page-Flutter-master",
+            "name": "fclub-mobile-application",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "Welcome-Login-Signup-Page-Flutter-master (profile mode)",
+            "name": "fclub-mobile-application(profile-mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
