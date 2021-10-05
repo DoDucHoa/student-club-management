@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/member-tasks")]
     [ApiController]
     public class MemberTaskController : ControllerBase

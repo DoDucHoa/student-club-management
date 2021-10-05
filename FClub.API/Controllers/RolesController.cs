@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Authorize]
     [Route("api/roles")]
     [ApiController]
     public class RolesController : ControllerBase
