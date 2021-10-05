@@ -1,4 +1,5 @@
 ﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
 using System.Collections.Generic;
@@ -49,6 +50,60 @@ namespace FClub.Business.Service
         {
             _participantRepo.Update(participant);
             _participantRepo.SaveDbChange();
+        }
+
+        public PagedList<Participant> GetBy(ParticipantParameter participant, PagingParameter paging)
+        {
+
+            var values = _participantRepo.GetAll(includeProperties: participant.includeProperties);
+
+            if (participant.Id != null)
+            {
+                values = values.Where(x => x.Id == participant.Id);
+            }
+            if (participant.EventId != null)
+            {
+                values = values.Where(x => x.EventId == participant.EventId);
+            }
+            if (participant.RegisDate != null)
+            {
+                values = values.Where(x => x.RegisDate == participant.RegisDate);
+            }
+            if (participant.MemberId != null)
+            {
+                values = values.Where(x => x.MemberId == participant.MemberId);
+            }
+            if (participant.BonusPoint != null)
+            {
+                values = values.Where(x => x.BonusPoint == participant.BonusPoint);
+            }
+            if (participant.Attendance != null)
+            {
+                values = values.Where(x => x.Attendance == participant.Attendance);
+            }
+
+            if (!string.IsNullOrWhiteSpace(participant.sort))
+            {
+                switch (participant.sort)
+                {
+                    case "Id":
+                        if (participant.dir == "asc")
+                            values = values.OrderBy(d => d.Id);
+                        else if (participant.dir == "desc")
+                            values = values.OrderByDescending(d => d.Id);
+                        break;
+                    case "RegisDate":
+                        if (participant.dir == "asc")
+                            values = values.OrderBy(d => d.RegisDate);
+                        else if (participant.dir == "desc")
+                            values = values.OrderByDescending(d => d.RegisDate);
+                        break;
+                }
+            }
+
+            return PagedList<Participant>.ToPagedList(values.AsQueryable(),
+            paging.PageNumber,
+            paging.PageSize);
         }
     }
 }

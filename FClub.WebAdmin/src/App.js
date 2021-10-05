@@ -1,8 +1,11 @@
 import React from "react";
 import { theme } from "./Themes/index.js";
 
+// context
+import { useSelector } from "react-redux";
+
 // React Router
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 // material UI
 import { ThemeProvider } from "@mui/material/styles";
@@ -15,20 +18,28 @@ import ManageUserForm from "./Pages/ManageUser/ManageUserForm.js";
 import DashBoardLayout from "./Layout/DashBoardLayout.js";
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
   return (
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Router>
-          <Switch>
-            <Route exact path="/" component={LoginForm} />
-            <Route path="/login" component={LoginForm} />
-            <Route path="/register" component={RegisterForm} />
-            <DashBoardLayout>
-              <Route path="/manage-user" component={ManageUserForm} />
-            </DashBoardLayout>
-          </Switch>
-        </Router>
+        <Switch>
+          <Route exact path="/">
+            {isLoggedIn ? (
+              <Redirect to="/manage-user" />
+            ) : (
+              <Redirect to="/login" />
+            )}
+          </Route>
+          <Route path="/login" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
+          <DashBoardLayout>
+            <Route path="/manage-user">
+              {isLoggedIn ? <ManageUserForm /> : <Redirect to="/login" />}
+            </Route>
+          </DashBoardLayout>
+        </Switch>
       </ThemeProvider>
     </>
   );

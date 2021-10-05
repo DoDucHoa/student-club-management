@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/member-tasks")]
     [ApiController]
     public class MemberTaskController : ControllerBase
@@ -39,6 +41,15 @@ namespace FClub.API.Controllers
         public ActionResult<PagedList<MemberTask>> GetMemberTasks([FromQuery] MemberTaskParameter memberTask, [FromQuery] PagingParameter paging)
         {
             var data = _memberTaskService.GetAllMemberTask(memberTask, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
             return data;
         }
 

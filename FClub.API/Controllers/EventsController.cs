@@ -1,11 +1,13 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/events")]
     [ApiController]
     public class EventsController : ControllerBase
@@ -18,9 +20,9 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetAllEvent([FromQuery] PagingParameter eventParameter)
+        public IActionResult GetAllEvent([FromQuery] PagingParameter eventParameter, [FromQuery] EventInfoParameter eventInfo)
         {
-            var data = _eventService.GetEvents(eventParameter);
+            var data = _eventService.GetEvents(eventInfo, eventParameter);
             var metadata = new
             {
                 data.TotalCount,

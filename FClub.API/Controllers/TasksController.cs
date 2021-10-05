@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/tasks")]
     [ApiController]
     public class TasksController : ControllerBase
@@ -23,7 +25,17 @@ namespace FClub.API.Controllers
         [HttpGet]
         public ActionResult<PagedList<Task>> Get([FromQuery] TaskParameter task, [FromQuery] PagingParameter paging)
         {
-            return _service.GetBy(task, paging);
+            var data = _service.GetBy(task, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            return Ok(data);
         }
 
         [HttpGet("{id}")]

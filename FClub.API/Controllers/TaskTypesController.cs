@@ -1,6 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
 using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/tasktypes")]
     [ApiController]
     public class TaskTypesController : ControllerBase
@@ -22,7 +24,17 @@ namespace FClub.API.Controllers
         [HttpGet]
         public ActionResult<PagedList<TaskType>> Get([FromQuery] TaskTypeParameter taskType, [FromQuery] PagingParameter paging)
         {
-            return _service.GetBy(taskType, paging);
+            var data = _service.GetBy(taskType, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            return Ok(data);
         }
 
         [HttpGet("{id}")]

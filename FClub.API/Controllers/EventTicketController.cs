@@ -1,5 +1,7 @@
 ﻿using FClub.Business.Service;
 using FClub.Data.Database;
+using FClub.Data.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/event-ticket")]
     [ApiController]
     public class EventTicketController : ControllerBase
@@ -60,20 +63,24 @@ namespace FClub.API.Controllers
             return json;
         }
 
-        [HttpGet()]
-        public Object GetAllTicket()
+        [HttpGet]
+        public IActionResult GetEventTicket([FromQuery] EventTicketParameter eventTicket, [FromQuery] PagingParameter param)
         {
-            var data = _ticketService.GetAll();
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            var data = _ticketService.GetBy(eventTicket, param);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
         }
 
-        [HttpPost()]
+        [HttpPost]
         public void AddTicket(EventTicket ticket)
         {
             try
@@ -87,7 +94,7 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpPut()]
+        [HttpPut]
         public void UpdateTicket(EventTicket ticket)
         {
             try

@@ -2,6 +2,7 @@
 using FClub.Data.Database;
 using FClub.Data.Helper;
 using FClub.Data.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/universities")]
     [ApiController]
     public class UniversitysController : ControllerBase
@@ -59,6 +61,15 @@ namespace FClub.API.Controllers
         public ActionResult<PagedList<University>> GetUniversitys([FromQuery] UniversityParameter university, [FromQuery] PagingParameter paging)
         {
             var data = _universityService.GetAllUniversity(university, paging);
+            var metadata = new
+            {
+                data.TotalCount,
+                data.PageSize,
+                data.CurrentPage,
+                data.TotalPages,
+                data.HasNext,
+                data.HasPrevious
+            };
             return data;
         }
 
