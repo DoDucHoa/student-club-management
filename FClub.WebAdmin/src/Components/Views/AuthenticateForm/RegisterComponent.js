@@ -1,13 +1,20 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 
-import FormCard from "../../UI/FormCard";
+// redux
+import { useDispatch } from "react-redux";
+import { signUp } from "../../../Context/Actions/authen-action";
 
+// framer
 import { motion } from "framer-motion";
 
+// material ui
 import { Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import FormCard from "../../UI/FormCard";
+import PasswordField from "../../UI/PasswordField";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -17,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterComponent = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -27,29 +35,7 @@ const RegisterComponent = () => {
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    // add valid later
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBqDw1-2F_ycVi-Y6VTztrfekcl3WBbs9I",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: enteredEmail,
-          password: enteredPassword,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => {
-      if (response.ok) {
-        console.log(response);
-      } else {
-        response.json().then((data) => {
-          console.log(data);
-        });
-      }
-    });
+    dispatch(signUp(enteredEmail, enteredPassword));
   };
 
   return (
@@ -74,7 +60,6 @@ const RegisterComponent = () => {
           </Grid>
           <Grid item>
             <TextField
-              inputRef={passwordInputRef}
               id="standard-name"
               placeholder="Enter your name"
               label="Name"
@@ -83,22 +68,24 @@ const RegisterComponent = () => {
             />
           </Grid>
           <Grid item>
-            <TextField
-              id="standard-password"
-              placeholder="Enter your password"
-              label="Password"
-              variant="standard"
-              required
-            />
+            <div style={{ width: "22ch" }}>
+              <PasswordField
+                id="password"
+                label="Password"
+                placeholder="Enter your password"
+                inputRef={passwordInputRef}
+              />
+            </div>
           </Grid>
           <Grid item>
-            <TextField
-              id="standard-repassword"
-              placeholder="Confirm your password"
-              label="Confirm Password"
-              variant="standard"
-              required
-            />
+            <div style={{ width: "22ch" }}>
+              <PasswordField
+                id="re-password"
+                label="Confirm Password"
+                placeholder="Re-enter password"
+                inputRef={passwordInputRef}
+              />
+            </div>
           </Grid>
           <Grid item md={6} sm={6} xs={12}>
             <Button
@@ -115,7 +102,7 @@ const RegisterComponent = () => {
       </form>
       <div className={classes.link}>
         <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button>Back to Sign In</Button>
+          <Button startIcon={<ArrowBackIosIcon />}>Back to Sign In</Button>
         </Link>
       </div>
     </FormCard>
