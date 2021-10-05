@@ -181,7 +181,7 @@ const LoginForm = () => {
       >
         <Divider className={classes.signDivider} orientation="horizontal" />
         <Button
-          sx={{ margin: "0px 20px", height: "25px" }}
+          sx={{ margin: "0px 20px", padding: 0 }}
           variant="outlined"
           disableRipple
           disabled
