@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/event-ticket")]
     [ApiController]
-    [Authorize]
     public class EventTicketController : ControllerBase
     {
         private readonly EventTicketService _ticketService;

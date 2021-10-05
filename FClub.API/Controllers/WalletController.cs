@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/wallets")]
     [ApiController]
-    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly WalletService _walletService;

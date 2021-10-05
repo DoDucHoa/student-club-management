@@ -1,9 +1,13 @@
 ﻿using FClub.Data.Database;
 using FClub.Data.Helper;
 using FClub.Data.Interface;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +17,7 @@ namespace FClub.Business.Service
     {
         private readonly IUserInfoRepository _userInfo;
 
-        public UserInforService(IUserInfoRepository userInfo)
+        public UserInforService(IUserInfoRepository userInfo, IConfiguration configuration)
         {
             _userInfo = userInfo;
         }
@@ -104,11 +108,6 @@ namespace FClub.Business.Service
             {
                 return false;
             }
-        }
-        //Check Login
-        public UserInfo CheckLogin(string email, string password)
-        {
-            return _userInfo.GetAll().Where(x => x.Email.Equals(email) && x.Password.Equals(password)).FirstOrDefault();
         }
     }
 }

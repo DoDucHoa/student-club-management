@@ -8,9 +8,9 @@ using System;
 
 namespace FClub.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class TicketTypeController : ControllerBase
     {
         private readonly TicketTypeService _ticketTypeService;
