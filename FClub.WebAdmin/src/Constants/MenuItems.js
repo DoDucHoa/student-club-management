@@ -2,6 +2,7 @@ import GroupsIcon from "@mui/icons-material/Groups";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const menuItems = [
   {
@@ -22,6 +23,11 @@ export const menuItems = [
   {
     text: "Budget",
     icon: <AttachMoneyIcon color="primary" />,
+    path: "/",
+  },
+  {
+    text: "Sign Out",
+    icon: <LogoutIcon color="primary" />,
     path: "/",
   },
 ];
