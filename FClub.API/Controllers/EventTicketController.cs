@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/event-ticket")]
+    [Route("api/v1/event-tickets")]
     [ApiController]
     [Authorize]
     public class EventTicketController : ControllerBase
@@ -25,42 +25,11 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetTicketById(int id)
+        public IActionResult GetTicketById(int id)
         {
             var data = _ticketService.GetTicketById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
-
-        [HttpGet("participant/{parId}")]
-        public Object GetTicketByParticipant(int parId)
-        {
-            var data = _ticketService.GetTicketByParticipant(parId);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
-
-        [HttpGet("type/{typeId}")]
-        public Object GetTicketByType(string typeId)
-        {
-            var data = _ticketService.GetTicketByType(typeId);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            
+            return Ok(data);
         }
 
         [HttpGet]
@@ -81,43 +50,42 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddTicket(EventTicket ticket)
+        public IActionResult AddTicket(EventTicket ticket)
         {
-            try
+            if(_ticketService.Add(ticket))
             {
-                _ticketService.Add(ticket);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateTicket(EventTicket ticket)
+        public IActionResult UpdateTicket(EventTicket ticket)
         {
-            try
+            if (_ticketService.Update(ticket))
             {
-                _ticketService.Update(ticket);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteTicket(int id)
+        public IActionResult DeleteTicket(int id)
         {
-            try
+            if (_ticketService.DeleteById(id))
             {
-                _ticketService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
     }

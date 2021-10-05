@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 namespace FClub.API.Controllers
 {
-    [Route("api/events")]
+    [Route("api/v1/events")]
     [ApiController]
     [Authorize]
     public class EventsController : ControllerBase
@@ -20,9 +20,9 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet()]
-        public IActionResult GetAllEvent([FromQuery] PagingParameter eventParameter, [FromQuery] EventInfoParameter eventInfo)
+        public IActionResult GetAllEvent([FromQuery] PagingParameter paging, [FromQuery] EventInfoParameter eventInfo)
         {
-            var data = _eventService.GetEvents(eventInfo, eventParameter);
+            var data = _eventService.GetEvents(eventInfo, paging);
             var metadata = new
             {
                 data.TotalCount,
@@ -37,69 +37,50 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetEventById(int id)
+        public IActionResult GetEventById(int id)
         {
             var data = _eventService.GetEventById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
-
-        [HttpGet("page/{pageId}")]
-        public Object GetEventByPage(int pageId)
-        {
-            var data = _eventService.getByPage(pageId);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            
+            return Ok(data);
         }
 
         [HttpPost()]
-        public void AddEvent(EventInfo eventinfo)
+        public IActionResult AddEvent(EventInfo eventinfo)
         {
-            try
+            if (_eventService.Add(eventinfo))
             {
-                _eventService.Add(eventinfo);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
 
         [HttpPut()]
-        public void UpdateEvent(EventInfo eventinfo)
+        public IActionResult UpdateEvent(EventInfo eventinfo)
         {
-            try
+            if(_eventService.UpdateEvent(eventinfo))
             {
-                _eventService.UpdateEvent(eventinfo);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
-        [HttpPut("{id}")]
-        public bool DisableById(int id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteEvent(int id)
         {
-            try
+            if (_eventService.DeleteEvent(id))
             {
-                _eventService.DisableEventById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
 

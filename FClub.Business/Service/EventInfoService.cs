@@ -18,9 +18,9 @@ namespace FClub.Business.Service
             _eventRepo = eventRepo;
         }
         //GET All Event Details  
-        public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter eventParameter)
+        public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter paging)
         {
-            var values = _eventRepo.GetAll(includeProperties: eventInfo.includeProperties);
+            var values = _eventRepo.GetAll();
 
             if (eventInfo.Id != null)
             {
@@ -107,8 +107,8 @@ namespace FClub.Business.Service
             }
 
             return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
-            eventParameter.PageNumber,
-            eventParameter.PageSize);
+            paging.PageNumber,
+            paging.PageSize);
         }
         //Get Event by event id  
         public EventInfo GetEventById(int id)
@@ -116,28 +116,71 @@ namespace FClub.Business.Service
             return _eventRepo.GetAll().FirstOrDefault(e => e.Id == id);
         }
         //Add Event
-        public void Add(EventInfo eventInfo)
+        public bool Add(EventInfo eventInfo)
         {
-            _eventRepo.Add(eventInfo);
-            _eventRepo.SaveDbChange();
+            try
+            {
+                _eventRepo.Add(eventInfo);
+                _eventRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         //Disable Event 
-        public void DisableEventById(int id)
+        public bool DisableEventById(int id)
         {
-            _eventRepo.DisableEvent(id);
-            _eventRepo.SaveDbChange();
+            try
+            {
+                _eventRepo.DisableEvent(id);
+                _eventRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         //Update Event Details  
-        public void UpdateEvent(EventInfo eventInfo)
+        public bool UpdateEvent(EventInfo eventInfo)
         {
-            _eventRepo.Update(eventInfo);
-            _eventRepo.SaveDbChange();
+            try
+            {
+                _eventRepo.Update(eventInfo);
+                _eventRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public IEnumerable<EventInfo> getByPage(int pageNumber)
+        /*public IEnumerable<EventInfo> getByPage(int pageNumber)
         {
             int pageSize = 5;
             return _eventRepo.GetAll().AsQueryable().Skip(pageSize * (pageNumber-1)).Take(pageSize).ToList();
+        }*/
+
+        public bool DeleteEvent(int id)
+        {
+            try
+            {
+                var objFromDb = _eventRepo.Get(id);
+                if (objFromDb != null)
+                {
+                    _eventRepo.Remove(id);
+                    _eventRepo.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
     }
 }

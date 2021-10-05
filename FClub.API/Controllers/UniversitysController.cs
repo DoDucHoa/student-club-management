@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/universities")]
+    [Route("api/v1/universities")]
     [ApiController]
     [Authorize]
     public class UniversitysController : ControllerBase

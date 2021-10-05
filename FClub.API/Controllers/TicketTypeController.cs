@@ -8,7 +8,7 @@ using System;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/ticket-types")]
     [ApiController]
     [Authorize]
     public class TicketTypeController : ControllerBase
@@ -38,58 +38,47 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetTypeById(string id)
+        public IActionResult GetTypeById(string id)
         {
             var data = _ticketTypeService.GetTicketTypeById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            return Ok(data);
         }
 
         [HttpPost]
-        public void AddType(TicketType ticketType)
+        public IActionResult AddType(TicketType ticketType)
         {
-            try
+            if(_ticketTypeService.Add(ticketType))
             {
-                _ticketTypeService.Add(ticketType);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateType(TicketType ticketType)
+        public IActionResult UpdateType(TicketType ticketType)
         {
-            try
+            if (_ticketTypeService.Update(ticketType))
             {
-                _ticketTypeService.Update(ticketType);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteType(string id)
+        public IActionResult DeleteType(string id)
         {
-            try
+            if (_ticketTypeService.Delete(id))
             {
-                TicketType ticketType = _ticketTypeService.GetTicketTypeById(id);
-                _ticketTypeService.Delete(ticketType);
-                return true;
+                return Ok();
             }
-            catch (Exception)
-            {
-                return false;
-            }
+                return BadRequest();
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/clubs")]
+    [Route("api/v1/clubs")]
     [ApiController]
     [Authorize]
     public class ClubsController : ControllerBase
@@ -25,31 +25,28 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Club> GetClubById(string id)
+        public IActionResult GetClubById(string id)
         {
             var data = _clubService.GetClubById(id);
-            
-            return data;
+
+            return Ok(data);
         }
 
         [HttpGet]
-        public ActionResult<PagedList<Club>> GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
+        public IActionResult GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
         {
             var data = _clubService.GetAllClub(club, paging);
-            return data;
+            return Ok(data);
         }
 
         [HttpPost]
         public IActionResult AddClub(Club club)
         {
-            if(_clubService.Add(club))
+            if (_clubService.Add(club))
             {
                 return Ok();
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
 
 
@@ -61,10 +58,7 @@ namespace FClub.API.Controllers
             {
                 return Ok();
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -74,10 +68,7 @@ namespace FClub.API.Controllers
             {
                 return Ok();
             }
-            else
-            {
-                return BadRequest();
-            }
+            return BadRequest();
         }
     }
 }

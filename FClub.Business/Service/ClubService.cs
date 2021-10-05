@@ -77,38 +77,40 @@ namespace FClub.Business.Service
         public bool Update(Club club)
         {
             try
-            {
+            {   
                 _clubRepository.Update(club);
                 _clubRepository.SaveDbChange();
                 return true;
             }
-            catch{
+            catch
+            {
                 return false;
             }
         }
 
         public bool DeleteById(string id)
         {
-            var objFromDb = _clubRepository.Get(id);
-            if (objFromDb == null)
+            try
+            {
+                var objFromDb = _clubRepository.Get(id);
+                if (objFromDb != null)
+                {
+                    _clubRepository.Remove(id);
+                    _clubRepository.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
             {
                 return false;
             }
-            _clubRepository.Remove(id);
-            _clubRepository.SaveDbChange();
-            return true;
+            return false;
         }
 
         public Club GetClubById(string id)
         {
             var club = _clubRepository.Get(id);
             return club;
-        }
-
-        public IEnumerable<Club> GetList()
-        {
-            var clubList = _clubRepository.GetAll();
-            return clubList;
         }
     }
 }
