@@ -32,8 +32,12 @@ function App() {
               <Redirect to="/login" />
             )}
           </Route>
-          <Route path="/login" component={LoginForm} />
-          <Route path="/register" component={RegisterForm} />
+          <Route path="/login">
+            <LoginForm />
+          </Route>
+          <Route path="/register">
+            <RegisterForm />
+          </Route>
           <DashBoardLayout>
             <Route path="/manage-user">
               {isLoggedIn ? <ManageUserForm /> : <Redirect to="/login" />}

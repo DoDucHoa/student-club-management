@@ -7,7 +7,7 @@ const ManageUserForm = () => {
 
   useEffect(() => {
     fetch("https://club-management-service.azurewebsites.net/api/universities")
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((data) => setMemberData(data))
       .catch((error) => {
         throw new Error(error);
