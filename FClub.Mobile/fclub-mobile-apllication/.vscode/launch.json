@@ -7,12 +7,18 @@
         {
             "name": "fclub-mobile-application",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--no-sound-null-safety"
+               ]
         },
         {
             "name": "fclub-mobile-application(profile-mode)",
             "request": "launch",
             "type": "dart",
+            "args": [
+                "--no-sound-null-safety"
+               ],
             "flutterMode": "profile"
         }
     ]
