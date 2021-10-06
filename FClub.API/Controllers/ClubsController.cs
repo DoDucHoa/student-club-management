@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/clubs")]
+    [Route("api/v1/clubs")]
     [ApiController]
+    [Authorize]
     public class ClubsController : ControllerBase
     {
         private readonly ClubService _clubService;
@@ -24,64 +25,50 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetClubById(string id)
+        public IActionResult GetClubById(string id)
         {
             var data = _clubService.GetClubById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+
+            return Ok(data);
         }
 
         [HttpGet]
-        public ActionResult<PagedList<Club>> GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
+        public IActionResult GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
         {
             var data = _clubService.GetAllClub(club, paging);
-            return data;
+            return Ok(data);
         }
 
         [HttpPost]
-        public void AddClub(Club club)
+        public IActionResult AddClub(Club club)
         {
-            try
+            if (_clubService.Add(club))
             {
-                _clubService.Add(club);
+                return Ok();
             }
-            catch(Exception e)
-            {
-                e.Message.ToString();
-            }
+            return BadRequest();
         }
 
 
         [HttpPut]
-        public void UpdateClub(Club club)
+        public IActionResult UpdateClub(Club club)
         {
-            try
+
+            if (_clubService.Update(club))
             {
-                _clubService.Update(club);
+                return Ok();
             }
-            catch (Exception e)
-            {
-                e.Message.ToString();
-            }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteClubById(string id)
+        public IActionResult DeleteClubById(string id)
         {
-            try
+            if (_clubService.DeleteById(id))
             {
-                _clubService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            return BadRequest();
         }
     }
 }

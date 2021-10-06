@@ -16,46 +16,59 @@ namespace FClub.Business.Service
         {
             _ticketRepo = eventTicketRepo;
         }
-        //GET All Ticket 
-        public IEnumerable<EventTicket> GetAll()
-        {
-            return _ticketRepo.GetAll().ToList();
-        }
 
         //Get Ticket by id  
         public EventTicket GetTicketById(int id)
         {
-            return _ticketRepo.GetById(id);
+            return _ticketRepo.Get(id);
         }
 
-        //Get Ticket by participant id  
-        public IEnumerable<EventTicket> GetTicketByParticipant(int parId)
-        {
-            return _ticketRepo.GetByParticipant(parId);
-        }
-        //Get Ticket by type  
-        public IEnumerable<EventTicket> GetTicketByType(string typeId)
-        {
-            return _ticketRepo.GetByType(typeId);
-        }
         //Add Ticket
-        public void Add(EventTicket ticket)
+        public bool Add(EventTicket ticket)
         {
-            _ticketRepo.Add(ticket);
-            _ticketRepo.SaveDbChange();
+            try
+            {
+                _ticketRepo.Add(ticket);
+                _ticketRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         //Delete Ticket by id
-        public void DeleteById(int id)
+        public bool DeleteById(int id)
         {
-            var ticket = _ticketRepo.GetById(id);
-            _ticketRepo.Remove(ticket);
-            _ticketRepo.SaveDbChange();
+            try
+            {
+                var objFromDb = _ticketRepo.Get(id);
+                if (objFromDb != null)
+                {
+                    _ticketRepo.Remove(id);
+                    _ticketRepo.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
         //Update Ticket Details  
-        public void Update(EventTicket ticket)
+        public bool Update(EventTicket ticket)
         {
-            _ticketRepo.Update(ticket);
-            _ticketRepo.SaveDbChange();
+            try
+            {
+                _ticketRepo.Update(ticket);
+                _ticketRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public PagedList<EventTicket> GetBy(EventTicketParameter eventTicket, PagingParameter eventParameter)

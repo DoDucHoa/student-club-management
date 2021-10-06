@@ -29,22 +29,51 @@ namespace FClub.Business.Service
             return _ticketTypeRepo.GetAll().FirstOrDefault(e => e.Id.Equals(id));
         }
         //Add Ticket Type
-        public void Add(TicketType ticketType)
+        public bool Add(TicketType ticketType)
         {
-            _ticketTypeRepo.Add(ticketType);
-            _ticketTypeRepo.SaveDbChange();
+            try
+            {
+                _ticketTypeRepo.Add(ticketType);
+                _ticketTypeRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         //Delete Ticket Type 
-        public void Delete(TicketType ticketType)
+        public bool Delete(string id)
         {
-            _ticketTypeRepo.Remove(ticketType);
-            _ticketTypeRepo.SaveDbChange();
+            try
+            {
+                var objFromDb = _ticketTypeRepo.Get(id);
+                if (objFromDb != null)
+                {
+                    _ticketTypeRepo.Remove(id);
+                    _ticketTypeRepo.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
         //Update Ticket Type  
-        public void Update(TicketType ticketType)
+        public bool Update(TicketType ticketType)
         {
-            _ticketTypeRepo.Update(ticketType);
-            _ticketTypeRepo.SaveDbChange();
+            try
+            {
+                _ticketTypeRepo.Update(ticketType);
+                _ticketTypeRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public PagedList<TicketType> GetBy(TicketTypeParameter ticketType, PagingParameter paging)
