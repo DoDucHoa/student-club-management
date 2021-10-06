@@ -1,6 +1,6 @@
 // react
 import React, { useRef, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -82,9 +82,9 @@ const LoginForm = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      history.push("/");
+      navigate("/");
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn, navigate]);
 
   const signInWithGoogleHandler = () => {
     dispatch(signInWithGoogle());

@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/participants")]
+    [Route("api/v1/participants")]
     [ApiController]
+    [Authorize]
     public class ParticipantController : ControllerBase
     {
         private readonly ParticipantService _participantService;
@@ -24,71 +25,43 @@ namespace FClub.API.Controllers
         }
 
 
-        [HttpGet("event/{eventId}")]
-        public Object GetParticipantByEvent(int eventId)
-        {
-            var data = _participantService.GetParticipantByEvent(eventId);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
-
-        [HttpGet("{attendance}")]
-        public Object GetParticipantByAttendance(bool attended)
-        {
-            var data = _participantService.GetParticipantByAttendance(attended);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
-        }
-
         [HttpPost]
-        public void AddParticipant(Participant participant)
+        public IActionResult AddParticipant(Participant participant)
         {
-            try
+            if (_participantService.Add(participant))
             {
-                _participantService.Add(participant);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateParticipant(Participant participant)
+        public IActionResult UpdateParticipant(Participant participant)
         {
-            try
+            if(_participantService.Update(participant))
             {
-                _participantService.Update(participant);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteParticipant(int id)
+        public IActionResult DeleteParticipant(int id)
         {
-            try
-            {
-                Participant participant = _participantService.GetAll().FirstOrDefault(p => p.Id == id);
-                _participantService.Delete(participant);
-                return true;
+            if(_participantService.Delete(id))
+            {   
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
 
@@ -106,6 +79,14 @@ namespace FClub.API.Controllers
                 data.HasPrevious
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(data);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetParticipantById(int id)
+        {
+            var data = _participantService.GetParticipant(id);
+
             return Ok(data);
         }
     }

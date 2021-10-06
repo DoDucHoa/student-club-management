@@ -62,71 +62,55 @@ namespace FClub.Business.Service
             paging.PageSize);
         }
 
-        public IEnumerable<Club> GetClubByID(String clubID)
+        public bool Add(Club club)
         {
-            return _clubRepository.GetAll(filter: x => x.Id == clubID);
-        }
-
-        public void Upsert(Club club)
-        {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (!checkExist)
-            {
-                _clubRepository.Add(club);
-            }
-            else
-            {
-                _clubRepository.Update(club);
-            }
-            _clubRepository.SaveDbChange();
-        }
-
-        public void Add(Club club)
-        {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (!checkExist)
+            try
             {
                 _clubRepository.Add(club);
                 _clubRepository.SaveDbChange();
+                return true;
             }
+            catch { return false; }
 
         }
-        /* public bool CheckClubExist(string id)
-         {
-             return _clubRepository.CheckIdExistance(id);
-         }*/
-        public void Update(Club club)
+
+        public bool Update(Club club)
         {
-            bool checkExist = _clubRepository.CheckIdExistance(club.Id);
-            if (checkExist)
-            {
+            try
+            {   
                 _clubRepository.Update(club);
                 _clubRepository.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
         public bool DeleteById(string id)
         {
-            var objFromDb = _clubRepository.Get(id);
-            if (objFromDb == null)
+            try
+            {
+                var objFromDb = _clubRepository.Get(id);
+                if (objFromDb != null)
+                {
+                    _clubRepository.Remove(id);
+                    _clubRepository.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
             {
                 return false;
             }
-            _clubRepository.Remove(id);
-            _clubRepository.SaveDbChange();
-            return true;
+            return false;
         }
 
         public Club GetClubById(string id)
         {
             var club = _clubRepository.Get(id);
             return club;
-        }
-
-        public IEnumerable<Club> GetList()
-        {
-            var clubList = _clubRepository.GetAll();
-            return clubList;
         }
     }
 }

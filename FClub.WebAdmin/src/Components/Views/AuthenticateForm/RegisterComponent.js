@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterComponent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isLoading = useSelector((state) => state.auth.isLoading);
@@ -51,9 +51,9 @@ const RegisterComponent = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      history.push("/");
+      navigate("/");
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <FormCard>
