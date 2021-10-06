@@ -20,7 +20,6 @@ class _PasswordInputState extends State<PasswordInput> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return TextFieldContainer(
       child: TextFormField(
         controller: widget.controller,
