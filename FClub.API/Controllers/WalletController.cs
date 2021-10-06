@@ -12,8 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/wallets")]
+    [Route("api/v1/wallets")]
     [ApiController]
+    [Authorize]
     public class WalletController : ControllerBase
     {
         private readonly WalletService _walletService;
@@ -24,16 +25,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetWalletById(int id)
+        public ActionResult<Wallet> GetWalletById(int id)
         {
             var data = _walletService.GetWalletById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            return data;
         }
 
         [HttpGet]
@@ -44,43 +39,42 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddWallet(Wallet wallet)
+        public IActionResult AddWallet(Wallet wallet)
         {
-            try
+            if(_walletService.Add(wallet))
             {
-                _walletService.Add(wallet);
+                return Ok();
             }
-            catch(Exception e)
+            else
             {
-                Console.WriteLine(e.Message.ToString());
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateWallet(Wallet wallet)
+        public IActionResult UpdateWallet(Wallet wallet)
         {
-            try
+            if (_walletService.Update(wallet))
             {
-                _walletService.Update(wallet);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteWalletById(int id)
+        public IActionResult DeleteWalletById(int id)
         {
-            try
+            if (_walletService.DeleteById(id))
             {
-                _walletService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
     }

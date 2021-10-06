@@ -16,20 +16,6 @@ namespace FClub.Data.Repository
             _dbContext = applicationDbContext;
         }
 
-        public EventTicket GetById(int id)
-        {
-            return _dbContext.EventTickets.FirstOrDefault(e => e.Id == id);
-        }
-
-        public IEnumerable<EventTicket>  GetByParticipant(int parId)
-        {
-            return _dbContext.EventTickets.Where(e => e.ParticipantId == parId).ToList();
-        }
-
-        public IEnumerable<EventTicket> GetByType(string typeId)
-        {
-            return _dbContext.EventTickets.Where(e => e.TicketTypeId.Equals(typeId)).ToList();
-        }
 
     }
 }

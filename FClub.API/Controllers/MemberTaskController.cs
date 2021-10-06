@@ -12,8 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/member-tasks")]
+    [Route("api/v1/member-tasks")]
     [ApiController]
+    [Authorize]
     public class MemberTaskController : ControllerBase
     {
         private readonly MemberTaskService _memberTaskService;
@@ -24,16 +25,10 @@ namespace FClub.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public Object GetMemberTaskById(int id)
+        public ActionResult<MemberTask> GetMemberTaskById(int id)
         {
             var data = _memberTaskService.GetMemberTaskById(id);
-            var json = JsonConvert.SerializeObject(data, Formatting.Indented,
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                }
-            );
-            return json;
+            return data;
         }
 
         [HttpGet]
@@ -53,43 +48,42 @@ namespace FClub.API.Controllers
         }
 
         [HttpPost]
-        public void AddMemberTask(MemberTask memberTask)
+        public IActionResult AddMemberTask(MemberTask memberTask)
         {
-            try
+            if(_memberTaskService.Add(memberTask))
             {
-                _memberTaskService.Add(memberTask);
+                return Ok();
             }
-            catch(Exception e)
+            else
             {
-                Console.WriteLine(e.Message.ToString());
+                return BadRequest();
             }
         }
 
 
         [HttpPut]
-        public void UpdateMemberTask(MemberTask memberTask)
+        public IActionResult UpdateMemberTask(MemberTask memberTask)
         {
-            try
+            if (_memberTaskService.Update(memberTask))
             {
-                _memberTaskService.Update(memberTask);
+                return Ok();
             }
-            catch (Exception e)
+            else
             {
-                e.Message.ToString();
+                return BadRequest();
             }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteMemberTaskById(int id)
+        public IActionResult DeleteMemberTaskById(int id)
         {
-            try
+            if (_memberTaskService.DeleteById(id))
             {
-                _memberTaskService.DeleteById(id);
-                return true;
+                return Ok();
             }
-            catch (Exception)
+            else
             {
-                return false;
+                return BadRequest();
             }
         }
     }

@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
+    [Route("api/v1/members")]
     [Authorize]
-    [Route("api/members")]
     [ApiController]
     public class MembersController : ControllerBase
     {

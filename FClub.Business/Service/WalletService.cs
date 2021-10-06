@@ -18,17 +18,33 @@ namespace FClub.Business.Service
         }
 
 
-        public void Add(Wallet wallet)
+        public bool Add(Wallet wallet)
         {
-            _walletRepository.Add(wallet);
-            _walletRepository.SaveDbChange();
+            try
+            {
+                _walletRepository.Add(wallet);
+                _walletRepository.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
            
         }
 
-        public void Update(Wallet wallet)
+        public bool Update(Wallet wallet)
         {
+            try
+            {
                 _walletRepository.Update(wallet);
                 _walletRepository.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeleteById(int id)

@@ -33,23 +33,53 @@ namespace FClub.Business.Service
         {
             return _participantRepo.GetParticipantByAttendance(attended);
         }
+
         //Add Participant
-        public void Add(Participant participant)
+        public bool Add(Participant participant)
         {
-            _participantRepo.Add(participant);
-            _participantRepo.SaveDbChange();
+            try
+            {
+                _participantRepo.Add(participant);
+                _participantRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         //Delete Participant 
-        public void Delete(Participant participant)
+        public bool Delete(int id)
         {
-            _participantRepo.Remove(participant);
-            _participantRepo.SaveDbChange();
+            try
+            {
+                var objFromDb = _participantRepo.Get(id);
+                if (objFromDb != null)
+                {
+                    _participantRepo.Remove(id);
+                    _participantRepo.SaveDbChange();
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
         }
         //Update Participant  
-        public void Update(Participant participant)
+        public bool Update(Participant participant)
         {
-            _participantRepo.Update(participant);
-            _participantRepo.SaveDbChange();
+            try
+            {
+                _participantRepo.Update(participant);
+                _participantRepo.SaveDbChange();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public PagedList<Participant> GetBy(ParticipantParameter participant, PagingParameter paging)
@@ -104,6 +134,12 @@ namespace FClub.Business.Service
             return PagedList<Participant>.ToPagedList(values.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
+        }
+
+        public Participant GetParticipant(int id)
+        {
+            var participant = _participantRepo.Get(id);
+            return participant;
         }
     }
 }
