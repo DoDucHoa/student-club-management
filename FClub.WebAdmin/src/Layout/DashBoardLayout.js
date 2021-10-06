@@ -1,5 +1,10 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 
+// component
+import { signOutWeb } from "../Context/Actions/authen-action";
+
+// mui style
 import { makeStyles } from "@mui/styles";
 import {
   Drawer,
@@ -8,10 +13,15 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Divider,
+  ListItemButton,
 } from "@mui/material";
 
 import { menuItems } from "../Constants/MenuItems";
 import { Outlet, useLocation } from "react-router";
+
+// icons
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const useStyled = makeStyles({
   root: {
@@ -35,6 +45,12 @@ const useStyled = makeStyles({
 const DashBoardLayout = ({ children }) => {
   const classes = useStyled();
   const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  const signOutHandler = () => {
+    dispatch(signOutWeb());
+  };
 
   return (
     <div className={classes.root}>
@@ -62,6 +78,13 @@ const DashBoardLayout = ({ children }) => {
               <ListItemText>{item.text}</ListItemText>
             </ListItem>
           ))}
+          <Divider />
+          <ListItemButton onClick={signOutHandler}>
+            <ListItemIcon>
+              <LogoutIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText>Sign Out</ListItemText>
+          </ListItemButton>
         </List>
       </Drawer>
       <div className={classes.page}>

@@ -1,7 +1,14 @@
+import React, { lazy } from "react";
+
+// project import
+import Loadable from "../Components/UI/Loadable";
+
 import DashBoardLayout from "../Layout/DashBoardLayout";
 import LoginForm from "../Pages/Authenticate/LoginForm";
 
-import ManageUserForm from "../Pages/ManageUser/ManageUserForm";
+const ManageUserForm = Loadable(
+  lazy(() => import("../Pages/ManageUser/ManageUserForm"))
+);
 
 const MainRoutes = (isLoggedIn) => {
   return {
