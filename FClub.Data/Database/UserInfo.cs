@@ -28,7 +28,6 @@ namespace FClub.Data.Database
         [Column("email")]
         [StringLength(256)]
         public string Email { get; set; }
-        [Required]
         [Column("password")]
         [StringLength(256)]
         public string Password { get; set; }

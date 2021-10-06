@@ -81,13 +81,5 @@ namespace FClub.API.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(data);
         }
-
-        [HttpGet("{id}")]
-        public IActionResult GetParticipantById(int id)
-        {
-            var data = _participantService.GetParticipant(id);
-
-            return Ok(data);
-        }
     }
 }

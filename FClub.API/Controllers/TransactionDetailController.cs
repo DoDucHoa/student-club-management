@@ -24,13 +24,6 @@ namespace FClub.API.Controllers
             _transactionDetailService = transactionDetailService;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<TransactionDetail> GetTransactionDetailById(int id)
-        {
-            var data = _transactionDetailService.GetTransactionDetailById(id);
-            return data;
-        }
-
         [HttpGet]
         public ActionResult<PagedList<TransactionDetail>> GetTransactionDetails([FromQuery] TransactionDetailParameter transactionDetail, [FromQuery] PagingParameter paging)
         {

@@ -36,14 +36,6 @@ namespace FClub.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetEventById(int id)
-        {
-            var data = _eventService.GetEventById(id);
-            
-            return Ok(data);
-        }
-
         [HttpPost()]
         public IActionResult AddEvent(EventInfo eventinfo)
         {
