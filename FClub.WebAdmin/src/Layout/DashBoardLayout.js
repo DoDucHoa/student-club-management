@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import { menuItems } from "../Constants/MenuItems";
-import { useLocation } from "react-router";
+import { Outlet, useLocation } from "react-router";
 
 const useStyled = makeStyles({
   root: {
@@ -64,7 +64,9 @@ const DashBoardLayout = ({ children }) => {
           ))}
         </List>
       </Drawer>
-      <div className={classes.page}>{children}</div>
+      <div className={classes.page}>
+        <Outlet />
+      </div>
     </div>
   );
 };
