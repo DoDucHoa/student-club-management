@@ -9,8 +9,9 @@ using System.Linq;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/tasktypes")]
+    [Route("api/v1/task-types")]
     [ApiController]
+    [Authorize]
     public class TaskTypesController : ControllerBase
     {
         private readonly TaskTypeService _service;
