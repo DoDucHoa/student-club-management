@@ -71,6 +71,7 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return data;
         }
     }
