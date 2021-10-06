@@ -24,13 +24,6 @@ namespace FClub.API.Controllers
             _walletService = walletService;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Wallet> GetWalletById(int id)
-        {
-            var data = _walletService.GetWalletById(id);
-            return data;
-        }
-
         [HttpGet]
         public ActionResult<PagedList<Wallet>> GetWallets([FromQuery] WalletParameter wallet, [FromQuery] PagingParameter paging)
         {

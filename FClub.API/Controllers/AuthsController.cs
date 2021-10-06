@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FClub.API.Controllers
 {
-    [Route("api/auths")]
+    [Route("api/v1/auths")]
     [ApiController]
     [AllowAnonymous]
     public class AuthsController : ControllerBase
@@ -26,6 +26,12 @@ namespace FClub.API.Controllers
         public async Task<ActionResult<LoginViewModel>> Post([FromQuery] LoginRequestModel loginRequestModel)
         {
             return Ok(await _authService.Login(loginRequestModel));
+        }
+
+        [HttpPost("sign-up")]
+        public async Task<ActionResult<LoginViewModel>> SignUp([FromQuery] LoginRequestModel loginRequestModel, [FromQuery] string universityId, [FromQuery] string username)
+        {
+            return Ok(await _authService.Register(loginRequestModel, universityId, username));
         }
     }
 }

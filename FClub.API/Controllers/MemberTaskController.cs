@@ -24,13 +24,6 @@ namespace FClub.API.Controllers
             _memberTaskService = memberTaskService;
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<MemberTask> GetMemberTaskById(int id)
-        {
-            var data = _memberTaskService.GetMemberTaskById(id);
-            return data;
-        }
-
         [HttpGet]
         public ActionResult<PagedList<MemberTask>> GetMemberTasks([FromQuery] MemberTaskParameter memberTask, [FromQuery] PagingParameter paging)
         {
