@@ -24,14 +24,6 @@ namespace FClub.API.Controllers
             _clubService = clubService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetClubById(string id)
-        {
-            var data = _clubService.GetClubById(id);
-
-            return Ok(data);
-        }
-
         [HttpGet]
         public IActionResult GetClubs([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging)
         {

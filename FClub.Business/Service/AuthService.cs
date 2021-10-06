@@ -1,4 +1,5 @@
-﻿using FClub.Data.Helper;
+﻿using FClub.Data.Database;
+using FClub.Data.Helper;
 using FClub.Data.Interface;
 using FirebaseAdmin.Auth;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +23,70 @@ namespace FClub.Business.Service
         {
             _repository = userInfoRepository;
         }
+        //register
+        public async Task<LoginViewModel> Register(LoginRequestModel loginRequestModel, String universityId, String username)
+        {
 
+            var userViewModel = await VerifyFirebaseTokenIdRegister(loginRequestModel.IdToken, universityId, username);
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Email, userViewModel.Email),
+                new(ClaimTypes.Name, userViewModel.Name),
+            };
+
+            var accessToken = GenerateAccessToken(claims);
+            // var refreshToken = GenerateRefreshToken();
+
+            userViewModel.JwtToken = accessToken;
+            return userViewModel;
+        }
+
+        //verify for register
+        public async Task<LoginViewModel> VerifyFirebaseTokenIdRegister(string idToken, String universityId, String username)
+        {
+            FirebaseToken decodedToken;
+            try
+            {
+                decodedToken = await FirebaseAuth.DefaultInstance
+                       .VerifyIdTokenAsync(idToken);
+            }
+            catch
+            {
+                throw new Exception();
+            }
+            string uid = decodedToken.Uid;
+            var user = await FirebaseAuth.DefaultInstance.GetUserAsync(uid);
+
+            UserInfo userInfo = new UserInfo();
+            userInfo.Email = user.Email;
+            userInfo.Name = username;
+            userInfo.UniversityId = universityId;
+
+            try
+            {
+                _repository.Add(userInfo);
+                _repository.SaveDbChange();
+            } catch (Exception)
+            {
+                throw new Exception();
+            }
+
+            // Query account table in DB
+            var account = _repository.GetFirstOrDefault(x => x.Email == user.Email);
+
+            if (account == null) throw new UnauthorizedAccessException();
+
+            var loginViewModel = new LoginViewModel
+            {
+                Id = account.Id,
+                Email = account.Email,
+                Name = account.Name,
+                JwtToken = null
+            };
+            return loginViewModel;
+        }
+
+        //login
         public async Task<LoginViewModel> Login(LoginRequestModel loginRequestModel)
         {
 
@@ -62,6 +126,7 @@ namespace FClub.Business.Service
 
             var loginViewModel = new LoginViewModel
             {
+                Id = account.Id,
                 Email = account.Email,
                 Name = account.Name,
                 JwtToken = null

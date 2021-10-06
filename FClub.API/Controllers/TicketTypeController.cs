@@ -37,13 +37,6 @@ namespace FClub.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTypeById(string id)
-        {
-            var data = _ticketTypeService.GetTicketTypeById(id);
-            return Ok(data);
-        }
-
         [HttpPost]
         public IActionResult AddType(TicketType ticketType)
         {

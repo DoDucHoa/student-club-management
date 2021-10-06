@@ -35,14 +35,14 @@ namespace FClub.API.Controllers
             return BadRequest();
         }
         //Delete University  
-        [HttpDelete]
-        public IActionResult DeleteUniversity(University university)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUniversity(string id)
         {
-            if (_universityService.GetUniversityById(university.Id) == null)
+            if (_universityService.GetUniversityById(id) == null)
             {
                 return NotFound();
             }
-            _universityService.DeleteUniversity(university);
+            _universityService.DeleteUniversity(_universityService.GetUniversityById(id));
             return Ok();
         }
         //Update University  
@@ -57,6 +57,7 @@ namespace FClub.API.Controllers
             return Ok();
         }
         //GET All University  
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult<PagedList<University>> GetUniversitys([FromQuery] UniversityParameter university, [FromQuery] PagingParameter paging)
         {
@@ -70,13 +71,6 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            return data;
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<University> GetUniversityById(string id)
-        {
-            var data = _universityService.GetUniversityById(id);
             return data;
         }
     }
