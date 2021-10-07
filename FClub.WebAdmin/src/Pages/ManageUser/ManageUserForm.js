@@ -13,10 +13,12 @@ import React, { useState, useEffect } from "react";
 
 const ManageUserForm = () => {
   const [memberData, setMemberData] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     fetch(
-      "https://club-management-service.azurewebsites.net/api/v1/universities",
+      "https://club-management-service.azurewebsites.net/api/v1/universities?PageNumber=" +
+        page,
       {
         headers: {
           Authorization:
@@ -24,61 +26,70 @@ const ManageUserForm = () => {
         },
       }
     )
-      .then((response) => response.json())
+      .then((response) => {
+        console.log(response.headers.get("X-Pagination"));
+        return response.json();
+      })
       .then((data) => setMemberData(data))
       .catch((error) => {
         throw new Error(error);
       }, []);
-  });
+  }, [page]);
+
+  const handleChangePage = (event, newPage) => {
+    if (newPage <= 0) {
+      newPage = 1;
+    }
+    setPage(newPage);
+    console.log(newPage);
+  };
 
   return (
-    <div>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="right">ID</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Address</TableCell>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="right">ID</TableCell>
+            <TableCell align="right">Name</TableCell>
+            <TableCell align="right">Address</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {memberData.map((row) => (
+            <TableRow
+              key={row.id}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.id}
+              </TableCell>
+              <TableCell align="right">{row.name}</TableCell>
+              <TableCell align="right">{row.address}</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {memberData.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell align="right">{row.name}</TableCell>
-                <TableCell align="right">{row.address}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                colSpan={3}
-                count={-1}
-                rowsPerPage={20}
-                page={0}
-                rowsPerPageOptions={[5, 10, 25]}
-                SelectProps={{
-                  inputProps: {
-                    "aria-label": "rows per page",
-                  },
-                  native: true,
-                }}
-                // onPageChange={handleChangePage}
-                // onRowsPerPageChange={handleChangeRowsPerPage}
-                // ActionsComponent={TablePaginationActions}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </TableContainer>
-    </div>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              colSpan={3}
+              count={-1}
+              rowsPerPage={20}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  "aria-label": "rows per page",
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              // onRowsPerPageChange={handleChangeRowsPerPage}
+              // ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 };
 

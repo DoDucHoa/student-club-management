@@ -30,6 +30,7 @@ const useStyled = makeStyles({
   page: {
     width: "100%",
     background: "#ffffff",
+    height: "100%",
   },
   drawer: {
     width: "240px",

@@ -111,7 +111,7 @@ export const signOutWeb = () => {
 const getTokenFromBackend = async (firebaseToken) => {
   try {
     const response = await fetch(
-      "https://club-management-service.azurewebsites.net/api/auths/sign-in?IdToken=" +
+      "https://club-management-service.azurewebsites.net/api/v1/auths/sign-in?IdToken=" +
         firebaseToken,
       {
         method: "POST",
