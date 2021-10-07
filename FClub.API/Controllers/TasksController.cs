@@ -36,8 +36,9 @@ namespace FClub.API.Controllers
                 data.HasPrevious
             };
             return Ok(new { data, metadata });
+        }
 
-            [HttpPost]
+        [HttpPost]
         public IActionResult Create(Task _object)
         {
             try
