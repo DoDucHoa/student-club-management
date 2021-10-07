@@ -139,6 +139,7 @@ const LoginForm = () => {
               size="large"
               fullWidth
               startIcon={<BiLogIn />}
+              disabled={isLoading}
             >
               {!isLoading ? "SIGN IN" : "Loading ..."}
             </Button>
