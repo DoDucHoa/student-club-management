@@ -37,7 +37,7 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            return data;
+            return Ok(new { data, metadata });
         }
 
         [HttpPost]
