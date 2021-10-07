@@ -24,14 +24,6 @@ namespace FClub.API.Controllers
             _ticketService = ticketService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTicketById(int id)
-        {
-            var data = _ticketService.GetTicketById(id);
-            
-            return Ok(data);
-        }
-
         [HttpGet]
         public IActionResult GetEventTicket([FromQuery] EventTicketParameter eventTicket, [FromQuery] PagingParameter param)
         {
@@ -45,8 +37,8 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(data);
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(new { data, metadata });
         }
 
         [HttpPost]

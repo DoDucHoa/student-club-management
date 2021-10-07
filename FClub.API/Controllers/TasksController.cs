@@ -35,13 +35,7 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            return Ok(data);
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Task> Get(int id)
-        {
-            return _service.GetById(id);
+            return Ok(new { data, metadata });
         }
 
         [HttpPost]
@@ -69,14 +63,14 @@ namespace FClub.API.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Task _object)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            if (_service.GetById(_object.Id) == null)
+            if (_service.GetById(id) == null)
             {
                 return NotFound();
             }
-            _service.Delete(_object);
+            _service.Delete(_service.GetById(id));
             return Ok();
         }
     }

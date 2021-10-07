@@ -19,7 +19,7 @@ namespace FClub.API.Config
             FirebaseApp.Create(new AppOptions
             {
                 Credential = GoogleCredential.GetApplicationDefault(),
-                //Credential = GoogleCredential.FromFile("auth-club-management-dev-firebase-adminsdk-j4jta-9138e37c11.json"),
+                //Credential = GoogleCredential.FromFile(@"..\auth-club-management-dev-firebase-adminsdk-j4jta-9138e37c11.json"),
             });
             services.AddAuthentication(opt =>
             {

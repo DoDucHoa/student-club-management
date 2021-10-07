@@ -117,6 +117,7 @@ const RegisterComponent = () => {
               fullWidth
               type="submit"
               startIcon={<CheckCircleOutlineIcon />}
+              disabled={isLoading}
             >
               {isLoading ? "Loading..." : "SIGN UP"}
             </Button>

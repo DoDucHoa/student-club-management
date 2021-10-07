@@ -32,16 +32,8 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(data);
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetEventById(int id)
-        {
-            var data = _eventService.GetEventById(id);
-            
-            return Ok(data);
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(new { data, metadata });
         }
 
         [HttpPost()]

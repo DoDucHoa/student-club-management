@@ -37,14 +37,8 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(data);
-        }
-
-        [HttpGet("{id}")]
-        public ActionResult<Member> Get(int id)
-        {
-            return _service.GetById(id);
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(new { data, metadata });
         }
 
         [HttpPost]
@@ -72,14 +66,14 @@ namespace FClub.API.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public IActionResult Delete(Member _object)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            if (_service.GetById(_object.Id) == null)
+            if (_service.GetById(id) == null)
             {
                 return NotFound();
             }
-            _service.Delete(_object);
+            _service.Delete(_service.GetById(id));
             return Ok();
         }
     }

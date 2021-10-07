@@ -40,14 +40,14 @@ namespace FClub.API.Controllers
             }
         }
         //Delete User  
-        [HttpDelete]
-        public IActionResult DeleteUser(UserInfo _object)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUser(int id)
         {
-            if (_userInforService.GetUsersById(_object.Id) == null)
+            if (_userInforService.GetUsersById(id) == null)
             {
                 return NotFound();
             }
-            _userInforService.DeleteUser(_object);
+            _userInforService.DeleteUser(_userInforService.GetUsersById(id));
             return Ok();
         }
         //Update User  
@@ -75,8 +75,8 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            return Ok(data);
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(new { data, metadata});
         }
     }
 }
