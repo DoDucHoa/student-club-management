@@ -78,6 +78,7 @@ namespace FClub.Business.Service
 
             var loginViewModel = new LoginViewModel
             {
+                Id = account.Id,
                 Email = account.Email,
                 Name = account.Name,
                 JwtToken = null
@@ -125,6 +126,7 @@ namespace FClub.Business.Service
 
             var loginViewModel = new LoginViewModel
             {
+                Id = account.Id,
                 Email = account.Email,
                 Name = account.Name,
                 JwtToken = null

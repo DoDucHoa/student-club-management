@@ -62,6 +62,7 @@ namespace FClub.API.Controllers
         public ActionResult<PagedList<University>> GetUniversitys([FromQuery] UniversityParameter university, [FromQuery] PagingParameter paging)
         {
             var data = _universityService.GetAllUniversity(university, paging);
+            
             var metadata = new
             {
                 data.TotalCount,
@@ -71,7 +72,8 @@ namespace FClub.API.Controllers
                 data.HasNext,
                 data.HasPrevious
             };
-            return data;
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok( new { data , metadata});
         }
     }
 }
