@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Clubs/clubs_screen.dart';
 import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
 import 'package:flutter_auth/Screens/Welcome/components/background.dart';
 import 'package:flutter_auth/components/img_card_button.dart';
@@ -43,7 +44,7 @@ class Body extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ImgCardButton(
-                      pageRoute: SignUpScreen(),
+                      pageRoute: ClubOver(),
                       imageUrl: "assets/images/fan_club.png",
                       buttonText: "Clubs"),
                   SizedBox(
