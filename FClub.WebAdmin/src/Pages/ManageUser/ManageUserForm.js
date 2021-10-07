@@ -13,7 +13,9 @@ import React, { useState, useEffect } from "react";
 
 const ManageUserForm = () => {
   const [memberData, setMemberData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     fetch(
@@ -27,21 +29,24 @@ const ManageUserForm = () => {
       }
     )
       .then((response) => {
-        console.log(response.headers.get("X-Pagination"));
         return response.json();
       })
-      .then((data) => setMemberData(data))
+      .then((data) => {
+        setMemberData(data.data);
+        setTotalCount(data.metadata.totalCount);
+      })
       .catch((error) => {
         throw new Error(error);
       }, []);
   }, [page]);
 
   const handleChangePage = (event, newPage) => {
-    if (newPage <= 0) {
-      newPage = 1;
-    }
     setPage(newPage);
-    console.log(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   return (
@@ -73,8 +78,8 @@ const ManageUserForm = () => {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               colSpan={3}
-              count={-1}
-              rowsPerPage={20}
+              count={totalCount}
+              rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
                 inputProps: {
@@ -83,7 +88,7 @@ const ManageUserForm = () => {
                 native: true,
               }}
               onPageChange={handleChangePage}
-              // onRowsPerPageChange={handleChangeRowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
               // ActionsComponent={TablePaginationActions}
             />
           </TableRow>
