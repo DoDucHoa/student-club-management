@@ -57,9 +57,9 @@ const ManageUserForm = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="right">ID</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Address</TableCell>
+            <TableCell align="center">ID</TableCell>
+            <TableCell align="center">Name</TableCell>
+            <TableCell align="center">Address</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -71,8 +71,8 @@ const ManageUserForm = () => {
               <TableCell component="th" scope="row">
                 {row.id}
               </TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.address}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="left">{row.address}</TableCell>
             </TableRow>
           ))}
         </TableBody>

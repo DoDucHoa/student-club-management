@@ -19,6 +19,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { LoadingButton } from "@mui/lab";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
   },
   textContainer: {
     width: "22ch",
+  },
+  btnControl: {
+    borderRadius: theme.shape.borderRadiusXl,
   },
 }));
 
@@ -111,16 +115,26 @@ const RegisterComponent = () => {
             </div>
           </Grid>
           <Grid item md={6} sm={6} xs={12}>
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              type="submit"
+            <LoadingButton
+              className={classes.btnControl}
+              sx={{
+                margin: 0,
+                "&:disabled": {
+                  cursor: "not-allowed",
+                  pointerEvents: "all !important",
+                },
+              }}
               startIcon={<CheckCircleOutlineIcon />}
+              type="submit"
+              size="large"
+              loadingPosition="start"
+              variant="contained"
+              fullWidth
               disabled={isLoading}
+              loading={isLoading}
             >
               {isLoading ? "Loading..." : "SIGN UP"}
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </form>
