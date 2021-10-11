@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -45,6 +44,9 @@ namespace FClub.Data.Database
         [Column("photo")]
         [StringLength(256)]
         public string Photo { get; set; }
+        [Column("bio")]
+        [StringLength(3000)]
+        public string Bio { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("UserInfos")]

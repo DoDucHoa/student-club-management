@@ -10,10 +10,10 @@ namespace FClub.Data.Repository
     public class EventTicketRepository : Repository<EventTicket>, IEventTicketRepository
     {
 
-        readonly ApplicationDbContext _dbContext;
-        public EventTicketRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        readonly ClubManagementDBContext _dbContext;
+        public EventTicketRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
 
 

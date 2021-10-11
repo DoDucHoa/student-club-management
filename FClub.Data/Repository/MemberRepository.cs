@@ -8,11 +8,11 @@ namespace FClub.Data.Repository
 {
     public class MemberRepository : Repository<Member>, IMemberRepository
     {
-        ApplicationDbContext _dbContext;
+        ClubManagementDBContext _dbContext;
 
-        public MemberRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public MemberRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
     }
 }

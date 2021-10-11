@@ -10,10 +10,10 @@ namespace FClub.Data.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ClubManagementDBContext _db;
         internal DbSet<T> dbSet;
 
-        public Repository(ApplicationDbContext db)
+        public Repository(ClubManagementDBContext db)
         {
             _db = db;
             this.dbSet = _db.Set<T>();

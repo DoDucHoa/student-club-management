@@ -10,8 +10,8 @@ namespace FClub.Data.Repository
 {
     public class MemberTaskRepository : Repository<MemberTask>, IMemberTaskRepository
     {
-        private readonly ApplicationDbContext _db;
-        public MemberTaskRepository(ApplicationDbContext db) : base(db)
+        private readonly ClubManagementDBContext _db;
+        public MemberTaskRepository(ClubManagementDBContext db) : base(db)
         {
             _db = db;
         }
