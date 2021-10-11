@@ -11,7 +11,6 @@ import {
   Stack,
   Button,
   Modal,
-  Container,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -75,17 +74,21 @@ export default function ClubCard({ club }) {
           <ClubImgStyle alt={name} src={logoUrl} />
         </Box>
 
-        <Stack spacing={2} sx={{ p: 3 }}>
+        <Stack
+          spacing={2}
+          sx={{ p: 3, textAlign: "center", alignItems: "center" }}
+        >
           <Link to="#" color="inherit" underline="hover" component={RouterLink}>
             <Typography variant="subtitle2" noWrap>
               {name}
             </Typography>
           </Link>
-          <Button variant="contained" onClick={modalHandler}>
+          <Button variant="contained" fullWidth onClick={modalHandler}>
             Join Club
           </Button>
         </Stack>
       </Card>
+
       <Modal
         open={modalOpen}
         onClose={modalHandler}
