@@ -1,16 +1,18 @@
 ﻿using System;
-using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-
+#nullable disable
 
 namespace FClub.Data.Database
 {
-    public partial class ApplicationDbContext : DbContext
+    public partial class ClubManagementDBContext : DbContext
     {
+        public ClubManagementDBContext()
+        {
+        }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ClubManagementDBContext(DbContextOptions<ClubManagementDBContext> options)
             : base(options)
         {
         }
@@ -34,7 +36,7 @@ namespace FClub.Data.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=SE140057-LONGNH;Database=ClubManagementDB;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=club-management.database.windows.net,1433;Database=ClubManagementDB;User Id=admin123;Password=Sa123456;");
             }
         }
 
@@ -68,8 +70,6 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<EventTicket>(entity =>
             {
-                entity.Property(e => e.Id).IsUnicode(false);
-
                 entity.Property(e => e.TicketTypeId).IsUnicode(false);
 
                 entity.HasOne(d => d.Participant)
@@ -110,8 +110,6 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<MemberTask>(entity =>
             {
-                //entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.MemberTasks)
                     .HasForeignKey(d => d.MemberId)

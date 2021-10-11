@@ -10,8 +10,8 @@ namespace FClub.Data.Repository
 {
     public class TransactionDetailRepository : Repository<TransactionDetail>, ITransactionDetailRepository
     {
-        private readonly ApplicationDbContext _db;
-        public TransactionDetailRepository(ApplicationDbContext db) : base(db)
+        private readonly ClubManagementDBContext _db;
+        public TransactionDetailRepository(ClubManagementDBContext db) : base(db)
         {
             _db = db;
         }
