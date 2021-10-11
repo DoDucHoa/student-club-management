@@ -52,9 +52,6 @@ const useStyles = makeStyles((theme) => ({
   signDivider: {
     flexGrow: 1,
   },
-  btnControl: {
-    borderRadius: theme.shape.borderRadiusXl,
-  },
 }));
 
 const LoginForm = () => {
@@ -137,7 +134,6 @@ const LoginForm = () => {
           </Grid>
           <Grid item>
             <LoadingButton
-              className={classes.btnControl}
               sx={{
                 margin: 0,
                 "&:disabled": {

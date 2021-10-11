@@ -28,9 +28,6 @@ const useStyles = makeStyles((theme) => ({
   textContainer: {
     width: "22ch",
   },
-  btnControl: {
-    borderRadius: theme.shape.borderRadiusXl,
-  },
 }));
 
 const RegisterComponent = () => {
@@ -69,7 +66,7 @@ const RegisterComponent = () => {
       </motion.h1>
       <form onSubmit={submitHandler}>
         <Grid container spacing={4}>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <TextField
                 inputRef={emailInputRef}
@@ -82,7 +79,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <TextField
                 id="standard-name"
@@ -94,7 +91,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <PasswordField
                 id="password"
@@ -104,7 +101,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <PasswordField
                 id="re-password"
@@ -116,7 +113,6 @@ const RegisterComponent = () => {
           </Grid>
           <Grid item md={6} sm={6} xs={12}>
             <LoadingButton
-              className={classes.btnControl}
               sx={{
                 margin: 0,
                 "&:disabled": {

@@ -1,16 +1,16 @@
-import PieChartIcon from "@mui/icons-material/PieChart";
 import GroupIcon from "@mui/icons-material/Group";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 
 // ----------------------------------------------------------------------
 
 const sidebarConfig = [
   {
-    title: "dashboard",
-    path: "/dashboard/app",
-    icon: <PieChartIcon />,
+    title: "club",
+    path: "/dashboard/club",
+    icon: <MeetingRoomIcon />,
   },
   {
-    title: "manage user",
+    title: "manage member",
     path: "/dashboard/user",
     icon: <GroupIcon />,
   },

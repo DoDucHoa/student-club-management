@@ -61,7 +61,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const renderContent = (
+  const renderSidebarContent = (
     <Scrollbar
       sx={{
         height: "100%",
@@ -116,18 +116,19 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <MHidden width="lgUp">
         <Drawer
           open={isOpenSidebar}
+          variant="temporary"
           onClose={onCloseSidebar}
           PaperProps={{
             sx: { width: DRAWER_WIDTH },
           }}
         >
-          {renderContent}
+          {renderSidebarContent}
         </Drawer>
       </MHidden>
 
       <MHidden width="lgDown">
         <Drawer
-          open
+          open={true}
           variant="persistent"
           PaperProps={{
             sx: {
@@ -136,7 +137,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             },
           }}
         >
-          {renderContent}
+          {renderSidebarContent}
         </Drawer>
       </MHidden>
     </RootStyle>
