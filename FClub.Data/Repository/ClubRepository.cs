@@ -9,8 +9,8 @@ namespace FClub.Data.Repository
 {
     public class ClubRepository : Repository<Club>, IClubRepository
     {
-        private readonly ApplicationDbContext _db;
-        public ClubRepository(ApplicationDbContext db) : base(db)
+        private readonly ClubManagementDBContext _db;
+        public ClubRepository(ClubManagementDBContext db) : base(db)
         {
             _db = db;
         }

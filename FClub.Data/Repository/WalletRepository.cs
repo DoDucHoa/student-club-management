@@ -10,8 +10,8 @@ namespace FClub.Data.Repository
 {
     public class WalletRepository : Repository<Wallet>, IWalletRepository
     {
-        private readonly ApplicationDbContext _db;
-        public WalletRepository(ApplicationDbContext db) : base(db)
+        private readonly ClubManagementDBContext _db;
+        public WalletRepository(ClubManagementDBContext db) : base(db)
         {
             _db = db;
         }

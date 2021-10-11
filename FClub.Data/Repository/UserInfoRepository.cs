@@ -11,11 +11,11 @@ namespace FClub.Data.Repository
 {
     public class UserInfoRepository : Repository<UserInfo>, IUserInfoRepository
     {
-        ApplicationDbContext _dbContext;
+        ClubManagementDBContext _dbContext;
 
-        public UserInfoRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public UserInfoRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
     }
 }
