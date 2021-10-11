@@ -1,10 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { auth } from "../../Constants/Firebase";
+
+const retrieveStoredToken = () => {
+  const storedToken = localStorage.getItem("token");
+  return storedToken;
+};
+
+const removeToken = () => {
+  localStorage.clear();
+};
 
 const initialAuthState = {
-  authConfig: auth,
-  token: null,
-  isLoggedIn: false,
+  token: retrieveStoredToken(),
+  isLoggedIn: !!retrieveStoredToken(),
   isLoading: false,
 };
 
@@ -12,13 +19,15 @@ const authSlice = createSlice({
   name: "authentication",
   initialState: initialAuthState,
   reducers: {
-    replaceAuthConfig(state, action) {
-      state.authConfig = action.payload;
-    },
     signInHandler(state, action) {
       state.token = action.payload.token;
       localStorage.setItem("token", state.token);
       state.isLoggedIn = true;
+    },
+    signOutHandler(state) {
+      state.token = "";
+      state.isLoggedIn = false;
+      removeToken();
     },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
