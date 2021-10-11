@@ -46,38 +46,9 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<Club>(entity =>
             {
-                entity.ToTable("Club");
+                entity.Property(e => e.Id).IsUnicode(false);
 
-                entity.HasIndex(e => e.Id, "i");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("id");
-
-                entity.Property(e => e.About)
-                    .HasMaxLength(3000)
-                    .HasColumnName("about");
-
-                entity.Property(e => e.Balance)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("balance");
-
-                entity.Property(e => e.Logo)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("logo");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.UniversityId)
-                    .IsRequired()
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("university_id");
+                entity.Property(e => e.UniversityId).IsUnicode(false);
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.Clubs)
@@ -88,58 +59,7 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<EventInfo>(entity =>
             {
-                entity.ToTable("EventInfo");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.BeginDate)
-                    .HasColumnType("date")
-                    .HasColumnName("begin_date");
-
-                entity.Property(e => e.BonusPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("bonus_point");
-
-                entity.Property(e => e.Content)
-                    .IsRequired()
-                    .HasMaxLength(3000)
-                    .HasColumnName("content");
-
-                entity.Property(e => e.CreateDate)
-                    .HasColumnType("date")
-                    .HasColumnName("create_date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.CreatorId).HasColumnName("creator_id");
-
-                entity.Property(e => e.DueDate)
-                    .HasColumnType("date")
-                    .HasColumnName("due_date");
-
-                entity.Property(e => e.EndRegisDate)
-                    .HasColumnType("date")
-                    .HasColumnName("end_regis_date");
-
-                entity.Property(e => e.Image)
-                    .HasMaxLength(256)
-                    .HasColumnName("image");
-
-                entity.Property(e => e.LimitJoin).HasColumnName("limit_join");
-
-                entity.Property(e => e.Location)
-                    .HasMaxLength(256)
-                    .HasColumnName("location");
-
-                entity.Property(e => e.RegisDate)
-                    .HasColumnType("date")
-                    .HasColumnName("regis_date");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("title");
+                entity.Property(e => e.CreateDate).HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.EventInfos)
@@ -150,17 +70,7 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<EventTicket>(entity =>
             {
-                entity.ToTable("EventTicket");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ParticipantId).HasColumnName("participant_id");
-
-                entity.Property(e => e.TicketTypeId)
-                    .IsRequired()
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("ticket_type_id");
+                entity.Property(e => e.TicketTypeId).IsUnicode(false);
 
                 entity.HasOne(d => d.Participant)
                     .WithMany(p => p.EventTickets)
@@ -177,21 +87,7 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<Member>(entity =>
             {
-                entity.ToTable("Member");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.ClubId)
-                    .IsRequired()
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("club_id");
-
-                entity.Property(e => e.RoleId).HasColumnName("role_id");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.ClubId).IsUnicode(false);
 
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Members)
@@ -214,28 +110,6 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<MemberTask>(entity =>
             {
-                entity.ToTable("MemberTask");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.AwardPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("award_point");
-
-                entity.Property(e => e.CompleteDate)
-                    .HasColumnType("date")
-                    .HasColumnName("complete_date");
-
-                entity.Property(e => e.Evidence)
-                    .HasMaxLength(256)
-                    .HasColumnName("evidence");
-
-                entity.Property(e => e.IsFinish).HasColumnName("isFinish");
-
-                entity.Property(e => e.MemberId).HasColumnName("member_id");
-
-                entity.Property(e => e.TaskId).HasColumnName("task_id");
-
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.MemberTasks)
                     .HasForeignKey(d => d.MemberId)
@@ -251,24 +125,6 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<Participant>(entity =>
             {
-                entity.ToTable("Participant");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Attendance).HasColumnName("attendance");
-
-                entity.Property(e => e.BonusPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("bonus_point");
-
-                entity.Property(e => e.EventId).HasColumnName("event_id");
-
-                entity.Property(e => e.MemberId).HasColumnName("member_id");
-
-                entity.Property(e => e.RegisDate)
-                    .HasColumnType("date")
-                    .HasColumnName("regis_date");
-
                 entity.HasOne(d => d.Event)
                     .WithMany(p => p.Participants)
                     .HasForeignKey(d => d.EventId)
@@ -284,67 +140,14 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("Role");
-
-                entity.HasIndex(e => e.Id, "i");
-
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
+                entity.Property(e => e.Id).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<Task>(entity =>
             {
-                entity.ToTable("Task");
+                entity.Property(e => e.CreateDate).HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.AwardPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("award_point");
-
-                entity.Property(e => e.BeginDate)
-                    .HasColumnType("date")
-                    .HasColumnName("begin_date");
-
-                entity.Property(e => e.Content)
-                    .HasMaxLength(3000)
-                    .HasColumnName("content");
-
-                entity.Property(e => e.CreateDate)
-                    .HasColumnType("date")
-                    .HasColumnName("create_date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.CreatorId).HasColumnName("creator_id");
-
-                entity.Property(e => e.DueDate)
-                    .HasColumnType("date")
-                    .HasColumnName("due_date");
-
-                entity.Property(e => e.LimitJoin).HasColumnName("limit_join");
-
-                entity.Property(e => e.PennaltyPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("pennalty_point");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("title");
-
-                entity.Property(e => e.TypeId)
-                    .IsRequired()
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("type_id");
+                entity.Property(e => e.TypeId).IsUnicode(false);
 
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.Tasks)
@@ -361,70 +164,25 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<TaskType>(entity =>
             {
-                entity.ToTable("TaskType");
-
-                entity.HasIndex(e => e.Id, "i");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
+                entity.Property(e => e.Id).IsUnicode(false);
             });
 
             modelBuilder.Entity<TicketType>(entity =>
             {
-                entity.ToTable("TicketType");
+                entity.Property(e => e.Id).IsUnicode(false);
 
-                entity.HasIndex(e => e.Id, "i");
+                entity.Property(e => e.BonusPoint).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("id");
-
-                entity.Property(e => e.BonusPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("bonus_point")
-                    .HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Price)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("price")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Price).HasDefaultValueSql("((0))");
             });
 
             modelBuilder.Entity<TransactionDetail>(entity =>
             {
-                entity.ToTable("TransactionDetail");
+                entity.Property(e => e.Content).HasDefaultValueSql("('')");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CreateDate).HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Content)
-                    .HasMaxLength(256)
-                    .HasColumnName("content")
-                    .HasDefaultValueSql("('')");
-
-                entity.Property(e => e.CreateDate)
-                    .HasColumnType("date")
-                    .HasColumnName("create_date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.TransPoint)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("trans_point")
-                    .HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.WalletId).HasColumnName("wallet_id");
+                entity.Property(e => e.TransPoint).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.Wallet)
                     .WithMany(p => p.TransactionDetails)
@@ -435,75 +193,16 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<University>(entity =>
             {
-                entity.ToTable("University");
-
-                entity.HasIndex(e => e.Id, "i");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Address)
-                    .HasMaxLength(256)
-                    .HasColumnName("address");
-
-                entity.Property(e => e.Logo)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("logo");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
+                entity.Property(e => e.Id).IsUnicode(false);
             });
 
             modelBuilder.Entity<UserInfo>(entity =>
             {
-                entity.ToTable("UserInfo");
+                entity.Property(e => e.Password).IsUnicode(false);
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Phone).IsUnicode(false);
 
-                entity.Property(e => e.Bio)
-                    .HasMaxLength(3000)
-                    .HasColumnName("bio");
-
-                entity.Property(e => e.Birthday)
-                    .HasColumnType("date")
-                    .HasColumnName("birthday");
-
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("email");
-
-                entity.Property(e => e.Gender).HasColumnName("gender");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Password)
-                    .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .HasColumnName("password");
-
-                entity.Property(e => e.Phone)
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("phone");
-
-                entity.Property(e => e.Photo)
-                    .HasMaxLength(256)
-                    .HasColumnName("photo");
-
-                entity.Property(e => e.UniversityId)
-                    .IsRequired()
-                    .HasMaxLength(32)
-                    .IsUnicode(false)
-                    .HasColumnName("university_id");
+                entity.Property(e => e.UniversityId).IsUnicode(false);
 
                 entity.HasOne(d => d.University)
                     .WithMany(p => p.UserInfos)
@@ -514,16 +213,7 @@ namespace FClub.Data.Database
 
             modelBuilder.Entity<Wallet>(entity =>
             {
-                entity.ToTable("Wallet");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.MemberId).HasColumnName("member_id");
-
-                entity.Property(e => e.Point)
-                    .HasColumnType("numeric(19, 5)")
-                    .HasColumnName("point")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Point).HasDefaultValueSql("((0))");
 
                 entity.HasOne(d => d.Member)
                     .WithMany(p => p.Wallets)
