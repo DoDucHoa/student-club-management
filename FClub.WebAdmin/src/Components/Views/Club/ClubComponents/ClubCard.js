@@ -14,8 +14,6 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-
 // ----------------------------------------------------------------------
 
 const ClubImgStyle = styled("img")({
@@ -47,21 +45,9 @@ ClubCard.propTypes = {
 };
 
 export default function ClubCard({ club }) {
-  const { id, name, logo } = club;
+  const { name, logo } = club;
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState("");
-
-  if (!!logo) {
-    const storage = getStorage();
-    getDownloadURL(ref(storage, logo))
-      .then((url) => {
-        setLogoUrl(url);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
 
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
@@ -71,7 +57,7 @@ export default function ClubCard({ club }) {
     <>
       <Card>
         <Box sx={{ pt: "100%", position: "relative" }}>
-          <ClubImgStyle alt={name} src={logoUrl} />
+          <ClubImgStyle alt={name} src={logo} />
         </Box>
 
         <Stack
