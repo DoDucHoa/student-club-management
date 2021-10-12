@@ -86,9 +86,9 @@ export const signInWithGoogle = () => {
       dispatch(
         authActions.signInHandler({
           token: backendResponse.jwtToken,
+          userId: backendResponse.id,
         })
       );
-      console.log(backendResponse.jwtToken);
     } catch (error) {
       const errorMessage = error.message;
       console.log(errorMessage);

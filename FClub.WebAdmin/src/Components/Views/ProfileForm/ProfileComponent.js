@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 
 // material
@@ -70,17 +71,51 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileComponent = () => {
   const classes = useStyles();
+  const [profile, setProfile] = useState({});
 
-  const [gender, setGender] = useState(0);
-  const [name, setName] = useState(ACCOUNT.displayName);
+  const userId = useSelector((state) => state.auth.userId);
+  const token = useSelector((state) => state.auth.token);
 
-  const nameChangeHandler = (event) => {
-    setName(event.target.value);
-  };
+  useEffect(() => {
+    fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/users?id=" +
+        userId,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
+      .then((resData) => {
+        setProfile(resData.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [userId, token]);
 
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
+  const formik = useFormik({
+    enableReinitialize: true,
+
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      birth: "",
+      gender: 0,
+      school: "",
+      about: "",
+    },
+
+    onSubmit: (values) => {},
+  });
 
   return (
     <Page title="account">
@@ -92,7 +127,7 @@ const ProfileComponent = () => {
           </Typography>
         </Stack>
 
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <Box sx={{ display: "flex" }}>
             <Grid container spacing={4}>
               <Grid item xs={12} md={4}>
@@ -134,35 +169,45 @@ const ProfileComponent = () => {
                   <FormRoot>
                     <FormRow>
                       <TextField
+                        id="name"
                         className={classes.inputControl}
                         fullWidth
                         label="Name"
                         variant="outlined"
-                        value={name}
-                        onChange={nameChangeHandler}
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
                       />
                       <TextField
+                        id="email"
                         className={classes.inputControl}
                         fullWidth
                         label="Email Address"
                         variant="outlined"
                         type="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
                       />
                     </FormRow>
                     <FormRow>
                       <TextField
+                        id="phone"
                         className={classes.inputControl}
                         fullWidth
                         label="Phone"
                         variant="outlined"
                         type="tel"
+                        value={formik.values.phone}
+                        onChange={formik.handleChange}
                       />
                       <TextField
+                        id="birth"
                         className={classes.inputControl}
                         fullWidth
                         label="Birthday"
                         variant="outlined"
                         type="date"
+                        value={formik.values.birth}
+                        onChange={formik.handleChange}
                         InputLabelProps={{
                           shrink: true,
                         }}
@@ -173,10 +218,10 @@ const ProfileComponent = () => {
                         <InputLabel id="gender-label">Gender</InputLabel>
                         <Select
                           labelId="gender-label"
-                          id="demo-simple-select"
-                          value={gender}
+                          id="gender"
                           label="Gender"
-                          onChange={handleGenderChange}
+                          value={formik.values.gender}
+                          onChange={formik.handleChange}
                         >
                           <MenuItem value={0}>Male</MenuItem>
                           <MenuItem value={1}>Female</MenuItem>
@@ -188,10 +233,9 @@ const ProfileComponent = () => {
                         <InputLabel id="university-label">School</InputLabel>
                         <Select
                           labelId="university-label"
-                          id="demo-simple-select"
-                          value={gender}
                           label="Gender"
-                          onChange={handleGenderChange}
+                          value={formik.values.school}
+                          onChange={formik.handleChange}
                         >
                           <MenuItem value={0}>Male</MenuItem>
                           <MenuItem value={1}>Female</MenuItem>
@@ -201,11 +245,14 @@ const ProfileComponent = () => {
                     </FormRow>
                     <FormRow>
                       <TextField
+                        id="about"
                         className={classes.inputControl}
                         label="About"
                         fullWidth
                         multiline
                         rows={5}
+                        value={formik.values.about}
+                        onChange={formik.handleChange}
                       />
                     </FormRow>
                     <Box

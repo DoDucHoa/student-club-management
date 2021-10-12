@@ -5,12 +5,18 @@ const retrieveStoredToken = () => {
   return storedToken;
 };
 
+const retrieveStoredUserId = () => {
+  const storedUserId = localStorage.getItem("userId");
+  return storedUserId;
+};
+
 const removeToken = () => {
   localStorage.clear();
 };
 
 const initialAuthState = {
   token: retrieveStoredToken(),
+  userId: retrieveStoredUserId(),
   isLoggedIn: !!retrieveStoredToken(),
   isLoading: false,
 };
@@ -21,7 +27,9 @@ const authSlice = createSlice({
   reducers: {
     signInHandler(state, action) {
       state.token = action.payload.token;
+      state.userId = action.payload.userId;
       localStorage.setItem("token", state.token);
+      localStorage.setItem("userId", state.userId);
       state.isLoggedIn = true;
     },
     signOutHandler(state) {
