@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOutWeb } from "../../../Context/Actions/authen-action";
 
 // material
@@ -16,7 +16,6 @@ import { MHidden } from "../../../material-extends";
 
 //
 import sidebarConfig from "./Components/sidebarConfig";
-import account from "../../../_mock_/account";
 
 // icon
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -50,6 +49,10 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
+  const userData = useSelector((state) => state.auth.userData);
+  console.log(userData);
+  const { name, photo } = userData;
+
   const signOutHandler = () => {
     dispatch(signOutWeb());
   };
@@ -81,13 +84,13 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={photo} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {account.displayName}
+                {name}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {account.role}
+                Manager
               </Typography>
             </Box>
           </AccountStyle>
