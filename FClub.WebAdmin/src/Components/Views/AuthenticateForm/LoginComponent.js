@@ -22,6 +22,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 // icon
 import { BiLogIn } from "react-icons/bi";
@@ -96,7 +97,7 @@ const LoginForm = () => {
         initial={{ fontSize: "0px" }}
         animate={{ letterSpacing: "5px", fontSize: "33px" }}
       >
-        Welcome to Cluber!
+        Welcome to UniCLub!
       </motion.h1>
 
       <form onSubmit={submitHandler}>
@@ -132,17 +133,25 @@ const LoginForm = () => {
             />
           </Grid>
           <Grid item>
-            <Button
-              sx={{ margin: 0 }}
-              variant="contained"
+            <LoadingButton
+              sx={{
+                margin: 0,
+                "&:disabled": {
+                  cursor: "not-allowed",
+                  pointerEvents: "all !important",
+                },
+              }}
+              startIcon={<BiLogIn />}
               type="submit"
               size="large"
+              loadingPosition="start"
+              variant="contained"
               fullWidth
-              startIcon={<BiLogIn />}
               disabled={isLoading}
+              loading={isLoading}
             >
               {!isLoading ? "SIGN IN" : "Loading ..."}
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </form>

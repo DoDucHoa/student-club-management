@@ -1,35 +1,46 @@
-import { createTheme } from "@mui/material/styles";
+import PropTypes from "prop-types";
+import { useMemo } from "react";
+// material
+import { CssBaseline } from "@mui/material";
+import {
+  ThemeProvider,
+  createTheme,
+  StyledEngineProvider,
+} from "@mui/material/styles";
+//
+import shape from "./shape";
+import palette from "./palette";
+import typography from "./typography";
+import componentsOverride from "./overrides";
+import shadows, { customShadows } from "./shadows";
 
-export const theme = createTheme({
-  breakpoints: {
-    values: {
-      xs: 0,
-      sm: 600,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
-    },
-  },
-  palette: {
-    primary: {
-      main: "#0E86D4",
-      light: "#68BBE3",
-    },
-    background: {
-      default: "#9edfff",
-    },
-  },
-  shape: {
-    borderRadius: 20,
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          maxWidth: "15rem",
-          textTransform: "none",
-        },
-      },
-    },
-  },
-});
+// ----------------------------------------------------------------------
+
+ThemeConfig.propTypes = {
+  children: PropTypes.node,
+};
+
+export default function ThemeConfig({ children }) {
+  const themeOptions = useMemo(
+    () => ({
+      palette,
+      shape,
+      typography,
+      shadows,
+      customShadows,
+    }),
+    []
+  );
+
+  const theme = createTheme(themeOptions);
+  theme.components = componentsOverride(theme);
+
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
+}
