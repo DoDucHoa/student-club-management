@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
+
+#nullable disable
 
 namespace FClub.Data.Database
 {
@@ -30,6 +31,8 @@ namespace FClub.Data.Database
         public string ClubId { get; set; }
         [Column("role_id")]
         public int RoleId { get; set; }
+        [Column("status")]
+        public bool? Status { get; set; }
 
         [ForeignKey(nameof(ClubId))]
         [InverseProperty("Members")]

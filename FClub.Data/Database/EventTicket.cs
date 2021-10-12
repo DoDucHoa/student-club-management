@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
+
+#nullable disable
 
 namespace FClub.Data.Database
 {

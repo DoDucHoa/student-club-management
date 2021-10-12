@@ -8,11 +8,11 @@ namespace FClub.Data.Repository
 {
     public class TaskRepository : Repository<Task>, ITaskRepository
     {
-        ApplicationDbContext _dbContext;
+        ClubManagementDBContext _dbContext;
 
-        public TaskRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        public TaskRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
     }
 }

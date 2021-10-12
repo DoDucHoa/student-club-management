@@ -10,10 +10,10 @@ namespace FClub.Data.Repository
     public class ParticipantRepository : Repository<Participant>, IParticipantRepository
     {
 
-        readonly ApplicationDbContext _dbContext;
-        public ParticipantRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        readonly ClubManagementDBContext _dbContext;
+        public ParticipantRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
 
         public IEnumerable<Participant> GetParticipantByAttendance(bool Attended)

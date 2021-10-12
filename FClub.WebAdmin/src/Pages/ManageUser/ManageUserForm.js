@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+
 import {
   Table,
   TableBody,
@@ -9,9 +12,10 @@ import {
   TableFooter,
   TablePagination,
 } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
 
 const ManageUserForm = () => {
+  const token = useSelector((state) => state.auth.token);
+
   const [memberData, setMemberData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
@@ -23,8 +27,7 @@ const ManageUserForm = () => {
         page,
       {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhob2EwOTc4QGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoiSMOyYSIsIm5iZiI6MTYzMzUyNzgzMiwiZXhwIjoxNjMzOTU5ODMyLCJpYXQiOjE2MzM1Mjc4MzJ9.gKNs-csr4eOdBD4tA-kzLugflhPA91fe-jynXKdPriQ",
+          Authorization: "Bearer " + token,
         },
       }
     )
@@ -38,7 +41,7 @@ const ManageUserForm = () => {
       .catch((error) => {
         throw new Error(error);
       }, []);
-  }, [page]);
+  }, [page, token]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -54,9 +57,9 @@ const ManageUserForm = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell align="right">ID</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Address</TableCell>
+            <TableCell align="center">ID</TableCell>
+            <TableCell align="center">Name</TableCell>
+            <TableCell align="center">Address</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,8 +71,8 @@ const ManageUserForm = () => {
               <TableCell component="th" scope="row">
                 {row.id}
               </TableCell>
-              <TableCell align="right">{row.name}</TableCell>
-              <TableCell align="right">{row.address}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="left">{row.address}</TableCell>
             </TableRow>
           ))}
         </TableBody>

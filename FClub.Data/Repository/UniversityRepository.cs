@@ -11,10 +11,10 @@ namespace FClub.Data.Repository
 
     public class UniversityRepository : Repository<University> , IUniversityRepository
     {
-        ApplicationDbContext _dbContext;
-        public UniversityRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        ClubManagementDBContext _dbContext;
+        public UniversityRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
     }
 }

@@ -4,6 +4,7 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    borderRadius: theme.shape.borderRadiusLg,
     margin: "6rem auto",
     width: "37rem",
     padding: "3rem 5rem 3rem 5rem",

@@ -19,6 +19,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Button, Grid, TextField } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { LoadingButton } from "@mui/lab";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -65,7 +66,7 @@ const RegisterComponent = () => {
       </motion.h1>
       <form onSubmit={submitHandler}>
         <Grid container spacing={4}>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <TextField
                 inputRef={emailInputRef}
@@ -78,7 +79,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <TextField
                 id="standard-name"
@@ -90,7 +91,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <PasswordField
                 id="password"
@@ -100,7 +101,7 @@ const RegisterComponent = () => {
               />
             </div>
           </Grid>
-          <Grid item>
+          <Grid item xs={12} lg={6}>
             <div className={classes.textContainer}>
               <PasswordField
                 id="re-password"
@@ -111,16 +112,25 @@ const RegisterComponent = () => {
             </div>
           </Grid>
           <Grid item md={6} sm={6} xs={12}>
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth
-              type="submit"
+            <LoadingButton
+              sx={{
+                margin: 0,
+                "&:disabled": {
+                  cursor: "not-allowed",
+                  pointerEvents: "all !important",
+                },
+              }}
               startIcon={<CheckCircleOutlineIcon />}
+              type="submit"
+              size="large"
+              loadingPosition="start"
+              variant="contained"
+              fullWidth
               disabled={isLoading}
+              loading={isLoading}
             >
               {isLoading ? "Loading..." : "SIGN UP"}
-            </Button>
+            </LoadingButton>
           </Grid>
         </Grid>
       </form>
