@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOutWeb } from "../../../../Context/Actions/authen-action";
 
 // icon
@@ -22,7 +22,6 @@ import {
 // components
 import MenuPopover from "../../../../Components/UI/MenuPopover";
 //
-import account from "../../../../_mock_/account";
 
 // ----------------------------------------------------------------------
 
@@ -49,6 +48,9 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+
+  const userData = useSelector((state) => state.auth.userData);
+  const { email, name, photo } = userData;
 
   const dispatch = useDispatch();
 
@@ -85,7 +87,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={photo} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -96,10 +98,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            {email}
           </Typography>
         </Box>
 
