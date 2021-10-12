@@ -38,6 +38,9 @@ namespace FClub.Data.Database
         [Column("about")]
         [StringLength(3000)]
         public string About { get; set; }
+        [Required]
+        [Column("status")]
+        public bool Status { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("Clubs")]

@@ -48,6 +48,8 @@ namespace FClub.Data.Database
             {
                 entity.Property(e => e.Id).IsUnicode(false);
 
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
                 entity.Property(e => e.UniversityId).IsUnicode(false);
 
                 entity.HasOne(d => d.University)
@@ -201,6 +203,8 @@ namespace FClub.Data.Database
                 entity.Property(e => e.Password).IsUnicode(false);
 
                 entity.Property(e => e.Phone).IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.UniversityId).IsUnicode(false);
 

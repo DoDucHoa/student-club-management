@@ -38,6 +38,11 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.UniversityId == club.universityID);
             }
+            if (!club.Status)
+            {
+                values = values.Where(x => x.Status == false);
+            }
+
             if (!string.IsNullOrWhiteSpace(club.sort))
             {
                 switch (club.sort)
