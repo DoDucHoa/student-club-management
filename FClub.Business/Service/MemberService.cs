@@ -21,6 +21,7 @@ namespace FClub.Business.Service
 
         public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
         {
+
             var values = _repository.GetAll(includeProperties: member.includeProperties);
 
             if (member.Id != null)
@@ -53,6 +54,19 @@ namespace FClub.Business.Service
                 }
             }
 
+            if (member.includeProperties != null)
+            {
+                
+                foreach (var item in values)
+                {
+                    if (item.User.Members != null)
+                    {
+                        //item.User.Members = new HashSet<Member>();
+                        item.User.Members.Clear();
+                    }
+                }
+            }
+            
             return PagedList<Member>.ToPagedList(values.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
