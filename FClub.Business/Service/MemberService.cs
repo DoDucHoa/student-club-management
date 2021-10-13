@@ -56,17 +56,21 @@ namespace FClub.Business.Service
 
             if (member.includeProperties != null)
             {
-                
+                string[] includeList = member.includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var item in values)
                 {
-                    if (item.User.Members != null)
+                    if (includeList.Contains("User"))
                     {
                         //item.User.Members = new HashSet<Member>();
                         item.User.Members.Clear();
                     }
+                    if (includeList.Contains("Club"))
+                    {
+                        item.Club.Members.Clear();
+                    }
                 }
             }
-            
+
             return PagedList<Member>.ToPagedList(values.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
