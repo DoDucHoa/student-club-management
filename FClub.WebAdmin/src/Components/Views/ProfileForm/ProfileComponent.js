@@ -121,7 +121,7 @@ const ProfileComponent = () => {
   };
 
   const uploadHandler = () => {
-    const downloadUrl = UploadImageToFirebase(image);
+    UploadImageToFirebase(image);
     setImage(null);
   };
 

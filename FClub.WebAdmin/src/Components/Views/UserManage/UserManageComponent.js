@@ -161,7 +161,7 @@ const User = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalCount) : 0;
 
   const isUserNotFound = membersData.length === 0;
-  console.log(membersData);
+
   return (
     <Page title="User Management">
       <Container>
