@@ -83,12 +83,17 @@ export const signInWithGoogle = () => {
         result.user.accessToken
       );
 
+      const userData = await getUserInfo(
+        backendResponse.jwtToken,
+        backendResponse.id
+      );
+
       dispatch(
         authActions.signInHandler({
           token: backendResponse.jwtToken,
+          userData: userData.data[0],
         })
       );
-      console.log(backendResponse.jwtToken);
     } catch (error) {
       const errorMessage = error.message;
       console.log(errorMessage);
@@ -117,6 +122,23 @@ const getTokenFromBackend = async (firebaseToken) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getUserInfo = async (token, userId) => {
+  try {
+    const response = await fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/users?id=" +
+        userId,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
         },
       }
     );

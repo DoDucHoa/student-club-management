@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using FClub.Data.Database;
 using Microsoft.EntityFrameworkCore;
+
+#nullable disable
 
 namespace FClub.Data.Database
 {
@@ -34,6 +35,12 @@ namespace FClub.Data.Database
         [Column("logo")]
         [StringLength(256)]
         public string Logo { get; set; }
+        [Column("about")]
+        [StringLength(3000)]
+        public string About { get; set; }
+        [Required]
+        [Column("status")]
+        public bool Status { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("Clubs")]

@@ -50,6 +50,14 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.Phone.Equals(user.phone));
             }
+            if (user.IsAdmin)
+            {
+                values = values.Where(x => x.IsAdmin == true);
+            }
+            if (!user.Status)
+            {
+                values = values.Where(x => x.Status == false);
+            }
 
             if (!string.IsNullOrWhiteSpace(user.sort))
             {

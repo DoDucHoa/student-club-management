@@ -9,15 +9,15 @@ namespace FClub.Data.Repository
 {
     public class TicketTypeRepository : Repository<TicketType>, ITicketTypeRepository
     {
-        readonly ApplicationDbContext _dbContext;
-        public TicketTypeRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        readonly ClubManagementDBContext _dbContext;
+        public TicketTypeRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
 
         public int getBonusPointById(string id)
         {
-            return _dbContext.TicketTypes.FirstOrDefault(e => e.Id.Equals(id)).BonusPoint;
+            return (int)_dbContext.TicketTypes.FirstOrDefault(e => e.Id.Equals(id)).BonusPoint;
         }
     }
 }

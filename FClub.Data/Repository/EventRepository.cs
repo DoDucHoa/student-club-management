@@ -14,10 +14,10 @@ namespace FClub.Data.Repository
     public class EventRepository : Repository<EventInfo>, IEventRepository
     {
 
-        readonly ApplicationDbContext _dbContext;
-        public EventRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        readonly ClubManagementDBContext _dbContext;
+        public EventRepository(ClubManagementDBContext ClubManagementDBContext) : base(ClubManagementDBContext)
         {
-            _dbContext = applicationDbContext;
+            _dbContext = ClubManagementDBContext;
         }
 
         public void DisableEvent(int id)
