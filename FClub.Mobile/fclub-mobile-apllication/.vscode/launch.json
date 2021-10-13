@@ -5,7 +5,8 @@
     "version": "0.2.0",
     "configurations": [
 
-        {
+        {   
+            "program":"lib/main/main.dart",
             "name": "fclub-mobile-application",
             "request": "launch",
             "type": "dart",
@@ -13,7 +14,8 @@
                 "--no-sound-null-safety"
                ]
         },
-        {
+        {   
+            "program":"lib/main/main.dart",
             "name": "fclub-mobile-application(profile-mode)",
             "request": "launch",
             "type": "dart",
