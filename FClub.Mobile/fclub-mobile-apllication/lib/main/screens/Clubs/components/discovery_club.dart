@@ -12,7 +12,6 @@ class DiscoveryClub extends StatefulWidget {
 
 class ListClubState extends State<DiscoveryClub> {
   List<Club>? data;
-  FireStorageService img = new FireStorageService();
   // }
   @override
   void initState() {
@@ -45,7 +44,7 @@ class ListClubState extends State<DiscoveryClub> {
       itemBuilder: (context, index) {
         return ClubCard(
             pageRoute: SignUpScreen(),
-            logoUrl: '${img.loadFromStorage(data?[index].logo)}',
+            logoUrl: '${data?[index].logo}',
             Id: '${data?[index].id}',
             Name: '${data?[index].name}');
       },

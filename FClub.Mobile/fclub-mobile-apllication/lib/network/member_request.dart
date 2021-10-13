@@ -26,7 +26,7 @@ class MemberRequest {
     } else if (response.statusCode == 401) {
       throw Exception("Unauthorized");
     } else {
-      throw Exception("Can't get club");
+      throw Exception("Can't members");
     }
   }
 

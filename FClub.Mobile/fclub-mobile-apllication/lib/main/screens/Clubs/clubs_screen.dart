@@ -64,7 +64,7 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
 
                   // second tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'Your Clubs',
+                    text: 'My Clubs',
                   ),
                 ],
               ),

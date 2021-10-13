@@ -38,17 +38,7 @@ class ClubCard extends StatelessWidget {
             SizedBox(
               width: 18,
             ),
-            Container(
-              width: 50.0,
-              height: 50.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: null ?? NetworkImage(logoUrl),
-                ),
-              ),
-            ),
+            Image.network(logoUrl, width: 50, height: 50),
             Container(
                 padding: EdgeInsets.fromLTRB(18, 18, 0, 18),
                 child: Expanded(
