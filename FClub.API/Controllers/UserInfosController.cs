@@ -52,7 +52,7 @@ namespace FClub.API.Controllers
         }
         //Update User  
         [HttpPut]
-        public IActionResult UpdateUser(UserInfo _object)
+        public IActionResult UpdateUser([FromBody] UserInfo _object)
         {
             if (_userInforService.GetUsersById(_object.Id) == null)
             {
