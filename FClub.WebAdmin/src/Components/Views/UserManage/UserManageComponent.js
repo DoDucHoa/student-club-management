@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { Link as RouterLink } from "react-router-dom";
-
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-
 // material
 import {
   Card,
   Table,
   Stack,
   Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -26,6 +21,7 @@ import {
 import Page from "../../UI/Page";
 import Scrollbar from "../../UI/Scrollbar";
 import SearchNotFound from "../../UI/SearchNotFound";
+import Label from "../../UI/Label";
 import {
   UserListHead,
   UserListToolbar,
@@ -35,9 +31,11 @@ import {
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
+  { id: "email", label: "Email", alignRight: false },
   { id: "age", label: "Age", alignRight: true },
-  { id: "role", label: "Role", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
+  { id: "isAdmin", label: "Role", alignRight: false },
+  { id: "status", label: "Status", alignRight: false },
   { id: "" },
 ];
 
@@ -67,7 +65,7 @@ const User = () => {
   const [totalCount, setTotalCount] = useState(0);
 
   const url =
-    "https://club-management-service.azurewebsites.net/api/v1/members?includeProperties=User,Role&PageNumber=" +
+    "https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=" +
     page +
     "&PageSize=" +
     rowsPerPage;
@@ -90,11 +88,14 @@ const User = () => {
         resData.data.map((row) => {
           return members.push({
             id: row.id,
-            name: row.user.name,
-            role: row.role.name,
-            age: getAge(row.user.birthday),
-            photoUrl: row.user.photo,
-            gender: row.user.gender,
+            universityId: row.universityId,
+            email: row.email,
+            name: row.name,
+            photo: row.photo,
+            gender: row.gender,
+            age: getAge(row.birthday),
+            isAdmin: row.isAdmin,
+            status: row.status,
           });
         });
         setTotalCount(resData.metadata.totalCount);
@@ -172,16 +173,8 @@ const User = () => {
           mb={5}
         >
           <Typography variant="h4" gutterBottom>
-            Member Management
+            Users Management
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<ControlPointIcon />}
-          >
-            New Member
-          </Button>
         </Stack>
 
         <Card>
@@ -205,7 +198,16 @@ const User = () => {
                 />
                 <TableBody>
                   {membersData.map((row) => {
-                    const { id, name, role, age, photoUrl, gender } = row;
+                    const {
+                      id,
+                      name,
+                      photo,
+                      email,
+                      age,
+                      gender,
+                      isAdmin,
+                      status,
+                    } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -229,15 +231,31 @@ const User = () => {
                             alignItems="center"
                             spacing={2}
                           >
-                            <Avatar alt={name} src={photoUrl} />
+                            <Avatar alt={name} src={photo} />
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
                           </Stack>
                         </TableCell>
+                        <TableCell align="left">{email}</TableCell>
                         <TableCell align="right">{age}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
                         <TableCell align="left">{getGender(gender)}</TableCell>
+                        <TableCell align="left">
+                          <Label
+                            variant="ghost"
+                            color={isAdmin ? "primary" : "default"}
+                          >
+                            {isAdmin ? "Admin" : "Normal"}
+                          </Label>
+                        </TableCell>
+                        <TableCell align="left">
+                          <Label
+                            variant="ghost"
+                            color={status ? "success" : "error"}
+                          >
+                            {status ? "Active" : "Disabled"}
+                          </Label>
+                        </TableCell>
                         <TableCell align="right">
                           <UserMoreMenu />
                         </TableCell>

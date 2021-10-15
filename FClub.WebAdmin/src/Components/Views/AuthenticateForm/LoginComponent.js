@@ -21,6 +21,7 @@ import {
   Box,
   FormControlLabel,
   Checkbox,
+  Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -93,12 +94,14 @@ const LoginForm = () => {
 
   return (
     <FormCard>
-      <motion.h1
+      <motion.div
         initial={{ fontSize: "0px" }}
-        animate={{ letterSpacing: "5px", fontSize: "33px" }}
+        animate={{ letterSpacing: "3px", fontSize: "33px" }}
       >
-        Welcome to UniCLub!
-      </motion.h1>
+        <Typography mb={2} align="left" variant="h3">
+          Welcome to UniCLub!
+        </Typography>
+      </motion.div>
 
       <form onSubmit={submitHandler}>
         <Grid container spacing={2} direction="column">
@@ -171,7 +174,7 @@ const LoginForm = () => {
           <Grid item>
             <Button className={classes.btnBottom}>
               <Link
-                to="/register"
+                to="/additional-info"
                 underline="always"
                 style={{ textDecoration: "none", color: "#0E86D4" }}
               >

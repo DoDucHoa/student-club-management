@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import LoginForm from "../Pages/Authenticate/LoginForm";
 import RegisterForm from "../Pages/Authenticate/RegisterForm";
+import AdditionalForm from "../Pages/Authenticate/AdditionalForm";
 
 // component
 import Loadable from "../Components/UI/Loadable";
@@ -17,11 +18,18 @@ const DashBoardLayout = Loadable(lazy(() => import("../Layout/MainLayout")));
 const ProfilePage = Loadable(
   lazy(() => import("../Pages/Profile/ProfilePage"))
 );
+
 const ManageUserPage = Loadable(
   lazy(() => import("../Pages/ManageUser/MangageUserPage"))
 );
-const ClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
 
+const ManageClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
+
+const ActivityPage = Loadable(
+  lazy(() => import("../Pages/Activities/ActivityPage"))
+);
+
+// -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
@@ -44,6 +52,10 @@ export default function ThemeRoutes() {
           path: "register",
           element: <RegisterForm />,
         },
+        {
+          path: "additional-info",
+          element: <AdditionalForm />,
+        },
         { path: "404", element: <Page404 /> },
       ],
     },
@@ -58,11 +70,15 @@ export default function ThemeRoutes() {
         { element: <Navigate to="/dashboard/club" replace /> }, // if url is blank (path: "") then redirect to /app
         {
           path: "club",
-          element: <ClubPage />,
+          element: <ManageClubPage />,
         },
         {
           path: "user",
           element: <ManageUserPage />,
+        },
+        {
+          path: "activity",
+          element: <ActivityPage />,
         },
       ],
     },
