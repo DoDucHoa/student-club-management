@@ -83,17 +83,22 @@ export const signInWithGoogle = () => {
         result.user.accessToken
       );
 
-      const userData = await getUserInfo(
-        backendResponse.jwtToken,
-        backendResponse.id
-      );
+      // when user existed in the system
+      if (backendResponse !== null) {
+        const userData = await getUserInfo(
+          backendResponse.jwtToken,
+          backendResponse.id
+        );
 
-      dispatch(
-        authActions.signInHandler({
-          token: backendResponse.jwtToken,
-          userData: userData.data[0],
-        })
-      );
+        dispatch(
+          authActions.signInHandler({
+            token: backendResponse.jwtToken,
+            userData: userData.data[0],
+          })
+        );
+      } else {
+        signUpToBackend(result.user.accessToken);
+      }
     } catch (error) {
       const errorMessage = error.message;
       console.log(errorMessage);
@@ -125,7 +130,11 @@ const getTokenFromBackend = async (firebaseToken) => {
         },
       }
     );
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    } else {
+      return null;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -143,6 +152,29 @@ const getUserInfo = async (token, userId) => {
       }
     );
     return response.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const signUpToBackend = async (firebaseToken) => {
+  try {
+    const response = await fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/auths/sign-up?IdToken=" +
+        firebaseToken,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      console.log(response.json());
+      return response.json();
+    } else {
+      return null;
+    }
   } catch (error) {
     console.log(error);
   }

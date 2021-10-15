@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
-import { signUp } from "../../../Context/Actions/authen-action";
 
 // framer
 import { motion } from "framer-motion";
@@ -13,7 +12,6 @@ import FormCard from "../../UI/FormCard";
 
 // material ui
 import {
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -34,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterComponent = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -44,7 +41,7 @@ const RegisterComponent = () => {
 
   const [gender, setGender] = useState(1);
   const [schoolData, setSchoolData] = useState([]);
-  const [school, setSchool] = useState("FPT");
+  const [school, setSchool] = useState("");
 
   const schoolHandler = (event) => {
     setSchool(event.target.value);
@@ -108,13 +105,19 @@ const RegisterComponent = () => {
                   value={school}
                   onChange={schoolHandler}
                 >
-                  {schoolData.map((item) => {
-                    return (
-                      <MenuItem key={item.id} value={item.id}>
-                        {item.name}
-                      </MenuItem>
-                    );
-                  })}
+                  {schoolData.length !== 0 ? (
+                    schoolData.map((item) => {
+                      return (
+                        <MenuItem key={item.id} value={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      );
+                    })
+                  ) : (
+                    <MenuItem key="" value="">
+                      Loading...
+                    </MenuItem>
+                  )}
                 </Select>
               </FormControl>
             </div>
