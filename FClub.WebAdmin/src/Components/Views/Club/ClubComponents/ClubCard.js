@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
@@ -13,8 +14,6 @@ import {
   Modal,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 // ----------------------------------------------------------------------
 
@@ -46,32 +45,37 @@ ClubCard.propTypes = {
   club: PropTypes.object,
 };
 
-export default function ClubCard({ club }) {
+export default function ClubCard({ club, onBan }) {
   const { id, name, logo } = club;
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [logoUrl, setLogoUrl] = useState("");
+  const token = useSelector((state) => state.auth.token);
 
-  if (!!logo) {
-    const storage = getStorage();
-    getDownloadURL(ref(storage, logo))
-      .then((url) => {
-        setLogoUrl(url);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  const [modalOpen, setModalOpen] = useState(false);
 
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
+  };
+
+  const banClubHandler = (event) => {
+    const id = event.target.id;
+    const url = `https://club-management-service.azurewebsites.net/api/v1/clubs/${id}/false`;
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    }).catch((err) => {
+      console.log(err);
+    });
+    setModalOpen((prev) => !prev);
+    onBan(id);
   };
 
   return (
     <>
       <Card>
         <Box sx={{ pt: "100%", position: "relative" }}>
-          <ClubImgStyle alt={name} src={logoUrl} />
+          <ClubImgStyle alt={name} src={logo} />
         </Box>
 
         <Stack
@@ -83,8 +87,16 @@ export default function ClubCard({ club }) {
               {name}
             </Typography>
           </Link>
-          <Button variant="contained" fullWidth onClick={modalHandler}>
-            Join Club
+          <Button variant="contained" fullWidth>
+            Detail
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            fullWidth
+            onClick={modalHandler}
+          >
+            Ban Club
           </Button>
         </Stack>
       </Card>
@@ -108,14 +120,15 @@ export default function ClubCard({ club }) {
               Confirm
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Join {name}?
+              Ban {name}?
             </Typography>
             <Button
               sx={{ mt: 2 }}
               fullWidth
               variant="contained"
               color="primary"
-              onClick={modalHandler}
+              id={id}
+              onClick={banClubHandler}
             >
               Yes
             </Button>

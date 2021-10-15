@@ -17,24 +17,44 @@ const DashBoardLayout = Loadable(lazy(() => import("../Layout/MainLayout")));
 const ProfilePage = Loadable(
   lazy(() => import("../Pages/Profile/ProfilePage"))
 );
+
 const ManageUserPage = Loadable(
   lazy(() => import("../Pages/ManageUser/MangageUserPage"))
 );
-const ClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
 
+const ManageClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
+
+const ActivityPage = Loadable(
+  lazy(() => import("../Pages/Activities/ActivityPage"))
+);
+
+const AdditionalForm = Loadable(
+  lazy(() => import("../Pages/Authenticate/AdditionalForm"))
+);
+
+// -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const render = () => {
+    if (isRegistered) {
+      if (isLoggedIn) {
+        return <Navigate to="/dashboard" replace />;
+      } else {
+        return <Navigate to="/login" replace />;
+      }
+    } else {
+      return <Navigate to="/additional-info" />;
+    }
+  };
 
   return useRoutes([
     {
       path: "/",
       children: [
         {
-          element: isLoggedIn ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          ),
+          element: render(),
         },
         {
           path: "login",
@@ -43,6 +63,10 @@ export default function ThemeRoutes() {
         {
           path: "register",
           element: <RegisterForm />,
+        },
+        {
+          path: "additional-info",
+          element: <AdditionalForm />,
         },
         { path: "404", element: <Page404 /> },
       ],
@@ -58,11 +82,15 @@ export default function ThemeRoutes() {
         { element: <Navigate to="/dashboard/club" replace /> }, // if url is blank (path: "") then redirect to /app
         {
           path: "club",
-          element: <ClubPage />,
+          element: <ManageClubPage />,
         },
         {
           path: "user",
           element: <ManageUserPage />,
+        },
+        {
+          path: "activity",
+          element: <ActivityPage />,
         },
       ],
     },
