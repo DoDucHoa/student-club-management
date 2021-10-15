@@ -61,6 +61,8 @@ namespace FClub.Business.Service
             userInfo.Email = user.Email;
             userInfo.Name = username;
             userInfo.UniversityId = universityId;
+            userInfo.IsAdmin = false;
+            userInfo.Status = true;
 
             try
             {
