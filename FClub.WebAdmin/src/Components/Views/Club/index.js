@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 // component
 import Page from "../../UI/Page";
-import "./ClubComponents/ClubList";
 import ClubList from "./ClubComponents/ClubList";
 
 // material

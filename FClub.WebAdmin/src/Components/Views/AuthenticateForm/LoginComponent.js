@@ -61,6 +61,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
   const isLoading = useSelector((state) => state.auth.isLoading);
   const isEmailError = useSelector((state) => state.error.isEmailError);
   const emailErrorMessage = useSelector(
@@ -74,6 +75,16 @@ const LoginForm = () => {
   const inputEmailRef = useRef();
   const inputPasswordRef = useRef();
 
+  useEffect(() => {
+    if (isRegistered) {
+      if (isLoggedIn) {
+        navigate("/dashboard");
+      }
+    } else {
+      navigate("/additional-info");
+    }
+  }, [isLoggedIn, isRegistered, navigate]);
+
   const submitHandler = (event) => {
     event.preventDefault();
     const enteredEmail = inputEmailRef.current.value;
@@ -81,12 +92,6 @@ const LoginForm = () => {
 
     dispatch(signIn(enteredEmail, enteredPassword));
   };
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  }, [isLoggedIn, navigate]);
 
   const signInWithGoogleHandler = () => {
     dispatch(signInWithGoogle());

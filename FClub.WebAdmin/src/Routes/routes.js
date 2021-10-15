@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 import LoginForm from "../Pages/Authenticate/LoginForm";
 import RegisterForm from "../Pages/Authenticate/RegisterForm";
-import AdditionalForm from "../Pages/Authenticate/AdditionalForm";
 
 // component
 import Loadable from "../Components/UI/Loadable";
@@ -29,20 +28,33 @@ const ActivityPage = Loadable(
   lazy(() => import("../Pages/Activities/ActivityPage"))
 );
 
+const AdditionalForm = Loadable(
+  lazy(() => import("../Pages/Authenticate/AdditionalForm"))
+);
+
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const render = () => {
+    if (isRegistered) {
+      if (isLoggedIn) {
+        return <Navigate to="/dashboard" replace />;
+      } else {
+        return <Navigate to="/login" replace />;
+      }
+    } else {
+      return <Navigate to="/additional-info" />;
+    }
+  };
 
   return useRoutes([
     {
       path: "/",
       children: [
         {
-          element: isLoggedIn ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          ),
+          element: render(),
         },
         {
           path: "login",

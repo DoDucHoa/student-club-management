@@ -1,10 +1,22 @@
 import React from "react";
 
+// component
+import Page from "../../UI/Page";
+
+// material
+import { Container, Typography } from "@mui/material";
+
+// ------------------------------------------------------
+
 const ActivityComponents = () => {
   return (
-    <div>
-      <h1>Hello</h1>
-    </div>
+    <Page title="Club">
+      <Container>
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Activities
+        </Typography>
+      </Container>
+    </Page>
   );
 };
 
