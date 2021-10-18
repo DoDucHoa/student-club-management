@@ -1,4 +1,4 @@
-import 'package:flutter_auth/model/university.dart';
+import 'package:UniClub/model/university.dart';
 
 class Member {
   List<Data>? data;

@@ -1,10 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/Screens/Welcome/welcome_screen.dart';
-import 'package:flutter_auth/main/constants.dart';
-import 'package:flutter_auth/main/home.dart';
-import 'package:flutter_auth/main/screens/Authenticate/wrapper.dart';
-import 'package:flutter_auth/service/auth.dart';
+import 'package:UniClub/main/Screens/Welcome/welcome_screen.dart';
+import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/home.dart';
+import 'package:UniClub/main/screens/Authenticate/wrapper.dart';
+import 'package:UniClub/service/auth.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

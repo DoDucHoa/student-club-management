@@ -1,18 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/Screens/Signin/components/background.dart';
-import 'package:flutter_auth/main/Screens/Signup/components/or_divider.dart';
-import 'package:flutter_auth/main/Screens/Signup/components/social_icon.dart';
-import 'package:flutter_auth/main/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/main/Screens/Starter/starter_screen.dart';
-import 'package:flutter_auth/main/components/already_have_an_account_acheck.dart';
-import 'package:flutter_auth/main/components/rounded_button.dart';
-import 'package:flutter_auth/main/components/rounded_input_field.dart';
-import 'package:flutter_auth/main/components/rounded_password_field.dart';
-import 'package:flutter_auth/main/constants.dart';
-import 'package:flutter_auth/main/screens/Authenticate/wrapper.dart';
-import 'package:flutter_auth/main/screens/GoogleSignup/signup_google_screen.dart';
-import 'package:flutter_auth/service/auth.dart';
+import 'package:UniClub/main/Screens/Signin/components/background.dart';
+import 'package:UniClub/main/Screens/Signup/components/or_divider.dart';
+import 'package:UniClub/main/Screens/Signup/components/social_icon.dart';
+import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
+import 'package:UniClub/main/components/already_have_an_account_acheck.dart';
+import 'package:UniClub/main/components/rounded_button.dart';
+import 'package:UniClub/main/components/rounded_input_field.dart';
+import 'package:UniClub/main/components/rounded_password_field.dart';
+import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/screens/Authenticate/wrapper.dart';
+import 'package:UniClub/main/screens/GoogleSignup/signup_google_screen.dart';
+import 'package:UniClub/service/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -71,16 +70,6 @@ class _BodyState extends State<Body> {
             }, ' Password', TextInputAction.next, _passwordController),
             RoundedButton(
                 text: "SIGN IN",
-                // press: () => {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) {
-                //         return StarterScreen();
-                //       },
-                //     ),
-                //   )
-                // },
                 press: () async {
                   dynamic result = await _auth.signInWithEmail(email, password);
                   print(result);

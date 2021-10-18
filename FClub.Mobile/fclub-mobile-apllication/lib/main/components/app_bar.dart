@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TitleBar extends StatelessWidget with PreferredSizeWidget {
@@ -18,14 +18,14 @@ class TitleBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(Icons.arrow_back_ios_new),
-          color: kPrimaryColor,
-        ),
-        SizedBox(width: 115.0),
+        // IconButton(
+        //   onPressed: () => Navigator.pop(context),
+        //   icon: Icon(Icons.arrow_back_ios_new),
+        //   color: kPrimaryColor,
+        // ),
+        // SizedBox(width: 115.0),
         Container(
             alignment: Alignment.center,
             child:

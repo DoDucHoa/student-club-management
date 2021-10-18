@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/constants.dart';
 
 class ClubCard extends StatelessWidget {
   final Widget pageRoute;
@@ -22,7 +22,7 @@ class ClubCard extends StatelessWidget {
       onTap: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => pageRoute)),
       child: Container(
-        width: size.width * 0.8,
+        width: size.width,
         height: 80.0,
         decoration: BoxDecoration(
           border: Border.all(
@@ -63,7 +63,7 @@ class ClubCard extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 13,
-                              color: kPrimaryColor,
+                              color: Colors.black87,
                             )),
                       )
                     ])))

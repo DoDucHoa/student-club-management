@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_auth/model/token.dart';
-import 'package:flutter_auth/model/user.dart';
-import 'package:flutter_auth/network/auth_request.dart';
+import 'package:UniClub/model/token.dart';
+import 'package:UniClub/model/user.dart';
+import 'package:UniClub/network/auth_request.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {

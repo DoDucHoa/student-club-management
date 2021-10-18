@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/Screens/Signin/login_screen.dart';
-import 'package:flutter_auth/main/Screens/Signup/components/background.dart';
-import 'package:flutter_auth/main/Screens/Signup/components/or_divider.dart';
-import 'package:flutter_auth/main/Screens/Signup/components/social_icon.dart';
-import 'package:flutter_auth/main/components/already_have_an_account_acheck.dart';
-import 'package:flutter_auth/main/components/rounded_button.dart';
-import 'package:flutter_auth/main/components/rounded_input_field.dart';
-import 'package:flutter_auth/main/components/rounded_password_field.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/Screens/Signin/login_screen.dart';
+import 'package:UniClub/main/Screens/Signup/components/background.dart';
+import 'package:UniClub/main/Screens/Signup/components/or_divider.dart';
+import 'package:UniClub/main/Screens/Signup/components/social_icon.dart';
+import 'package:UniClub/main/components/already_have_an_account_acheck.dart';
+import 'package:UniClub/main/components/rounded_button.dart';
+import 'package:UniClub/main/components/rounded_input_field.dart';
+import 'package:UniClub/main/components/rounded_password_field.dart';
+import 'package:UniClub/main/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Body extends StatefulWidget {

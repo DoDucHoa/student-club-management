@@ -1,5 +1,5 @@
-import 'package:flutter_auth/model/club.dart';
-import 'package:flutter_auth/model/user.dart';
+import 'package:UniClub/model/club.dart';
+import 'package:UniClub/model/user.dart';
 
 class University {
   List<Data>? data;
