@@ -24,6 +24,8 @@ const initialAuthState = {
   userId: retrieveStoredUserId(),
   userData: retrieveStoredUserData(),
   isLoggedIn: !!retrieveStoredToken(),
+  isRegistered: true,
+  firebaseToken: "",
   isLoading: false,
 };
 
@@ -39,6 +41,11 @@ const authSlice = createSlice({
       localStorage.setItem("userId", state.userId);
       localStorage.setItem("userData", JSON.stringify(state.userData));
       state.isLoggedIn = true;
+      state.isRegistered = true;
+    },
+    registerHandler(state, action) {
+      state.isRegistered = false;
+      state.firebaseToken = action.payload.firebaseToken;
     },
     signOutHandler(state) {
       state.token = "";

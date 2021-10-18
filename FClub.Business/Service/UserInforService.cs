@@ -108,7 +108,19 @@ namespace FClub.Business.Service
         {
             try
             {
-                _userInfo.Update(user);
+                var userDB = _userInfo.GetFirstOrDefault(x => x.Id == user.Id);
+                userDB.UniversityId = user.UniversityId;
+                userDB.Email = user.Email;
+                userDB.Password = user.Password;
+                userDB.Name = user.Name;
+                userDB.Phone = user.Phone;
+                userDB.Birthday = user.Birthday;
+                userDB.Gender = user.Gender;
+                userDB.Photo = user.Photo;
+                userDB.Bio = user.Bio;
+                userDB.IsAdmin = user.IsAdmin;
+                userDB.Status = user.Status;
+                _userInfo.Update(userDB);
                 _userInfo.SaveDbChange();
                 return true;
             }

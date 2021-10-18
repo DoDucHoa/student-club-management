@@ -50,7 +50,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state.auth.userData);
-  console.log(userData);
+
   const { name, photo } = userData;
 
   const signOutHandler = () => {
