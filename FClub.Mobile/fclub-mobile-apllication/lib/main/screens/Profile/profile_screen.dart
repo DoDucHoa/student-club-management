@@ -16,9 +16,25 @@ class ProfileScreen extends StatefulWidget {
 class ProfileState extends State<ProfileScreen> {
   Student? user;
   bool _status = false;
+  DateTime selectedDate = DateTime.now();
   TextEditingController name = new TextEditingController();
   TextEditingController phone = new TextEditingController();
   TextEditingController birth = new TextEditingController();
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+        birth.text = DateFormat('MM-dd-yyyy').format(selectedDate);
+      });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -30,7 +46,7 @@ class ProfileState extends State<ProfileScreen> {
         user = dataFromServer;
         name.text = user?.data?.first.name ?? "null";
         phone.text = user?.data?.first.phone ?? "null";
-        birth.text = DateFormat('yyyy-MM-dd')
+        birth.text = DateFormat('MM-dd-yyyy')
             .format(user?.data?.first.birthday ?? DateTime.now());
       });
     });
@@ -77,11 +93,14 @@ class ProfileState extends State<ProfileScreen> {
                 labelText: "Phone Number",
                 icon: Icons.phone,
                 enable: _status),
-            OutlinedText(
-                controller: birth,
-                labelText: "Birthday",
-                icon: Icons.calendar_today_rounded,
-                enable: _status),
+            GestureDetector(
+              onTap: !_status ? null : () => _selectDate(context),
+              child: OutlinedText(
+                  controller: birth,
+                  labelText: "Birthday",
+                  icon: Icons.calendar_today_rounded,
+                  enable: false),
+            ),
             SizedBox(
               height: size.height * 0.015,
             ),
@@ -103,8 +122,7 @@ class ProfileState extends State<ProfileScreen> {
             text: "Save",
             press: () {
               setState(() {
-                _status = true;
-                FocusScope.of(context).requestFocus(new FocusNode());
+                _status = false;
               });
             },
           ),
@@ -116,7 +134,6 @@ class ProfileState extends State<ProfileScreen> {
             press: () {
               setState(() {
                 _status = false;
-                FocusScope.of(context).requestFocus(new FocusNode());
               });
             },
           ),
