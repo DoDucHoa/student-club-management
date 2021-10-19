@@ -1,5 +1,5 @@
-import 'package:flutter_auth/model/member.dart';
-import 'package:flutter_auth/model/university.dart';
+import 'package:UniClub/model/member.dart';
+import 'package:UniClub/model/university.dart';
 
 class Student {
   List<Data>? data;
@@ -38,7 +38,7 @@ class Data {
   String? password;
   String? name;
   String? phone;
-  String? birthday;
+  DateTime? birthday;
   int? gender;
   String? photo;
   University? university;
@@ -64,7 +64,7 @@ class Data {
     password = json['password'];
     name = json['name'];
     phone = json['phone'];
-    birthday = json['birthday'];
+    birthday = DateTime.parse(json['birthday'].toString());
     gender = json['gender'];
     photo = json['photo'];
     university = json['university'];

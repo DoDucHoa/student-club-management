@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/components/text_field_container.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/components/text_field_container.dart';
+import 'package:UniClub/main/constants.dart';
 
 class PasswordInput extends StatefulWidget {
   final ValueChanged<String> onChange;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/Screens/Clubs/components/discovery_club.dart';
-import 'package:flutter_auth/main/components/app_bar.dart';
-import 'package:flutter_auth/main/constants.dart';
-import 'package:flutter_auth/main/screens/Clubs/components/your_club.dart';
+import 'package:UniClub/main/Screens/Clubs/components/discovery_club.dart';
+import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/screens/Clubs/components/your_club.dart';
 
 class ClubOver extends StatefulWidget {
   @override
@@ -30,14 +29,15 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: TitleBar("Club"),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         child: Column(
           children: [
             // give the tab bar a height [can change hheight to preferred height]
             Container(
+              width: size.width * 0.6,
               height: 45,
               decoration: BoxDecoration(
                 color: kSubColor,
@@ -46,6 +46,7 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
                 ),
               ),
               child: TabBar(
+                indicatorSize: TabBarIndicatorSize.tab,
                 controller: controller,
                 // give the indicator a decoration (color and border radius)
                 indicator: BoxDecoration(
@@ -59,12 +60,12 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
                 tabs: [
                   // first tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'Discovery',
+                    text: 'My Clubs',
                   ),
 
                   // second tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'My Clubs',
+                    text: 'Discovery',
                   ),
                 ],
               ),
@@ -76,10 +77,11 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
                 controller: controller,
                 children: [
                   // first tab bar view widget
-                  DiscoveryClub(),
+
+                  YourClub(),
 
                   // second tab bar view widget
-                  YourClub()
+                  DiscoveryClub(),
                 ],
               ),
             ),

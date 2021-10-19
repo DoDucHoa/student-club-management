@@ -1,9 +1,7 @@
+import 'package:UniClub/main/screens/Home/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/main/Screens/Starter/starter_screen.dart';
-import 'package:flutter_auth/main/screens/Signin/login_screen.dart';
-import 'package:flutter_auth/main/screens/Welcome/welcome_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:UniClub/main/screens/Welcome/welcome_screen.dart';
 
 class Wrapper extends StatelessWidget {
   @override
@@ -14,7 +12,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return WelcomeScreen();
     } else {
-      return StarterScreen();
+      return Home();
     }
   }
 }
