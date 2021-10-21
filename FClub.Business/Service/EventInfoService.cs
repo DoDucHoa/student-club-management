@@ -20,7 +20,7 @@ namespace FClub.Business.Service
         //GET All Event Details  
         public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter paging)
         {
-            var values = _eventRepo.GetAll();
+            var values = _eventRepo.GetAll(includeProperties: eventInfo.includeProperties);
 
             if (eventInfo.Id != null)
             {
