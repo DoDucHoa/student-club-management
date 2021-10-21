@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_auth/main/Screens/Clubs/components/club_card_info.dart';
-import 'package:flutter_auth/main/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/model/club.dart';
-import 'package:flutter_auth/network/club_request.dart';
-import 'package:flutter_auth/service/loadimg.dart';
+import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
+import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
+import 'package:UniClub/model/club.dart';
+import 'package:UniClub/network/club_request.dart';
 
 class DiscoveryClub extends StatefulWidget {
   @override

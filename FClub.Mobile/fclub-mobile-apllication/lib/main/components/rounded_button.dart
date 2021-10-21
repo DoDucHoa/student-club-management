@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/constants.dart';
 
 class RoundedButton extends StatelessWidget {
   final String text;
   final VoidCallback press;
   final Color color, textColor;
+  final double? width;
   const RoundedButton({
     Key? key,
     required this.text,
     required this.press,
     this.color = kPrimaryColor,
     this.textColor = Colors.white,
+    this.width,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      width: size.width * 0.8,
+      width: width,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(29),
         child: newElevatedButton(),

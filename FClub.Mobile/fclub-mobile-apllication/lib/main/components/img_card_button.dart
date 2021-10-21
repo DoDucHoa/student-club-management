@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/main/constants.dart';
+import 'package:UniClub/main/constants.dart';
 
 class ImgCardButton extends StatelessWidget {
   final Widget pageRoute;
