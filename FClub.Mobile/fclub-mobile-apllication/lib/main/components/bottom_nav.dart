@@ -1,7 +1,7 @@
 import 'package:UniClub/main/components/app_bar.dart';
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/Clubs/clubs_screen.dart';
-import 'package:UniClub/main/screens/Profile/profile.dart';
+import 'package:UniClub/main/screens/Events/event_screen.dart';
 import 'package:UniClub/main/screens/Profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,10 +55,7 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
       'Index 1: Task',
       style: TextStyle(fontStyle: FontStyle.italic),
     ),
-    Text(
-      'Index 2: Event',
-      style: TextStyle(fontStyle: FontStyle.italic),
-    ),
+    EventScreen(),
     Text(
       'Index 3: Wallet',
       style: TextStyle(fontStyle: FontStyle.italic),

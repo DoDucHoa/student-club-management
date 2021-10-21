@@ -31,7 +31,7 @@ class ProfileState extends State<ProfileScreen> {
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        birth.text = DateFormat('MM-dd-yyyy').format(selectedDate);
+        birth.text = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
   }
 
@@ -46,7 +46,7 @@ class ProfileState extends State<ProfileScreen> {
         user = dataFromServer;
         name.text = user?.data?.first.name ?? "null";
         phone.text = user?.data?.first.phone ?? "null";
-        birth.text = DateFormat('MM-dd-yyyy')
+        birth.text = DateFormat('dd/MM/yyyy')
             .format(user?.data?.first.birthday ?? DateTime.now());
       });
     });
@@ -118,8 +118,10 @@ class ProfileState extends State<ProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           RoundedButton(
+            color: kSubColor,
+            textColor: kPrimaryColor,
             width: size.width * 0.3,
-            text: "Save",
+            text: "Cancel",
             press: () {
               setState(() {
                 _status = false;
@@ -127,10 +129,8 @@ class ProfileState extends State<ProfileScreen> {
             },
           ),
           RoundedButton(
-            color: kSubColor,
-            textColor: kPrimaryColor,
             width: size.width * 0.3,
-            text: "Cancel",
+            text: "Save",
             press: () {
               setState(() {
                 _status = false;
