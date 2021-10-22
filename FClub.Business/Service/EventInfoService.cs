@@ -62,9 +62,9 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.Location.Contains(eventInfo.Location, StringComparison.InvariantCultureIgnoreCase));
             }
-            if (!eventInfo.Status)
+            if (eventInfo.Status != null)
             {
-                values = values.Where(x => x.Status == false);
+                values = values.Where(x => x.Status == eventInfo.Status);
             }
 
             if (!string.IsNullOrWhiteSpace(eventInfo.sort))
