@@ -1,3 +1,4 @@
+import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/constants.dart';
 
@@ -36,7 +37,7 @@ class EventCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-                padding: EdgeInsets.fromLTRB(18, 5, 0, 4),
+                padding: EdgeInsets.fromLTRB(18, 5, 18, 10),
                 width: size.width,
                 height: size.height * 0.08,
                 decoration: BoxDecoration(
@@ -46,31 +47,56 @@ class EventCard extends StatelessWidget {
                         bottomLeft: Radius.circular(25.0)),
                     border: Border.all(color: Colors.transparent)),
                 alignment: Alignment.bottomLeft,
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        child: Text(Id,
-                            textAlign: TextAlign.left,
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Text(Id,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: kSubColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    decorationStyle:
+                                        TextDecorationStyle.solid)),
+                            SizedBox(
+                              height: 7,
+                            ),
+                            Text(Name,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: kSubColor,
+                                )),
+                          ])),
+                      Container(
+                          child: Row(children: [
+                        Text("See details",
+                            textAlign: TextAlign.right,
                             style: TextStyle(
-                                color: kSubColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                // backgroundColor: Colors.white,
-                                decorationStyle: TextDecorationStyle.solid)),
-                      ),
-                      SizedBox(
-                        height: 7,
-                      ),
-                      Text(Name,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 13,
-                            color: kSubColor,
-                            // backgroundColor: Colors.white
-                          )),
-                    ]))
+                              fontSize: 20,
+                              color: kSubColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                        IconButton(
+                            iconSize: 25,
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.arrow_right_outlined,
+                              color: kSubColor,
+                              size: 20,
+                            )),
+                      ]))
+                      // RoundedButton(
+                      //     text: 'Die',
+                      //     press: () {},
+                      //     color: kSubColor,
+                      //     textColor: kPrimaryColor)
+                    ])),
           ],
         ),
       ),

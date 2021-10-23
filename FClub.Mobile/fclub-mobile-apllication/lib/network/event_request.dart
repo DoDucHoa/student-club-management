@@ -12,7 +12,7 @@ class EventRequest {
   static const String url =
       'https://club-management-service.azurewebsites.net/api/v1/events';
 
-  static Future<Event> fetchEvents({int page = 1}) async {
+  static Future<Event> fetchAvailableEvents() async {
     final response = await http.get(
       Uri.parse(url),
       headers: {HttpHeaders.authorizationHeader: tokenauthor},

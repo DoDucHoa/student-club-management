@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
 import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
 import 'package:UniClub/model/member.dart';
 import 'package:UniClub/model/user.dart';
-import 'package:UniClub/network/club_request.dart';
 import 'package:UniClub/network/member_request.dart';
 import 'package:UniClub/network/user_request.dart';
 
@@ -34,11 +31,6 @@ class ListClubState extends State<YourClub> {
           data = dataFromServer;
         });
       });
-      // ClubRequest.fetchClubs().then((dataFromServer) {
-      //   setState(() {
-      //     data = dataFromServer;
-      //   });
-      // });
     });
   }
 
@@ -50,12 +42,6 @@ class ListClubState extends State<YourClub> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // NetworkRequest.fetchClubs().then((dataFromServer) {
-    //   setState(() {
-    //     data = dataFromServer;
-    //   });
-    // });
     return ListView.separated(
       padding: EdgeInsets.all(8),
       itemCount: data?.data?.length ?? 0,

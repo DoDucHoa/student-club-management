@@ -27,7 +27,7 @@ class _CalendarState extends State<EventCalender> {
   @override
   void initState() {
     // TODO: implement initState
-    EventRequest.fetchEvents().then((dataFromServer) {
+    EventRequest.fetchAvailableEvents().then((dataFromServer) {
       setState(() {
         events = dataFromServer.data!.toList();
       });

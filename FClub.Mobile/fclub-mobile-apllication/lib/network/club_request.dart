@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:UniClub/main/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:UniClub/model/club.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -47,20 +47,6 @@ class ClubRequest {
       throw Exception("Can't get club");
     }
   }
-  // static Future<List<Post>> fetchClubs() async {
-  //   var parsed = Uri.parse("https://jsonplaceholder.typicode.com/posts");
-  //   final response = await http.get(parsed);
-
-  //   if (response.statusCode == 200) {
-  //     // If the server did return a 200 OK response,
-  //     // then parse the JSON.
-  //     return compute(parseClub, response.body);
-  //   } else {
-  //     // If the server did not return a 200 OK response,
-  //     // then throw an exception.
-  //     throw Exception('Failed to load album');
-  //   }
-  // }
 
   static List<Club> parseClubs(String responseBody) {
     var list = json.decode(responseBody) as List<dynamic>;

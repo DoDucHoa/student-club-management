@@ -31,12 +31,6 @@ class ListClubState extends State<DiscoveryClub> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    // NetworkRequest.fetchClubs().then((dataFromServer) {
-    //   setState(() {
-    //     data = dataFromServer;
-    //   });
-    // });
     return ListView.separated(
       padding: EdgeInsets.all(8),
       itemCount: data?.length ?? 0,

@@ -25,13 +25,13 @@ class ProfileState extends State<ProfileScreen> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1965),
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != selectedDate)
       setState(() {
         selectedDate = picked;
-        birth.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+        birth.text = DateFormat('dd?MM/yyyy').format(selectedDate);
       });
   }
 
