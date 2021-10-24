@@ -41,6 +41,13 @@ namespace FClub.API.Controllers
             return Ok(new { data, metadata });
         }
 
+        [HttpGet]
+        [Route("count")]
+        public ActionResult<int> Count(string ClubId)
+        {
+            return Ok(_service.CountByClub(ClubId));
+        }
+
         [HttpPost]
         public IActionResult Create(Member _object)
         {
