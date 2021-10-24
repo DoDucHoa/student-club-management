@@ -24,7 +24,7 @@ namespace FClub.Business.Service
 
         public PagedList<Club> GetAllClub(ClubParameter club, PagingParameter paging)
         {
-            var values = _clubRepository.GetAll();
+            var values = _clubRepository.GetAll(includeProperties: club.includeProperties);
 
             if (!string.IsNullOrWhiteSpace(club.id))
             {
