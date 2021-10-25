@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
+
 // material
 import { Grid } from "@mui/material";
+
+// components
 import ClubCard from "./ClubCard";
 
 // ----------------------------------------------------------------------

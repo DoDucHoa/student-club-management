@@ -6,6 +6,10 @@ export function fDate(date) {
   return format(new Date(date), "yyyy-MM-dd");
 }
 
+export function fVNDate(date) {
+  return format(new Date(date), "dd-MM-yyyy");
+}
+
 export function fDateTime(date) {
   return format(new Date(date), "dd MMM yyyy HH:mm");
 }

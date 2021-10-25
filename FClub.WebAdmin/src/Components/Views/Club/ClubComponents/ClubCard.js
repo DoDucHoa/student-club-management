@@ -7,11 +7,11 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   Box,
   Card,
-  Link,
   Typography,
   Stack,
   Button,
   Modal,
+  CardActionArea,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -48,102 +48,29 @@ ClubCard.propTypes = {
 export default function ClubCard({ club, onBan }) {
   const { id, name, logo } = club;
 
-  const token = useSelector((state) => state.auth.token);
-
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const modalHandler = () => {
-    setModalOpen((prev) => !prev);
-  };
-
-  const banClubHandler = (event) => {
-    const id = event.target.id;
-    const url = `https://club-management-service.azurewebsites.net/api/v1/clubs/${id}/false`;
-    fetch(url, {
-      method: "PUT",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    }).catch((err) => {
-      console.log(err);
-    });
-    setModalOpen((prev) => !prev);
-    onBan(id);
-  };
-
   return (
     <>
       <Card>
-        <Box sx={{ pt: "100%", position: "relative" }}>
-          <ClubImgStyle alt={name} src={logo} />
-        </Box>
-
-        <Stack
-          spacing={2}
-          sx={{ p: 3, textAlign: "center", alignItems: "center" }}
-        >
-          <Link to="#" color="inherit" underline="hover" component={RouterLink}>
-            <Typography variant="subtitle2" noWrap>
-              {name}
-            </Typography>
-          </Link>
-          <Button variant="contained" fullWidth>
-            Detail
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            fullWidth
-            onClick={modalHandler}
+        <CardActionArea>
+          <RouterLink
+            style={{ textDecoration: "none", color: "black" }}
+            to={id}
           >
-            Ban Club
-          </Button>
-        </Stack>
+            <Box sx={{ pt: "100%", position: "relative" }}>
+              <ClubImgStyle alt={name} src={logo} />
+            </Box>
+
+            <Stack
+              spacing={2}
+              sx={{ p: 3, textAlign: "center", alignItems: "center" }}
+            >
+              <Typography variant="subtitle2" noWrap>
+                {name}
+              </Typography>
+            </Stack>
+          </RouterLink>
+        </CardActionArea>
       </Card>
-
-      <Modal
-        open={modalOpen}
-        onClose={modalHandler}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Confirm
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Ban {name}?
-            </Typography>
-            <Button
-              sx={{ mt: 2 }}
-              fullWidth
-              variant="contained"
-              color="primary"
-              id={id}
-              onClick={banClubHandler}
-            >
-              Yes
-            </Button>
-            <Button
-              sx={{ mt: 2 }}
-              fullWidth
-              variant="contained"
-              color="error"
-              onClick={modalHandler}
-            >
-              No
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
     </>
   );
 }
