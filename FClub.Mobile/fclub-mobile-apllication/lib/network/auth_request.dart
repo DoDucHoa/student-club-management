@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_auth/model/club.dart';
-import 'package:flutter_auth/model/token.dart';
+import 'package:UniClub/model/club.dart';
+import 'package:UniClub/model/token.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

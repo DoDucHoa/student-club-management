@@ -51,7 +51,7 @@ namespace FClub.Data.Database
         public bool IsAdmin { get; set; }
         [Required]
         [Column("status")]
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("UserInfos")]

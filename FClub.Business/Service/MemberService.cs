@@ -19,6 +19,11 @@ namespace FClub.Business.Service
 
         public List<Member> Get() => _repository.GetAll().ToList();
 
+        public int CountByClub(string clubID)
+        {
+            return _repository.GetAll().Where(x => x.ClubId == clubID).Count();
+        }
+
         public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
         {
 

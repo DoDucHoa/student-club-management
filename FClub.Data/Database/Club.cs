@@ -40,7 +40,7 @@ namespace FClub.Data.Database
         public string About { get; set; }
         [Required]
         [Column("status")]
-        public bool Status { get; set; }
+        public bool? Status { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("Clubs")]

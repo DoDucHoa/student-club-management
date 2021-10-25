@@ -20,7 +20,7 @@ namespace FClub.Business.Service
         //GET All Event Details  
         public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter paging)
         {
-            var values = _eventRepo.GetAll();
+            var values = _eventRepo.GetAll(includeProperties: eventInfo.includeProperties);
 
             if (eventInfo.Id != null)
             {
@@ -61,6 +61,10 @@ namespace FClub.Business.Service
             if (!string.IsNullOrWhiteSpace(eventInfo.Location))
             {
                 values = values.Where(x => x.Location.Contains(eventInfo.Location, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (eventInfo.Status != null)
+            {
+                values = values.Where(x => x.Status == eventInfo.Status);
             }
 
             if (!string.IsNullOrWhiteSpace(eventInfo.sort))

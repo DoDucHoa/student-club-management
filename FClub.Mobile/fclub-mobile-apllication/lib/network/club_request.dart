@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:UniClub/main/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_auth/model/club.dart';
+import 'package:UniClub/model/club.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -15,10 +16,7 @@ class ClubRequest {
     print(token);
     final response = await http.get(
       Uri.parse(url),
-      headers: {
-        HttpHeaders.authorizationHeader:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhob2EwOTc4QGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoiSMOyYSIsIm5iZiI6MTYzMzcwNjczNywiZXhwIjoxNjM0MTM4NzM3LCJpYXQiOjE2MzM3MDY3Mzd9.CHfAP6Mix7CBgbGSAHEiwmVMB0t0OiveTzszNUuViMM'
-      },
+      headers: {HttpHeaders.authorizationHeader: tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClubs(response.body);
@@ -37,10 +35,7 @@ class ClubRequest {
         '/api/v1/clubs', queryParameters);
     final response = await http.get(
       uri,
-      headers: {
-        HttpHeaders.authorizationHeader:
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imhob2EwOTc4QGdtYWlsLmNvbSIsInVuaXF1ZV9uYW1lIjoiSMOyYSIsIm5iZiI6MTYzMzcwNjczNywiZXhwIjoxNjM0MTM4NzM3LCJpYXQiOjE2MzM3MDY3Mzd9.CHfAP6Mix7CBgbGSAHEiwmVMB0t0OiveTzszNUuViMM'
-      },
+      headers: {HttpHeaders.authorizationHeader: tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClub(response.body);
