@@ -78,7 +78,9 @@ namespace FClub.API
             services.AddTransient<WalletService, WalletService>();
             services.AddTransient<IMemberTaskRepository, MemberTaskRepository>();
             services.AddTransient<MemberTaskService, MemberTaskService>();
-            
+
+            services.AddTransient<INewsRepository, NewsRepository>();
+            services.AddTransient<NewsService, NewsService>();
 
             services.AddSwaggerGen(c =>
             {
