@@ -15,6 +15,7 @@ namespace FClub.Data.Database
         {
             EventInfos = new HashSet<EventInfo>();
             MemberTasks = new HashSet<MemberTask>();
+            News = new HashSet<News>();
             Participants = new HashSet<Participant>();
             Tasks = new HashSet<Task>();
             Wallets = new HashSet<Wallet>();
@@ -47,6 +48,8 @@ namespace FClub.Data.Database
         public virtual ICollection<EventInfo> EventInfos { get; set; }
         [InverseProperty(nameof(MemberTask.Member))]
         public virtual ICollection<MemberTask> MemberTasks { get; set; }
+        [InverseProperty("Creator")]
+        public virtual ICollection<News> News { get; set; }
         [InverseProperty(nameof(Participant.Member))]
         public virtual ICollection<Participant> Participants { get; set; }
         [InverseProperty(nameof(Task.Creator))]
