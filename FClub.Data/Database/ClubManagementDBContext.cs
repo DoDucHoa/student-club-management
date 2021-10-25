@@ -22,6 +22,7 @@ namespace FClub.Data.Database
         public virtual DbSet<EventTicket> EventTickets { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<MemberTask> MemberTasks { get; set; }
+        public virtual DbSet<News> News { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
@@ -36,7 +37,7 @@ namespace FClub.Data.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=club-management.database.windows.net,1433;Database=ClubManagementDB;User Id=admin123;Password=Sa123456;");
+                optionsBuilder.UseSqlServer("Server=club-management.database.windows.net,1433;Database=ClubManagementDB;User Id=admin123;Password=Sa123456");
             }
         }
 
@@ -123,6 +124,17 @@ namespace FClub.Data.Database
                     .HasForeignKey(d => d.TaskId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MemberTaskIdInfo");
+            });
+
+            modelBuilder.Entity<News>(entity =>
+            {
+                entity.Property(e => e.CreateDate).HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.Creator)
+                    .WithMany(p => p.News)
+                    .HasForeignKey(d => d.CreatorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_NewsUser");
             });
 
             modelBuilder.Entity<Participant>(entity =>
