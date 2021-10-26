@@ -101,7 +101,7 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<EventTicket>.ToPagedList(_ticketRepo.GetAll().AsQueryable(),
+            return PagedList<EventTicket>.ToPagedList(values.AsQueryable(),
             eventParameter.PageNumber,
             eventParameter.PageSize);
         }

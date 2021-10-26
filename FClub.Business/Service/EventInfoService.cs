@@ -110,7 +110,7 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
+            return PagedList<EventInfo>.ToPagedList(values.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
         }
