@@ -120,17 +120,18 @@ namespace FClub.Business.Service
             return _eventRepo.GetAll().FirstOrDefault(e => e.Id == id);
         }
         //Add Event
-        public bool Add(EventInfo eventInfo)
+        public int Add(EventInfo eventInfo)
         {
             try
             {
                 _eventRepo.Add(eventInfo);
                 _eventRepo.SaveDbChange();
-                return true;
+                var id = eventInfo.Id;
+                return id;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
         //Disable Event 
