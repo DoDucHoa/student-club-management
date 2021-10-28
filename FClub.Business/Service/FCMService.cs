@@ -21,6 +21,7 @@ namespace FClub.Business.Service
                 },
 
                 Tokens = registrationTokens,
+                
                 //Topic = "News"
             };
             var messaging = FirebaseMessaging.DefaultInstance;
