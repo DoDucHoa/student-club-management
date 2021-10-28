@@ -27,7 +27,7 @@ const ActivityComponents = () => {
           <Button
             variant="contained"
             component={RouterLink}
-            to="#"
+            to="create"
             startIcon={<ControlPointIcon />}
           >
             New Activity

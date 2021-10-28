@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ClubInfo = ({ clubName, about }) => {
+const ClubInfo = ({ clubName, about, managerName, totalMember }) => {
   const classes = useStyles();
   return (
     <Paper elevation={8} sx={{ padding: 4 }}>
@@ -34,12 +34,12 @@ const ClubInfo = ({ clubName, about }) => {
         <ManageAccountsOutlinedIcon className={classes.wrapIcon} /> Club Manager
       </Typography>
       <Typography variant="body1" gutterBottom sx={{ mb: 3 }}>
-        Lê Phú Lộc
+        {managerName}
       </Typography>
       <Typography variant="h5" gutterBottom>
         <GroupOutlinedIcon className={classes.wrapIcon} /> Total Member
       </Typography>
-      <Typography variant="body1">43 members</Typography>
+      <Typography variant="body1">{totalMember} members</Typography>
     </Paper>
   );
 };

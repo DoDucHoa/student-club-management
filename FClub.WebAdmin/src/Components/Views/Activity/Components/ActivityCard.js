@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 // components
-import { fVNDate } from "../../../../Utils/formatTime";
 import CreatorAvartar from "./CreatorAvartar";
 import { Box } from "@mui/system";
 

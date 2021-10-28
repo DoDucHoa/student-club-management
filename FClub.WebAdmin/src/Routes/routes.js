@@ -36,6 +36,10 @@ const ClubDetail = Loadable(
   lazy(() => import("../Components/Views/Club/ClubDetailComponents/ClubDetail"))
 );
 
+const CreateActivity = Loadable(
+  lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
+);
+
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
@@ -111,9 +115,14 @@ export default function ThemeRoutes() {
           path: "user",
           element: <ManageUserPage />,
         },
+        // Manager
         {
           path: "activity",
           element: <ActivityPage />,
+        },
+        {
+          path: "activity/create",
+          element: <CreateActivity />,
         },
       ],
     },

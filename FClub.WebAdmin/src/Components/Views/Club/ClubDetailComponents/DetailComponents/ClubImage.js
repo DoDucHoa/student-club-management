@@ -1,9 +1,12 @@
-import { Button, Card, CardContent, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import PropTypes from "prop-types";
+
+// materials
+import { Button, Card, CardContent, Modal, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
 const ImageContaier = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -30,16 +33,18 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: 300, lg: 350 },
-  height: 250,
+  height: 220,
   bgcolor: "background.paper",
   borderRadius: "20px",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  textAlign: "center",
 };
 
-const ClubImage = ({ imageSrc, title, onBan, name, id }) => {
+const ClubImage = ({ imageSrc, title, id }) => {
   const token = useSelector((state) => state.auth.token);
+  const navigate = useNavigate();
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -55,11 +60,14 @@ const ClubImage = ({ imageSrc, title, onBan, name, id }) => {
       headers: {
         Authorization: "Bearer " + token,
       },
-    }).catch((err) => {
-      console.log(err);
-    });
-    setModalOpen((prev) => !prev);
-    onBan(id);
+    })
+      .then(() => {
+        setModalOpen((prev) => !prev);
+        navigate(-1, { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -75,7 +83,7 @@ const ClubImage = ({ imageSrc, title, onBan, name, id }) => {
             <Typography variant="h4" sx={{ mb: 2 }}>
               {title}
             </Typography>
-            <Button variant="contained" color="error">
+            <Button variant="contained" color="error" onClick={modalHandler}>
               Ban this Club
             </Button>
           </Box>
@@ -88,38 +96,37 @@ const ClubImage = ({ imageSrc, title, onBan, name, id }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Confirm
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Do you really want to ban <b>{title}</b>?
+          </Typography>
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
+              flexDirection: "row",
               alignItems: "center",
-              justifyContent: "center",
             }}
           >
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Confirm
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Ban {name}?
-            </Typography>
             <Button
-              sx={{ mt: 2 }}
+              sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
               color="primary"
-              id={id}
-              onClick={banClubHandler}
+              onClick={modalHandler}
             >
-              Yes
+              Unban
             </Button>
             <Button
-              sx={{ mt: 2 }}
+              sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
               color="error"
-              onClick={modalHandler}
+              id={id}
+              onClick={banClubHandler}
             >
-              No
+              Ban
             </Button>
           </Box>
         </Box>
@@ -133,7 +140,6 @@ export default ClubImage;
 ClubImage.propTypes = {
   title: PropTypes.string,
   imageSrc: PropTypes.string,
-  onBan: PropTypes.func,
   name: PropTypes.string,
   id: PropTypes.string,
 };

@@ -75,13 +75,16 @@ const ProfileComponent = () => {
 
   const userData = useSelector((state) => state.auth.userData);
 
+  const [avatar, setAvatar] = useState("");
   const [schoolData, setSchoolData] = useState([]);
   const [image, setImage] = useState(null);
   const [gender, setGender] = useState(1);
   const [school, setSchool] = useState("FPT");
+  const [isAvatarHover, setIsAvatarHover] = useState(false);
 
   // get school
   useEffect(() => {
+    setAvatar(userData.photo);
     fetch(
       "https://club-management-service.azurewebsites.net/api/v1/universities?PageSize=100"
     )
@@ -98,7 +101,7 @@ const ProfileComponent = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [userData.photo]);
   //
 
   const submitHandler = (event) => {
@@ -117,6 +120,11 @@ const ProfileComponent = () => {
   const imageHandler = (event) => {
     if (event.target.files[0]) {
       setImage(event.target.files[0]);
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (e) => {
+        setAvatar(reader.result);
+      };
     }
   };
 
@@ -151,8 +159,25 @@ const ProfileComponent = () => {
                   <Grid item xs={12} md={4}>
                     <Paper elevation={6} sx={{ py: 10 }}>
                       <ImageContaier>
-                        <ImageHolder>
-                          <img src={values.photo} alt="Ava" />
+                        <ImageHolder
+                          onMouseOver={() => setIsAvatarHover(true)}
+                          onMouseLeave={() => setIsAvatarHover(false)}
+                        >
+                          <img src={avatar} alt="Ava" />
+                          {isAvatarHover && (
+                            <Button
+                              component="label"
+                              sx={{ position: "absolute", background: "white" }}
+                            >
+                              Change Avatar
+                              <input
+                                accept=".jpg, .jpeg, .png"
+                                type="file"
+                                hidden
+                                onChange={imageHandler}
+                              />
+                            </Button>
+                          )}
                         </ImageHolder>
                       </ImageContaier>
                       <Box
@@ -163,15 +188,6 @@ const ProfileComponent = () => {
                           justifyContent: "center",
                         }}
                       >
-                        <Button component="label">
-                          Change Avatar
-                          <input
-                            accept=".jpg, .jpeg, .png"
-                            type="file"
-                            hidden
-                            onChange={imageHandler}
-                          />
-                        </Button>
                         <Typography variant="caption">
                           Allowed *.jpeg, *.jpg, *.png
                         </Typography>
