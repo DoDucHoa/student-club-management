@@ -20,7 +20,7 @@ namespace FClub.Business.Service
         //GET All University Details   
         public PagedList<News> GetAllNews(NewsParameter news, PagingParameter paging)
         {
-            var values = _repository.GetAll();
+            var values = _repository.GetAll(includeProperties: news.includeProperties);
 
             if (news.Id != null)
             {
