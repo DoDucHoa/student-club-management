@@ -82,6 +82,8 @@ namespace FClub.API
             services.AddTransient<INewsRepository, NewsRepository>();
             services.AddTransient<NewsService, NewsService>();
 
+            services.AddTransient<FCMService, FCMService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FClub.API", Version = "v1" });
