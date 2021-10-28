@@ -15,7 +15,10 @@ import NavSection from "./Components/NavSection";
 import { MHidden } from "../../../material-extends";
 
 //
-import sidebarConfig from "./Components/sidebarConfig";
+import {
+  sidebarConfigAdmin,
+  sidebarConfigNormal,
+} from "./Components/sidebarConfig";
 
 // icon
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -50,6 +53,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state.auth.userData);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
 
   const { name, photo } = userData;
 
@@ -90,14 +94,16 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 {name}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Manager
+                {isAdmin ? "Admin" : ""}
               </Typography>
             </Box>
           </AccountStyle>
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection
+        navConfig={isAdmin ? sidebarConfigAdmin : sidebarConfigNormal}
+      />
 
       <Box sx={{ flexGrow: 1 }} />
 

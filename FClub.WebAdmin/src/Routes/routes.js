@@ -32,10 +32,19 @@ const AdditionalForm = Loadable(
   lazy(() => import("../Pages/Authenticate/AdditionalForm"))
 );
 
+const ClubDetail = Loadable(
+  lazy(() => import("../Components/Views/Club/ClubDetailComponents/ClubDetail"))
+);
+
+const CreateActivity = Loadable(
+  lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
+);
+
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
 
   const render = () => {
     if (isRegistered) {
@@ -50,6 +59,7 @@ export default function ThemeRoutes() {
   };
 
   return useRoutes([
+    // Authenticate
     {
       path: "/",
       children: [
@@ -71,6 +81,8 @@ export default function ThemeRoutes() {
         { path: "404", element: <Page404 /> },
       ],
     },
+    // -------------------------
+    // Dashboard
     {
       path: "/dashboard",
       element: isLoggedIn ? (
@@ -79,21 +91,43 @@ export default function ThemeRoutes() {
         <Navigate to="/login" replace />
       ),
       children: [
-        { element: <Navigate to="/dashboard/club" replace /> }, // if url is blank (path: "") then redirect to /app
+        {
+          element: (
+            <Navigate
+              to={isAdmin ? "/dashboard/club" : "/dashboard/activity"}
+              replace
+            />
+          ),
+        },
         {
           path: "club",
-          element: <ManageClubPage />,
+          element: isAdmin ? (
+            <ManageClubPage />
+          ) : (
+            <Navigate to="/404" replace />
+          ),
+        },
+        {
+          path: "club/:id",
+          element: <ClubDetail />,
         },
         {
           path: "user",
           element: <ManageUserPage />,
         },
+        // Manager
         {
           path: "activity",
           element: <ActivityPage />,
         },
+        {
+          path: "activity/create",
+          element: <CreateActivity />,
+        },
       ],
     },
+    // -------------------------
+    // Profile
     {
       path: "/user",
       element: isLoggedIn ? (
@@ -102,7 +136,7 @@ export default function ThemeRoutes() {
         <Navigate to="/login" replace />
       ),
       children: [
-        { element: <Navigate to="/user/profile" replace /> }, // if url is blank (path: "") then redirect to /app
+        { element: <Navigate to="/user/profile" replace /> },
         {
           path: "profile",
           element: <ProfilePage />,

@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import BlockIcon from "@mui/icons-material/Block";
+import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 
 // material
 import {
@@ -16,13 +16,17 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu() {
+export default function UserMoreMenu({ userId, isAdmin }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  function disableUserHandler() {
+    console.log(userId);
+  }
+
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+      <IconButton ref={ref} onClick={() => setIsOpen(true)} disabled={isAdmin}>
         <MoreVertIcon />
       </IconButton>
 
@@ -36,26 +40,25 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: "text.secondary" }}>
+        <MenuItem sx={{ color: "text.secondary" }} onClick={disableUserHandler}>
           <ListItemIcon>
-            <DeleteIcon />
+            <BlockIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Delete"
+            primary="Disable User"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
-
         <MenuItem
           component={RouterLink}
           to="#"
           sx={{ color: "text.secondary" }}
         >
           <ListItemIcon>
-            <EditIcon />
+            <ArrowCircleUpIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Edit"
+            primary="Promote To Admin"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>

@@ -90,12 +90,16 @@ export const signInWithGoogle = () => {
           backendResponse.jwtToken,
           backendResponse.id
         );
-        console.log(userData);
+        console.log(backendResponse.jwtToken);
         dispatch(
           authActions.signInHandler({
             token: backendResponse.jwtToken,
             userData: userData.data[0],
           })
+        );
+
+        dispatch(
+          authActions.isAdminHandler({ isAdmin: userData.data[0].isAdmin })
         );
       }
     } catch (error) {

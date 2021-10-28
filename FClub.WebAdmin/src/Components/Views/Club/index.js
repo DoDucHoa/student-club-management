@@ -37,11 +37,6 @@ const ClubComponent = () => {
       });
   }, [url, token]);
 
-  const removeClubHandler = (id) => {
-    const newCLubs = clubs.filter((club) => club.id !== id);
-    setClubs(newCLubs);
-  };
-
   return (
     <Page title="Club">
       <Container>
@@ -49,7 +44,7 @@ const ClubComponent = () => {
           Clubs
         </Typography>
 
-        <ClubList clubs={clubs} onBan={removeClubHandler} />
+        <ClubList clubs={clubs} />
       </Container>
     </Page>
   );
