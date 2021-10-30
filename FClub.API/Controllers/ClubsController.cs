@@ -78,5 +78,12 @@ namespace FClub.API.Controllers
             }
             return BadRequest();
         }
+
+        [HttpGet]
+        [Route("rank")]
+        public IActionResult RankClub()
+        {
+            return Ok(_clubService.GetClubAmountMemberRank());
+        }
     }
 }
