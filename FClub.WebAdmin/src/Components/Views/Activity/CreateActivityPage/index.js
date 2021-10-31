@@ -3,12 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { useSelector } from "react-redux";
 
+import { createActivityHandler } from "./Components/action";
+
 // materials
 import {
+  Alert,
   Button,
   Container,
   Grid,
+  IconButton,
   Paper,
+  Slide,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -17,20 +23,21 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Box } from "@mui/system";
 import { GetMemberId } from "./Components/action";
+import CloseIcon from "@mui/icons-material/Close";
 
 const ImageContaier = styled("div")(({ theme }) => ({
-  width: "144px",
-  height: "144px",
-  borderRadius: "8px",
+  borderRadius: "10px",
   padding: "8px",
   border: "1px",
-  borderStyle: "solid",
+  borderStyle: "dashed",
 }));
 
 const CreateActivity = () => {
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.userId);
   const token = useSelector((state) => state.auth.token);
+
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const [imageUrl, setImageUrl] = useState("");
   const [uploadImage, setUploadImage] = useState(null);
@@ -40,10 +47,11 @@ const CreateActivity = () => {
     GetMemberId(token, userId, "BAS").then((data) => setMemberId(data));
   }, [token, userId]);
 
-  function imageHandler(event) {
+  function uploadImageHandler(event) {
     if (event.target.files[0]) {
       setUploadImage(event.target.files[0]);
 
+      // show the upload photo to the screen
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onloadend = (e) => {
@@ -57,14 +65,20 @@ const CreateActivity = () => {
   };
 
   function submitHandler(data) {
-    fetch("https://club-management-service.azurewebsites.net/api/v1/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({ ...data, creatorId: memberId, status: 1 }),
-    });
+    createActivityHandler(uploadImage, token, data, memberId);
+    setIsSnackbarOpen(true);
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setIsSnackbarOpen(false);
+  };
+
+  function TransitionSnackbarLeft(props) {
+    return <Slide {...props} direction="left" />;
   }
 
   const initialValues = {
@@ -76,7 +90,6 @@ const CreateActivity = () => {
     dueDate: "",
     bonusPoint: 0,
     limitJoin: 0,
-    image: "",
     location: "",
   };
 
@@ -96,7 +109,7 @@ const CreateActivity = () => {
             resetForm();
           }}
         >
-          {({ values }) => (
+          {({ values, resetForm }) => (
             <Form>
               <Paper elevation={5} sx={{ p: 5, width: { lg: "65%" } }}>
                 <Grid container spacing={3}>
@@ -205,19 +218,23 @@ const CreateActivity = () => {
                       variant="contained"
                     >
                       Upload Image
-                      <Field
+                      <input
                         name="image"
                         accept=".jpg, .jpeg, .png"
                         type="file"
                         hidden
-                        onChange={imageHandler}
+                        onChange={uploadImageHandler}
                       />
                     </Button>
                   </Grid>
                   {imageUrl && (
                     <Grid item xs={12} md={6}>
                       <ImageContaier>
-                        <img src={imageUrl} alt="Event" />
+                        <img
+                          style={{ maxWidth: 200 }}
+                          src={imageUrl}
+                          alt="Event"
+                        />
                       </ImageContaier>
                     </Grid>
                   )}
@@ -237,8 +254,13 @@ const CreateActivity = () => {
                       fullWidth
                       variant="contained"
                       color="error"
+                      onClick={() => {
+                        resetForm();
+                        setImageUrl("");
+                        setUploadImage(null);
+                      }}
                     >
-                      Cancel
+                      Clear Form
                     </Button>
                     <Button
                       sx={{ mx: 1 }}
@@ -254,6 +276,21 @@ const CreateActivity = () => {
             </Form>
           )}
         </Formik>
+        <Snackbar
+          open={isSnackbarOpen}
+          autoHideDuration={5000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+          TransitionComponent={TransitionSnackbarLeft}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="success"
+            sx={{ width: "100%", bgcolor: "#2E7D32", color: "white" }}
+          >
+            Create success!
+          </Alert>
+        </Snackbar>
       </Container>
     </Page>
   );
