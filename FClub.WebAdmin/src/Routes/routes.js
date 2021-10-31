@@ -40,6 +40,8 @@ const CreateActivity = Loadable(
   lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
 );
 
+const ReportPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
+
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
   const isRegistered = useSelector((state) => state.auth.isRegistered);
@@ -123,6 +125,10 @@ export default function ThemeRoutes() {
         {
           path: "activity/create",
           element: <CreateActivity />,
+        },
+        {
+          path: "report",
+          element: <ReportPage />,
         },
       ],
     },

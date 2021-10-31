@@ -3,6 +3,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
 
 // ----------------------------------------------------------------------
 
@@ -34,5 +35,10 @@ export const sidebarConfigNormal = [
     title: "Budget",
     path: "/dashboard/budget",
     icon: <AttachMoneyIcon />,
+  },
+  {
+    title: "Report",
+    path: "/dashboard/report",
+    icon: <AssessmentRoundedIcon />,
   },
 ];
