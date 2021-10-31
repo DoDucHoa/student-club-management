@@ -107,7 +107,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ mb: 8, textAlign: "center" }}>
+      <Box sx={{ mb: 8, mt: { xs: 15, sm: 0 }, textAlign: "center" }}>
         <Button
           variant="contained"
           fullWidth
