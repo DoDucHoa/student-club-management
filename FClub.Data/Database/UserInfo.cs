@@ -52,6 +52,9 @@ namespace FClub.Data.Database
         [Required]
         [Column("status")]
         public bool? Status { get; set; }
+        [Column("device_id")]
+        [StringLength(500)]
+        public string DeviceId { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("UserInfos")]

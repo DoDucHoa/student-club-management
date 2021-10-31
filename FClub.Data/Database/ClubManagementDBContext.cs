@@ -64,6 +64,8 @@ namespace FClub.Data.Database
             {
                 entity.Property(e => e.CreateDate).HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
+
                 entity.HasOne(d => d.Creator)
                     .WithMany(p => p.EventInfos)
                     .HasForeignKey(d => d.CreatorId)
@@ -91,6 +93,8 @@ namespace FClub.Data.Database
             modelBuilder.Entity<Member>(entity =>
             {
                 entity.Property(e => e.ClubId).IsUnicode(false);
+
+                entity.Property(e => e.Status).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.Club)
                     .WithMany(p => p.Members)
