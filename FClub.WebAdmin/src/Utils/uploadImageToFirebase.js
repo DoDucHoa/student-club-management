@@ -5,7 +5,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-export default function UploadImageToFirebase(image) {
+export default async function UploadImageToFirebase(image) {
   const storage = getStorage();
   const storageRef = ref(storage, `images/${image.name}`); // folder path in firebase console
 
@@ -28,7 +28,7 @@ export default function UploadImageToFirebase(image) {
       }
     },
     (error) => {
-      console.log(error);
+      console.log(error.code);
     },
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
