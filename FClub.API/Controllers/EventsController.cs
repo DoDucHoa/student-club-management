@@ -61,8 +61,10 @@ namespace FClub.API.Controllers
                 foreach (var item in members)
                 {
                     var deviceId = _userService.GetUsersById(item.UserId).DeviceId;
-                    registrationTokens.Add(deviceId);
-
+                    if (deviceId != null)
+                    {
+                        registrationTokens.Add(deviceId);
+                    }
                 }
                 
                 //registrationTokens.Add("csgoZF1BTLKWX8z1ldqGnn:APA91bG9aJAz88dH84X1bPGCMWWptdcPVZijpdjWyM-xUf8Kwtv7iA959xXE1k8UNZyYl6B5OPOtcRoscvagI8SZRblwWBtzxkEo3M-KUkslMez_vq36nggFYT1RWT9MWTSHyhVP9WIA");
