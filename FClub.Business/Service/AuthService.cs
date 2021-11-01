@@ -128,8 +128,16 @@ namespace FClub.Business.Service
 
             if (deviceId != null)
             {
-                account.DeviceId = deviceId;
-                _repository.Update(account);
+                try
+                {
+                    account.DeviceId = deviceId;
+                    _repository.Update(account);
+                    _repository.SaveDbChange();
+                } catch (Exception)
+                {
+                    throw new Exception();
+                }
+                
             }
 
             var loginViewModel = new LoginViewModel

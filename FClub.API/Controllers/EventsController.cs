@@ -29,7 +29,7 @@ namespace FClub.API.Controllers
             _userService = userService;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public IActionResult GetAllEvent([FromQuery] PagingParameter paging, [FromQuery] EventInfoParameter eventInfo)
         {
             var data = _eventService.GetEvents(eventInfo, paging);
