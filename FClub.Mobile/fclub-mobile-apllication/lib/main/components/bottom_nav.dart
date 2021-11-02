@@ -2,6 +2,7 @@ import 'package:UniClub/main/components/app_bar.dart';
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/Clubs/clubs_screen.dart';
 import 'package:UniClub/main/screens/Events/event_screen.dart';
+import 'package:UniClub/main/screens/News/news_screen.dart';
 import 'package:UniClub/main/screens/Profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,11 +52,9 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
 
   static List<Widget> _widgetOptions = <Widget>[
     ClubOver(),
-    Text(
-      'Index 1: Task',
-      style: TextStyle(fontStyle: FontStyle.italic),
-    ),
+    // NewsScreen(),
     EventScreen(),
+    NewsScreen(),
     Text(
       'Index 3: Wallet',
       style: TextStyle(fontStyle: FontStyle.italic),
@@ -74,7 +73,7 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
           break;
         case 1:
           setState(() {
-            title = "Task";
+            title = "Event";
           });
           break;
         case 2:
@@ -127,7 +126,7 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
           const BottomNavigationBarItem(
               icon: Icon(Icons.workspaces), label: 'clubs'),
           const BottomNavigationBarItem(
-              icon: Icon(Icons.ballot), label: 'task'),
+              icon: Icon(Icons.date_range_sharp), label: 'Events'),
           const BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
           const BottomNavigationBarItem(
               icon: Icon(Icons.account_balance_wallet), label: 'wallet'),

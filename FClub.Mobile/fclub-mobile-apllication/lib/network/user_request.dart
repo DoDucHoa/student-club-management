@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/model/user.dart';
-import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -30,7 +29,6 @@ class UserRequest {
   // }
 
   static Future<Student>? fetchUserByEmail(String? email) async {
-    var client = Dio();
     var queryParameters = {'email': 'vhnguyen2k@gmail.com'};
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/users', queryParameters);

@@ -6,14 +6,14 @@ class EventCard extends StatelessWidget {
   final Widget pageRoute;
   final String image;
   final String Id;
-  final String Name;
+  final String Time;
 
   const EventCard(
       {Key? key,
       required this.pageRoute,
       required this.image,
       required this.Id,
-      required this.Name})
+      required this.Time})
       : super(key: key);
 
   @override
@@ -23,28 +23,24 @@ class EventCard extends StatelessWidget {
       onTap: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => pageRoute)),
       child: Container(
-        width: size.width,
         height: size.height * 0.2,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.transparent,
-            ),
+            border: Border.all(color: kPrimaryColor),
             color: Colors.white,
-            borderRadius: BorderRadius.circular(25.0),
+            borderRadius: BorderRadius.circular(15.0),
             image: DecorationImage(
                 image: NetworkImage(image), fit: BoxFit.fitWidth)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-                padding: EdgeInsets.fromLTRB(18, 5, 18, 10),
+                padding: EdgeInsets.fromLTRB(18, 5, 18, 5),
                 width: size.width,
-                height: size.height * 0.08,
                 decoration: BoxDecoration(
                     color: kPrimaryColor.withOpacity(0.7),
                     borderRadius: BorderRadius.only(
-                        bottomRight: Radius.circular(25.0),
-                        bottomLeft: Radius.circular(25.0)),
+                        bottomRight: Radius.circular(15.0),
+                        bottomLeft: Radius.circular(15.0)),
                     border: Border.all(color: Colors.transparent)),
                 alignment: Alignment.bottomLeft,
                 child: Row(
@@ -54,42 +50,39 @@ class EventCard extends StatelessWidget {
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                             Text(Id,
                                 textAlign: TextAlign.left,
+                                overflow: TextOverflow.visible,
                                 style: TextStyle(
-                                    color: kSubColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    decorationStyle:
-                                        TextDecorationStyle.solid)),
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold)),
                             SizedBox(
-                              height: 7,
+                              height: 5,
                             ),
-                            Text(Name,
+                            Text(Time,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: kSubColor,
+                                  color: Colors.white,
                                 )),
                           ])),
                       Container(
                           child: Row(children: [
-                        Text("See details",
+                        Text("see details",
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                              fontSize: 20,
-                              color: kSubColor,
+                              fontSize: 15,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                             )),
-                        IconButton(
-                            iconSize: 25,
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.arrow_right_outlined,
-                              color: kSubColor,
-                              size: 20,
-                            )),
+                        Icon(
+                          Icons.arrow_right_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ]))
                       // RoundedButton(
                       //     text: 'Die',

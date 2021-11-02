@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/model/event.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:UniClub/model/club.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -29,14 +26,15 @@ class EventRequest {
     }
   }
 
-  static Future<Event> fetchEventById(String? id) async {
-    var queryParameters = {'userId': id};
+  static Future<Event> fetchEventById(int? id) async {
+    var queryParameters = {'id': id.toString()};
     var uri = Uri.https('club-management-service.azurewebsites.net',
-        '/api/v1/clubs', queryParameters);
+        '/api/v1/events', queryParameters);
     final response = await http.get(
       uri,
       headers: {HttpHeaders.authorizationHeader: tokenauthor},
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return parseEvents(response.body);
     } else if (response.statusCode == 404) {
@@ -47,6 +45,7 @@ class EventRequest {
       throw Exception("Can't get event");
     }
   }
+
   // static Future<List<Post>> fetchClubs() async {
   //   var parsed = Uri.parse("https://jsonplaceholder.typicode.com/posts");
   //   final response = await http.get(parsed);

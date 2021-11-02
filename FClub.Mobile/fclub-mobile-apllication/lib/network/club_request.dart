@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:UniClub/main/constants.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:UniClub/model/club.dart';
 import 'dart:convert';
@@ -30,7 +29,11 @@ class ClubRequest {
   }
 
   static Future<Club> fetchClubsById(String? id) async {
-    var queryParameters = {'userId': id};
+    print(id);
+    var queryParameters = {
+      'id': id,
+      'includeProperties': 'Members,Members.EventInfos'
+    };
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/clubs', queryParameters);
     final response = await http.get(

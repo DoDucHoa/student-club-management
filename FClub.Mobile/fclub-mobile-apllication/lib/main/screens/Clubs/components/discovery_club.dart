@@ -1,3 +1,4 @@
+import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
 import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
@@ -36,7 +37,7 @@ class ListClubState extends State<DiscoveryClub> {
       itemCount: data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
-            pageRoute: SignUpScreen(),
+            pageRoute: ClubDetail(data?[index].id, false),
             logoUrl: '${data?[index].logo}',
             Id: '${data?[index].id}',
             Name: '${data?[index].name}');

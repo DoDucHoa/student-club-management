@@ -1,3 +1,5 @@
+import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
+import 'package:UniClub/main/screens/Clubs/components/club_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
@@ -47,7 +49,7 @@ class ListClubState extends State<YourClub> {
       itemCount: data?.data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
-            pageRoute: SignUpScreen(),
+            pageRoute: ClubHome(),
             logoUrl: '${data?.data?[index].club?.logo}',
             Id: '${data?.data?[index].club?.id}',
             Name: '${data?.data?[index].club?.name}');
