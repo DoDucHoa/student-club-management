@@ -40,7 +40,7 @@ const CreateActivity = Loadable(
   lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
 );
 
-const ReportPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
+const MainPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
 
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
@@ -96,7 +96,7 @@ export default function ThemeRoutes() {
         {
           element: (
             <Navigate
-              to={isAdmin ? "/dashboard/club" : "/dashboard/activity"}
+              to={isAdmin ? "/dashboard/club" : "/dashboard/main"}
               replace
             />
           ),
@@ -119,16 +119,16 @@ export default function ThemeRoutes() {
         },
         // Manager
         {
+          path: "main",
+          element: <MainPage />,
+        },
+        {
           path: "activity",
           element: <ActivityPage />,
         },
         {
           path: "activity/create",
           element: <CreateActivity />,
-        },
-        {
-          path: "report",
-          element: <ReportPage />,
         },
       ],
     },

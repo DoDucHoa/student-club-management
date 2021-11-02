@@ -11,7 +11,6 @@ import {
   Button,
   Container,
   Grid,
-  IconButton,
   Paper,
   Slide,
   Snackbar,
@@ -23,7 +22,6 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Box } from "@mui/system";
 import { GetMemberId } from "./Components/action";
-import CloseIcon from "@mui/icons-material/Close";
 
 const ImageContaier = styled("div")(({ theme }) => ({
   borderRadius: "10px",
