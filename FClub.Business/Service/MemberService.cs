@@ -81,7 +81,9 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<Member>.ToPagedList(values.AsQueryable(),
+            var orderValues = values.OrderBy(x => x.RoleId == 1 ? 1: x.RoleId == 3 ? 2: x.RoleId == 4 ? 3: 4);
+
+            return PagedList<Member>.ToPagedList(orderValues.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
         }
