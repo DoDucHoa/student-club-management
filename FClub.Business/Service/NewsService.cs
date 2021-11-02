@@ -22,6 +22,8 @@ namespace FClub.Business.Service
         {
             var values = _repository.GetAll(includeProperties: news.includeProperties);
 
+
+
             if (news.Id != null)
             {
                 values = values.Where(x => x.Id == news.Id);
