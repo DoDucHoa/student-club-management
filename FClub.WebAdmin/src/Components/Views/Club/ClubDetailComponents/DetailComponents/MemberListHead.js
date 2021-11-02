@@ -12,7 +12,7 @@ import {
 
 // ----------------------------------------------------------------------
 
-UserListHead.propTypes = {
+MemberListHead.propTypes = {
   order: PropTypes.oneOf(["asc", "desc"]),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
@@ -22,7 +22,7 @@ UserListHead.propTypes = {
   onSelectAllClick: PropTypes.func,
 };
 
-export default function UserListHead({
+function MemberListHead({
   order,
   orderBy,
   rowCount,
@@ -38,13 +38,6 @@ export default function UserListHead({
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-          />
-        </TableCell>
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -70,3 +63,5 @@ export default function UserListHead({
     </TableHead>
   );
 }
+
+export default MemberListHead;

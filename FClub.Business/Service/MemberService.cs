@@ -19,6 +19,16 @@ namespace FClub.Business.Service
 
         public List<Member> Get() => _repository.GetAll().ToList();
 
+        public int CountByClub(string clubID)
+        {
+            return _repository.GetAll().Where(x => x.ClubId == clubID).Count();
+        }
+
+        public int CountByUserId(int userId)
+        {
+            return _repository.GetAll().Where(x => x.UserId == userId).Count();
+        }
+
         public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
         {
 
@@ -71,7 +81,9 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<Member>.ToPagedList(values.AsQueryable(),
+            var orderValues = values.OrderBy(x => x.RoleId == 1 ? 1: x.RoleId == 3 ? 2: x.RoleId == 4 ? 3: 4);
+
+            return PagedList<Member>.ToPagedList(orderValues.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
         }

@@ -27,6 +27,7 @@ import {
   UserListToolbar,
   UserMoreMenu,
 } from "../../UI/_dashboard/user";
+
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -59,10 +60,10 @@ const User = () => {
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const token = useSelector((state) => state.auth.token);
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+
+  const token = useSelector((state) => state.auth.token);
 
   const url =
     "https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=" +
@@ -257,7 +258,7 @@ const User = () => {
                           </Label>
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <UserMoreMenu userId={id} isAdmin={isAdmin} />
                         </TableCell>
                       </TableRow>
                     );

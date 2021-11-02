@@ -97,5 +97,12 @@ namespace FClub.API.Controllers
             //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(new { data, metadata});
         }
+
+        [HttpGet]
+        [Route("rank")]
+        public IActionResult RankUser()
+        {
+            return Ok(_userInforService.GetUserJoinClubRank());
+        }
     }
 }

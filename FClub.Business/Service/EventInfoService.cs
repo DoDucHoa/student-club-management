@@ -20,7 +20,7 @@ namespace FClub.Business.Service
         //GET All Event Details  
         public PagedList<EventInfo> GetEvents(EventInfoParameter eventInfo, PagingParameter paging)
         {
-            var values = _eventRepo.GetAll();
+            var values = _eventRepo.GetAll(includeProperties: eventInfo.includeProperties);
 
             if (eventInfo.Id != null)
             {
@@ -61,6 +61,10 @@ namespace FClub.Business.Service
             if (!string.IsNullOrWhiteSpace(eventInfo.Location))
             {
                 values = values.Where(x => x.Location.Contains(eventInfo.Location, StringComparison.InvariantCultureIgnoreCase));
+            }
+            if (eventInfo.Status != null)
+            {
+                values = values.Where(x => x.Status == eventInfo.Status);
             }
 
             if (!string.IsNullOrWhiteSpace(eventInfo.sort))
@@ -106,7 +110,7 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<EventInfo>.ToPagedList(_eventRepo.GetAll().AsQueryable(),
+            return PagedList<EventInfo>.ToPagedList(values.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
         }
@@ -116,17 +120,18 @@ namespace FClub.Business.Service
             return _eventRepo.GetAll().FirstOrDefault(e => e.Id == id);
         }
         //Add Event
-        public bool Add(EventInfo eventInfo)
+        public int Add(EventInfo eventInfo)
         {
             try
             {
                 _eventRepo.Add(eventInfo);
                 _eventRepo.SaveDbChange();
-                return true;
+                var id = eventInfo.Id;
+                return id;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
         //Disable Event 
