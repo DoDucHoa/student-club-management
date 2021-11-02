@@ -140,9 +140,7 @@ namespace FClub.Business.Service
 
             var listRank = hashtable.Cast<DictionaryEntry>().OrderByDescending(entry => entry.Value);
 
-            var fiveClub = listRank.Take(5);
-
-            return fiveClub;
+            return listRank;
         }
     }
 }
