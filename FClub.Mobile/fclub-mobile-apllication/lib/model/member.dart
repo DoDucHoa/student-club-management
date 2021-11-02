@@ -39,7 +39,7 @@ class Data {
   Club? club;
   // Null role;
   // Null user;
-  // List<Null> eventInfos;
+  // List<Null> NewsInfos;
   // List<Null> memberTasks;
   // List<Null> participants;
   // List<Null> tasks;
@@ -54,7 +54,7 @@ class Data {
     this.club,
     // this.role,
     // this.user,
-    // this.eventInfos,
+    // this.NewsInfos,
     // this.memberTasks,
     // this.participants,
     // this.tasks,
@@ -70,10 +70,10 @@ class Data {
     club = json['club'] != null ? new Club.fromJson(json['club']) : null;
     // role = json['role'];
     // user = json['user'];
-    // if (json['eventInfos'] != null) {
-    //   eventInfos = new List<Null>();
-    //   json['eventInfos'].forEach((v) {
-    //     eventInfos.add(new Null.fromJson(v));
+    // if (json['NewsInfos'] != null) {
+    //   NewsInfos = new List<Null>();
+    //   json['NewsInfos'].forEach((v) {
+    //     NewsInfos.add(new Null.fromJson(v));
     //   });
     // }
     // if (json['memberTasks'] != null) {
@@ -114,8 +114,8 @@ class Data {
     }
     // data['role'] = this.role;
     // data['user'] = this.user;
-    // if (this.eventInfos != null) {
-    //   data['eventInfos'] = this.eventInfos.map((v) => v.toJson()).toList();
+    // if (this.NewsInfos != null) {
+    //   data['NewsInfos'] = this.NewsInfos.map((v) => v.toJson()).toList();
     // }
     // if (this.memberTasks != null) {
     //   data['memberTasks'] = this.memberTasks.map((v) => v.toJson()).toList();
@@ -193,7 +193,7 @@ class Club {
 //   Null status;
 //   Null role;
 //   Null user;
-//   List<Null> eventInfos;
+//   List<Null> NewsInfos;
 //   List<Null> memberTasks;
 //   List<Null> participants;
 //   List<Null> tasks;
@@ -207,7 +207,7 @@ class Club {
 //       this.status,
 //       this.role,
 //       this.user,
-//       this.eventInfos,
+//       this.NewsInfos,
 //       this.memberTasks,
 //       this.participants,
 //       this.tasks,
@@ -221,10 +221,10 @@ class Club {
 //     status = json['status'];
 //     role = json['role'];
 //     user = json['user'];
-//     if (json['eventInfos'] != null) {
-//       eventInfos = new List<Null>();
-//       json['eventInfos'].forEach((v) {
-//         eventInfos.add(new Null.fromJson(v));
+//     if (json['NewsInfos'] != null) {
+//       NewsInfos = new List<Null>();
+//       json['NewsInfos'].forEach((v) {
+//         NewsInfos.add(new Null.fromJson(v));
 //       });
 //     }
 //     if (json['memberTasks'] != null) {
@@ -262,8 +262,8 @@ class Club {
 //     data['status'] = this.status;
 //     data['role'] = this.role;
 //     data['user'] = this.user;
-//     if (this.eventInfos != null) {
-//       data['eventInfos'] = this.eventInfos.map((v) => v.toJson()).toList();
+//     if (this.NewsInfos != null) {
+//       data['NewsInfos'] = this.NewsInfos.map((v) => v.toJson()).toList();
 //     }
 //     if (this.memberTasks != null) {
 //       data['memberTasks'] = this.memberTasks.map((v) => v.toJson()).toList();

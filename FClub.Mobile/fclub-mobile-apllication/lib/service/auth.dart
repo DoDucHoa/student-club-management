@@ -24,14 +24,15 @@ class AuthService {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication googleAuth =
           await googleUser!.authentication;
-
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
+      AuthCredential? cre =
+          (await _auth.signInWithCredential(credential)).credential;
+      print(cre);
       User? user = (await _auth.signInWithCredential(credential)).user;
-      print(await user?.getIdToken());
+      print(await cre?.token);
       _request.signIn(await user?.getIdToken());
       return _userFromFirebaseUser(user);
     } catch (e) {

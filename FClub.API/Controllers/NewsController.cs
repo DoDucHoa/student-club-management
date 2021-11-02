@@ -62,7 +62,6 @@ namespace FClub.API.Controllers
 
         //GET All User by Name
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Get([FromQuery] NewsParameter news, [FromQuery] PagingParameter param)
         {
             var data = _service.GetAllNews(news, param);

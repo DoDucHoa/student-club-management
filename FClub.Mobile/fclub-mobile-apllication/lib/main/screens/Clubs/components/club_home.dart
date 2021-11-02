@@ -1,14 +1,16 @@
+import 'package:UniClub/main/components/sub_appbar.dart';
+import 'package:UniClub/main/screens/Events/event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/Screens/Clubs/components/discovery_club.dart';
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/Clubs/components/your_club.dart';
 
-class ClubOver extends StatefulWidget {
+class ClubHome extends StatefulWidget {
   @override
-  ClubScreen createState() => ClubScreen();
+  _ClubState createState() => _ClubState();
 }
 
-class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
+class _ClubState extends State<ClubHome> with SingleTickerProviderStateMixin {
   // ignore: unused_field
   TabController? controller;
   // late Future<Post> futurePost;
@@ -16,7 +18,7 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
-    controller = TabController(length: 2, vsync: this);
+    controller = TabController(length: 3, vsync: this);
     // futurePost = NetworkRequest.fetchClubs();
     super.initState();
   }
@@ -31,6 +33,7 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: SubBar("Club Dashboard"),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
         child: Column(
@@ -60,12 +63,16 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
                 tabs: [
                   // first tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'My Clubs',
+                    text: 'Event',
                   ),
 
                   // second tab [you can add an icon using the icon property]
                   Tab(
-                    text: 'Discovery',
+                    text: 'Task',
+                  ),
+
+                  Tab(
+                    text: 'Balance',
                   ),
                 ],
               ),
@@ -77,7 +84,7 @@ class ClubScreen extends State<ClubOver> with SingleTickerProviderStateMixin {
                 controller: controller,
                 children: [
                   // first tab bar view widget
-
+                  EventScreen(),
                   YourClub(),
 
                   // second tab bar view widget

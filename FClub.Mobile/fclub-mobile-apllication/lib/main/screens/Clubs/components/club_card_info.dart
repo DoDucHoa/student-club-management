@@ -29,7 +29,7 @@ class ClubCard extends StatelessWidget {
             color: kPrimaryColor,
           ),
           color: Colors.white,
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -38,7 +38,14 @@ class ClubCard extends StatelessWidget {
             SizedBox(
               width: 18,
             ),
-            Image.network(logoUrl, width: 50, height: 50),
+            Container(
+              height: 50,
+              width: 50,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                      image: NetworkImage(logoUrl), fit: BoxFit.fitHeight)),
+            ),
             Container(
                 padding: EdgeInsets.fromLTRB(18, 18, 0, 18),
                 child: Expanded(

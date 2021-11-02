@@ -1,33 +1,34 @@
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/Events/components/event_calendar.dart';
 import 'package:UniClub/main/screens/Events/components/event_detail.dart';
+import 'package:UniClub/main/screens/Events/components/event_landing.dart';
+import 'package:UniClub/model/club.dart';
+import 'package:UniClub/network/club_request.dart';
 import 'package:flutter/painting.dart';
-import 'package:UniClub/model/event.dart';
-import 'package:UniClub/network/event_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'components/event_landing.dart';
-
-class EventScreen extends StatefulWidget {
+class ClubEvent extends StatefulWidget {
+  final String? clubId;
+  ClubEvent(this.clubId, {Key? key}) : super(key: key);
   @override
-  _EventState createState() => _EventState();
+  _ClubEventState createState() => _ClubEventState();
 }
 
-class _EventState extends State<EventScreen> {
-  List<Data>? data;
-  List<Data>? incoming;
-  List<Data>? available;
-  List<Data>? joined;
+class _ClubEventState extends State<ClubEvent> {
+  List<EventInfos>? data;
+  List<EventInfos>? incoming;
+  List<EventInfos>? available;
+  List<EventInfos>? joined;
   String? dropdownValue = "All Available Events";
   bool showCalendar = false;
   @override
   void initState() {
     // TODO: implement initState
-    EventRequest.fetchAvailableEvents().then((dataFromServer) {
+    ClubRequest.fetchClubsById(widget.clubId).then((dataFromServer) {
       setState(() {
-        data = dataFromServer.data!.toList();
+        data = dataFromServer.members?.first.eventInfos;
       });
     });
   }

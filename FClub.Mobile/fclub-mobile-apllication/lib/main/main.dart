@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/Screens/Welcome/welcome_screen.dart';
 import 'package:UniClub/main/constants.dart';
@@ -10,6 +11,11 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  _firebaseMessaging.getToken().then((token) {
+    assert(token != null);
+    print("Push Messaging token: $token");
+  });
   runApp(MyApp());
 }
 
