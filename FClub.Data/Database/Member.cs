@@ -34,6 +34,8 @@ namespace FClub.Data.Database
         public int RoleId { get; set; }
         [Column("status")]
         public bool? Status { get; set; }
+        [Column("isApproved")]
+        public bool IsApproved { get; set; }
 
         [ForeignKey(nameof(ClubId))]
         [InverseProperty("Members")]

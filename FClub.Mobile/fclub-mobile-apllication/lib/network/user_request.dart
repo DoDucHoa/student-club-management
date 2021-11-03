@@ -1,9 +1,6 @@
 import 'dart:io';
 
 import 'package:UniClub/main/constants.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:UniClub/model/club.dart';
 import 'package:UniClub/model/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;

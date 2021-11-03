@@ -63,13 +63,27 @@ namespace FClub.API.Controllers
         }
 
         [HttpPut]
+        [Route("approved")]
+        public IActionResult Approved(int id)
+        {
+            var member = _service.GetById(id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            member.IsApproved = true;
+            _service.Update(member);
+            return Ok();
+        }
+
+        [HttpPut]
         public IActionResult Update(Member _object)
         {
             if (_service.GetById(_object.Id) == null)
             {
                 return NotFound();
             }
-            _service.Delete(_object);
+            _service.Update(_object);
             return Ok();
         }
 

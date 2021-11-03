@@ -92,6 +92,7 @@ namespace FClub.Business.Service
 
         public void Create(Member _object)
         {
+            _object.IsApproved = false;
             _repository.Add(_object);
             _repository.SaveDbChange();
         }
