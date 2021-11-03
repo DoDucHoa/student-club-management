@@ -18,8 +18,7 @@ import {
 // components
 import Scrollbar from "../../../../UI/Scrollbar";
 import SearchNotFound from "../../../../UI/SearchNotFound";
-import Label from "../../../../UI/Label";
-import { UserListToolbar, UserMoreMenu } from "../../../../UI/_dashboard/user";
+import { UserListToolbar } from "../../../../UI/_dashboard/user";
 import { fVNDate } from "../../../../../Utils/formatTime";
 import MemberListHead from "../../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
 
@@ -30,9 +29,6 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignRight: false },
   { id: "birthday", label: "Birthday", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
-  { id: "isAdmin", label: "Role", alignRight: false },
-  { id: "status", label: "Status", alignRight: false },
-  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
@@ -203,25 +199,6 @@ const ParticipantList = ({ idActivity, ...others }) => {
                     <TableCell align="left">{email}</TableCell>
                     <TableCell align="left">{fVNDate(birthDay)}</TableCell>
                     <TableCell align="left">{getGender(gender)}</TableCell>
-                    <TableCell align="left">
-                      <Label
-                        variant="ghost"
-                        color={isAdmin ? "primary" : "default"}
-                      >
-                        {isAdmin ? "Admin" : "Normal"}
-                      </Label>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Label
-                        variant="ghost"
-                        color={status ? "success" : "error"}
-                      >
-                        {status ? "Active" : "Disabled"}
-                      </Label>
-                    </TableCell>
-                    <TableCell align="right">
-                      <UserMoreMenu userId={id} isAdmin={isAdmin} />
-                    </TableCell>
                   </TableRow>
                 );
               })}

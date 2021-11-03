@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
+import PersonIcon from "@mui/icons-material/Person";
 
 // material
 import {
@@ -35,7 +36,12 @@ const style = {
 
 // ----------------------------------------------------------------------
 
-export default function MoreMenuApprove({ userId, token, refreshHandler }) {
+export default function MoreMenuMember({
+  userId,
+  token,
+  refreshHandler,
+  memberRole,
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -78,7 +84,11 @@ export default function MoreMenuApprove({ userId, token, refreshHandler }) {
 
   return (
     <>
-      <IconButton ref={ref} onClick={() => setIsOpen(true)}>
+      <IconButton
+        ref={ref}
+        onClick={() => setIsOpen(true)}
+        disabled={memberRole === 1}
+      >
         <MoreVertIcon />
       </IconButton>
 
@@ -87,30 +97,52 @@ export default function MoreMenuApprove({ userId, token, refreshHandler }) {
         anchorEl={ref.current}
         onClose={() => setIsOpen(false)}
         PaperProps={{
-          sx: { width: 200, maxWidth: "100%" },
+          sx: { width: 250, maxWidth: "100%" },
         }}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: "text.secondary" }} onClick={approveUserHandler}>
-          <ListItemIcon>
-            <ThumbUpIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="Approve"
-            primaryTypographyProps={{ variant: "body2" }}
-          />
-        </MenuItem>
-        <MenuItem sx={{ color: "text.secondary" }} onClick={setModalOpen}>
-          <ListItemIcon>
-            <DoNotDisturbOnIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="Disapprove"
-            primaryTypographyProps={{ variant: "body2" }}
-          />
-        </MenuItem>
+        {memberRole === 2 && (
+          <>
+            <MenuItem
+              sx={{ color: "text.secondary" }}
+              onClick={approveUserHandler}
+            >
+              <ListItemIcon>
+                <MonetizationOnIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Promote to Treasurer"
+                primaryTypographyProps={{ variant: "body2" }}
+              />
+            </MenuItem>
+            <MenuItem sx={{ color: "text.secondary" }} onClick={setModalOpen}>
+              <ListItemIcon>
+                <PermMediaIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary="Promote to Creator"
+                primaryTypographyProps={{ variant: "body2" }}
+              />
+            </MenuItem>
+          </>
+        )}
+        {memberRole !== 2 && (
+          <MenuItem
+            sx={{ color: "text.secondary" }}
+            onClick={approveUserHandler}
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary="Demote to Member"
+              primaryTypographyProps={{ variant: "body2" }}
+            />
+          </MenuItem>
+        )}
       </Menu>
+
       <Modal
         open={modalOpen}
         onClose={modalHandler}

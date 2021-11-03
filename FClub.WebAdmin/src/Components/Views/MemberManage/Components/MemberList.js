@@ -19,7 +19,7 @@ import SearchNotFound from "../../../UI/SearchNotFound";
 import { UserListToolbar } from "../../../UI/_dashboard/user";
 import MemberListHead from "../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
 import { fVNDate } from "../../../../Utils/formatTime";
-import MoreMenuApprove from "./MoreMenuApprove";
+import MoreMenuMember from "./MoreMenuMember";
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
@@ -31,7 +31,7 @@ const TABLE_HEAD = [
   { id: "", label: "", alignRight: false },
 ];
 
-const MemberList = ({ clubId, token, isRefresh }) => {
+const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -216,7 +216,12 @@ const MemberList = ({ clubId, token, isRefresh }) => {
                       </Label>
                     </TableCell>
                     <TableCell align="right">
-                      <MoreMenuApprove userId={id} />
+                      <MoreMenuMember
+                        token={token}
+                        userId={id}
+                        refreshHandler={refreshHandler}
+                        memberRole={memberRole}
+                      />
                     </TableCell>
                   </TableRow>
                 );
