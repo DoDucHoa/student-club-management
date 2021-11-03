@@ -49,6 +49,13 @@ const UserReport = () => {
         }}
         options={{
           indexAxis: "y",
+          scales: {
+            x: {
+              ticks: {
+                stepSize: 1,
+              },
+            },
+          },
           plugins: {
             title: {
               text: "User who joins the most clubs",

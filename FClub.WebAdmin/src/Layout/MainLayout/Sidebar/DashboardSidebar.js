@@ -77,13 +77,21 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
+        <Box
+          component={RouterLink}
+          to={userData.isAdmin ? "/dashboard/main" : "/dashboard/activity"}
+          sx={{ display: "inline-flex" }}
+        >
           <Logo />
         </Box>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="#">
+        <Link
+          underline="none"
+          component={RouterLink}
+          to={userData.isAdmin ? "/dashboard/main" : "/dashboard/activity"}
+        >
           <AccountStyle>
             <Avatar src={photo} alt="photoURL" />
             <Box sx={{ ml: 2 }}>

@@ -48,6 +48,13 @@ const ClubReport = () => {
           ],
         }}
         options={{
+          scales: {
+            y: {
+              ticks: {
+                stepSize: 1,
+              },
+            },
+          },
           plugins: {
             title: {
               text: "Club with the most members",

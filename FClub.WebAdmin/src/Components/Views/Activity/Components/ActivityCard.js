@@ -1,4 +1,6 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { fVNDate } from "../../../../Utils/formatTime";
 
 // materials
 import {
@@ -17,9 +19,8 @@ import CreatorAvartar from "./CreatorAvartar";
 import { Box } from "@mui/system";
 
 const ActivityCard = ({ activity }) => {
-  function cardClickHandler() {
-    console.log(1);
-  }
+  const { id, image, title, content, createDate } = activity;
+  const { name, photo } = activity.creator.user;
 
   function cutString(text) {
     if (text.length < 65) {
@@ -30,26 +31,26 @@ const ActivityCard = ({ activity }) => {
 
   return (
     <Card>
-      <CardActionArea onClick={cardClickHandler}>
-        <CardMedia
-          component="img"
-          height="200"
-          image={activity.image}
-          alt={activity.title}
-        />
-        <CardContent sx={{ minHeight: { md: 130, lg: 160, xl: 130 } }}>
-          <Typography gutterBottom variant="h5" component="div">
-            {activity.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {cutString(activity.content)}
-          </Typography>
-        </CardContent>
+      <CardActionArea>
+        <RouterLink
+          to={`${id}`}
+          style={{ textDecoration: "inherit", color: "inherit" }}
+        >
+          <CardMedia component="img" height="200" image={image} alt={title} />
+          <CardContent sx={{ minHeight: { md: 130, lg: 160, xl: 130 } }}>
+            <Typography gutterBottom variant="h5" component="div">
+              {title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {cutString(content)}
+            </Typography>
+          </CardContent>
+        </RouterLink>
       </CardActionArea>
       <CardHeader
-        avatar={<CreatorAvartar creatorId={activity.creatorId} />}
-        title="Đỗ Đức Hòa"
-        subheader="September 14, 2016"
+        avatar={<CreatorAvartar photo={photo} />}
+        title={name}
+        subheader={"Created: " + fVNDate(createDate)}
       />
       <Box
         sx={{

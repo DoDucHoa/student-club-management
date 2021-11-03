@@ -51,6 +51,7 @@ const ClubDetail = () => {
           <Grid item xs={12} sm={5} md={4}>
             <ClubImage title={name} imageSrc={logo} id={id} />
           </Grid>
+
           <Grid item xs={12} sm={7} md={8}>
             <ClubInfo
               key={id}
@@ -60,6 +61,7 @@ const ClubDetail = () => {
               totalMember={totalMember}
             />
           </Grid>
+
           <Grid item xs={12}>
             <ClubMembers clubId={clubId} />
           </Grid>

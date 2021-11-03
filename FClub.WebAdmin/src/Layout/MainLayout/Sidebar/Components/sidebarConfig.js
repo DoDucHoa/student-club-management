@@ -9,6 +9,11 @@ import PieChartIcon from "@mui/icons-material/PieChart";
 
 export const sidebarConfigAdmin = [
   {
+    title: "Dashboard",
+    path: "/dashboard/main",
+    icon: <PieChartIcon />,
+  },
+  {
     title: "manage club",
     path: "/dashboard/club",
     icon: <MeetingRoomIcon />,
@@ -21,11 +26,6 @@ export const sidebarConfigAdmin = [
 ];
 
 export const sidebarConfigNormal = [
-  {
-    title: "Dashboard",
-    path: "/dashboard/main",
-    icon: <PieChartIcon />,
-  },
   {
     title: "Activities",
     path: "/dashboard/activity",

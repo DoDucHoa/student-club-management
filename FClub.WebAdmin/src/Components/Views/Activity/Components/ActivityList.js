@@ -15,11 +15,14 @@ export default function ActivityList({ ...other }) {
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    fetch("https://club-management-service.azurewebsites.net/api/v1/events", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/events?includeProperties=Creator.User",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((response) => {
         if (response.ok) {
           return response.json();
