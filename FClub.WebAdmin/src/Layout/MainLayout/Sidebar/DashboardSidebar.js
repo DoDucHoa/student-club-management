@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signOutWeb } from "../../../Context/Actions/authen-action";
 
@@ -15,7 +15,10 @@ import NavSection from "./Components/NavSection";
 import { MHidden } from "../../../material-extends";
 
 //
-import sidebarConfig from "./Components/sidebarConfig";
+import {
+  sidebarConfigAdmin,
+  sidebarConfigNormal,
+} from "./Components/sidebarConfig";
 
 // icon
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -46,11 +49,10 @@ DashboardSidebar.propTypes = {
 };
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
-  const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   const userData = useSelector((state) => state.auth.userData);
-  console.log(userData);
+
   const { name, photo } = userData;
 
   const signOutHandler = () => {
@@ -61,8 +63,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     if (isOpenSidebar) {
       onCloseSidebar();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [isOpenSidebar, onCloseSidebar]);
 
   const renderSidebarContent = (
     <Scrollbar
@@ -76,13 +77,21 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       }}
     >
       <Box sx={{ px: 2.5, py: 3 }}>
-        <Box component={RouterLink} to="/" sx={{ display: "inline-flex" }}>
+        <Box
+          component={RouterLink}
+          to={userData.isAdmin ? "/dashboard/main" : "/dashboard/activity"}
+          sx={{ display: "inline-flex" }}
+        >
           <Logo />
         </Box>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={RouterLink} to="#">
+        <Link
+          underline="none"
+          component={RouterLink}
+          to={userData.isAdmin ? "/dashboard/main" : "/dashboard/activity"}
+        >
           <AccountStyle>
             <Avatar src={photo} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
@@ -90,18 +99,20 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 {name}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Manager
+                {userData.isAdmin ? "Admin" : ""}
               </Typography>
             </Box>
           </AccountStyle>
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection
+        navConfig={userData.isAdmin ? sidebarConfigAdmin : sidebarConfigNormal}
+      />
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Box sx={{ mb: 8, textAlign: "center" }}>
+      <Box sx={{ mb: 8, mt: { xs: 15, sm: 0 }, textAlign: "center" }}>
         <Button
           variant="contained"
           fullWidth

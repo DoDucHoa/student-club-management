@@ -16,7 +16,7 @@ import PasswordField from "../../UI/PasswordField";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 // material ui
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { LoadingButton } from "@mui/lab";
@@ -58,12 +58,14 @@ const RegisterComponent = () => {
 
   return (
     <FormCard>
-      <motion.h1
+      <motion.div
         initial={{ fontSize: "0px" }}
-        animate={{ letterSpacing: "5px", fontSize: "33px" }}
+        animate={{ letterSpacing: "3px", fontSize: "33px" }}
       >
-        Register
-      </motion.h1>
+        <Typography mb={2} align="left" variant="h3">
+          Register
+        </Typography>
+      </motion.div>
       <form onSubmit={submitHandler}>
         <Grid container spacing={4}>
           <Grid item xs={12} lg={6}>

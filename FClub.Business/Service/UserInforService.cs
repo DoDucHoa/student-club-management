@@ -4,6 +4,7 @@ using FClub.Data.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -16,10 +17,12 @@ namespace FClub.Business.Service
     public class UserInforService
     {
         private readonly IUserInfoRepository _userInfo;
+        private readonly MemberService _memberService;
 
-        public UserInforService(IUserInfoRepository userInfo, IConfiguration configuration)
+        public UserInforService(IUserInfoRepository userInfo, IConfiguration configuration, MemberService member)
         {
             _userInfo = userInfo;
+            _memberService = member;
         }
 
         //GET All User Details   
@@ -49,6 +52,14 @@ namespace FClub.Business.Service
             if (!string.IsNullOrWhiteSpace(user.phone))
             {
                 values = values.Where(x => x.Phone.Equals(user.phone));
+            }
+            if (user.IsAdmin)
+            {
+                values = values.Where(x => x.IsAdmin == true);
+            }
+            if (!user.Status)
+            {
+                values = values.Where(x => x.Status == false);
             }
 
             if (!string.IsNullOrWhiteSpace(user.sort))
@@ -100,7 +111,19 @@ namespace FClub.Business.Service
         {
             try
             {
-                _userInfo.Update(user);
+                var userDB = _userInfo.GetFirstOrDefault(x => x.Id == user.Id);
+                userDB.UniversityId = user.UniversityId;
+                userDB.Email = user.Email;
+                userDB.Password = user.Password;
+                userDB.Name = user.Name;
+                userDB.Phone = user.Phone;
+                userDB.Birthday = user.Birthday;
+                userDB.Gender = user.Gender;
+                userDB.Photo = user.Photo;
+                userDB.Bio = user.Bio;
+                userDB.IsAdmin = user.IsAdmin;
+                userDB.Status = user.Status;
+                _userInfo.Update(userDB);
                 _userInfo.SaveDbChange();
                 return true;
             }
@@ -108,6 +131,23 @@ namespace FClub.Business.Service
             {
                 return false;
             }
+        }
+
+
+        public IEnumerable GetUserJoinClubRank()
+        {
+            Hashtable hashtable = new Hashtable();
+
+            var users = _userInfo.GetAll();
+
+            foreach (UserInfo user in users) {
+                user.Members = null;
+                hashtable.Add(user, _memberService.CountByUserId(user.Id));
+            };
+
+            var listRank = hashtable.Cast<DictionaryEntry>().OrderByDescending(entry => entry.Value);
+
+            return listRank;
         }
     }
 }

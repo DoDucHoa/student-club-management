@@ -61,6 +61,8 @@ namespace FClub.Business.Service
             userInfo.Email = user.Email;
             userInfo.Name = username;
             userInfo.UniversityId = universityId;
+            userInfo.IsAdmin = false;
+            userInfo.Status = true;
 
             try
             {
@@ -90,7 +92,7 @@ namespace FClub.Business.Service
         public async Task<LoginViewModel> Login(LoginRequestModel loginRequestModel)
         {
 
-            var userViewModel = await VerifyFirebaseTokenId(loginRequestModel.IdToken);
+            var userViewModel = await VerifyFirebaseTokenId(loginRequestModel.IdToken, loginRequestModel.deviceId);
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Email, userViewModel.Email),
@@ -104,7 +106,7 @@ namespace FClub.Business.Service
             return userViewModel;
         }
 
-        public async Task<LoginViewModel> VerifyFirebaseTokenId(string idToken)
+        public async Task<LoginViewModel> VerifyFirebaseTokenId(string idToken, string deviceId)
         {
             FirebaseToken decodedToken;
             try
@@ -123,6 +125,20 @@ namespace FClub.Business.Service
             var account = _repository.GetFirstOrDefault(x => x.Email == user.Email);
 
             if (account == null) throw new UnauthorizedAccessException();
+
+            if (deviceId != null)
+            {
+                try
+                {
+                    account.DeviceId = deviceId;
+                    _repository.Update(account);
+                    _repository.SaveDbChange();
+                } catch (Exception)
+                {
+                    throw new Exception();
+                }
+                
+            }
 
             var loginViewModel = new LoginViewModel
             {

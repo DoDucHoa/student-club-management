@@ -67,7 +67,7 @@ namespace FClub.Business.Service
 
         public PagedList<MemberTask> GetAllMemberTask(MemberTaskParameter memberTask, PagingParameter paging)
         {
-            var values = _memberTaskRepository.GetAll();
+            var values = _memberTaskRepository.GetAll(includeProperties: memberTask.includeProperties);
 
             if (memberTask.id != null)
             {

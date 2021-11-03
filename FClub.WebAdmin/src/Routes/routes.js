@@ -17,24 +17,64 @@ const DashBoardLayout = Loadable(lazy(() => import("../Layout/MainLayout")));
 const ProfilePage = Loadable(
   lazy(() => import("../Pages/Profile/ProfilePage"))
 );
+
 const ManageUserPage = Loadable(
   lazy(() => import("../Pages/ManageUser/MangageUserPage"))
 );
-const ClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
 
+const ManageClubPage = Loadable(lazy(() => import("../Pages/Club/ClubPage")));
+
+const ActivityPage = Loadable(
+  lazy(() => import("../Pages/Activities/ActivityPage"))
+);
+
+const AdditionalForm = Loadable(
+  lazy(() => import("../Pages/Authenticate/AdditionalForm"))
+);
+
+const MemberManagePage = Loadable(
+  lazy(() => import("../Pages/ManageMember/ManageMemberPage"))
+);
+
+const ClubDetail = Loadable(
+  lazy(() => import("../Components/Views/Club/ClubDetailComponents/ClubDetail"))
+);
+
+const CreateActivity = Loadable(
+  lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
+);
+
+const ActivityDetail = Loadable(
+  lazy(() => import("../Components/Views/Activity/ActivityDetail/index"))
+);
+
+const MainPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
+
+// -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
+  const isRegistered = useSelector((state) => state.auth.isRegistered);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
+
+  const render = () => {
+    if (isRegistered) {
+      if (isLoggedIn) {
+        return <Navigate to="/dashboard" replace />;
+      } else {
+        return <Navigate to="/login" replace />;
+      }
+    } else {
+      return <Navigate to="/additional-info" />;
+    }
+  };
 
   return useRoutes([
+    // Authenticate
     {
       path: "/",
       children: [
         {
-          element: isLoggedIn ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          ),
+          element: render(),
         },
         {
           path: "login",
@@ -44,9 +84,15 @@ export default function ThemeRoutes() {
           path: "register",
           element: <RegisterForm />,
         },
+        {
+          path: "additional-info",
+          element: <AdditionalForm />,
+        },
         { path: "404", element: <Page404 /> },
       ],
     },
+    // -------------------------
+    // Dashboard
     {
       path: "/dashboard",
       element: isLoggedIn ? (
@@ -55,17 +101,56 @@ export default function ThemeRoutes() {
         <Navigate to="/login" replace />
       ),
       children: [
-        { element: <Navigate to="/dashboard/club" replace /> }, // if url is blank (path: "") then redirect to /app
+        {
+          element: (
+            <Navigate
+              to={isAdmin ? "/dashboard/main" : "/dashboard/activity"}
+              replace
+            />
+          ),
+        },
         {
           path: "club",
-          element: <ClubPage />,
+          element: isAdmin ? (
+            <ManageClubPage />
+          ) : (
+            <Navigate to="/404" replace />
+          ),
+        },
+        {
+          path: "club/:id",
+          element: <ClubDetail />,
         },
         {
           path: "user",
           element: <ManageUserPage />,
         },
+        // Manager
+        {
+          path: "main",
+          element: <MainPage />,
+        },
+        {
+          path: "club-manage",
+          element: <MemberManagePage />,
+        },
+
+        {
+          path: "activity",
+          element: <ActivityPage />,
+        },
+        {
+          path: "activity/create",
+          element: <CreateActivity />,
+        },
+        {
+          path: "activity/:idActivity",
+          element: <ActivityDetail />,
+        },
       ],
     },
+    // -------------------------
+    // Profile
     {
       path: "/user",
       element: isLoggedIn ? (
@@ -74,7 +159,7 @@ export default function ThemeRoutes() {
         <Navigate to="/login" replace />
       ),
       children: [
-        { element: <Navigate to="/user/profile" replace /> }, // if url is blank (path: "") then redirect to /app
+        { element: <Navigate to="/user/profile" replace /> },
         {
           path: "profile",
           element: <ProfilePage />,

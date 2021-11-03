@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 
 // material
 import {
@@ -13,16 +13,17 @@ import {
   Box,
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
   Button,
+  Select,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 
 // component
 import Page from "../../UI/Page";
-import ACCOUNT from "../../../_mock_/account";
+import { fDate } from "../../../Utils/formatTime";
+import UploadImageToFirebase from "../../../Utils/uploadImageToFirebase";
 
 const FormRoot = styled("div")(({ theme }) => ({
   display: "flex",
@@ -71,20 +72,21 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileComponent = () => {
   const classes = useStyles();
-  const [profile, setProfile] = useState({});
 
-  const userId = useSelector((state) => state.auth.userId);
-  const token = useSelector((state) => state.auth.token);
+  const userData = useSelector((state) => state.auth.userData);
 
+  const [avatar, setAvatar] = useState("");
+  const [schoolData, setSchoolData] = useState([]);
+  const [image, setImage] = useState(null);
+  const [gender, setGender] = useState(1);
+  const [school, setSchool] = useState("FPT");
+  const [isAvatarHover, setIsAvatarHover] = useState(false);
+
+  // get school
   useEffect(() => {
+    setAvatar(userData.photo);
     fetch(
-      "https://club-management-service.azurewebsites.net/api/v1/users?id=" +
-        userId,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
+      "https://club-management-service.azurewebsites.net/api/v1/universities?PageSize=100"
     )
       .then((res) => {
         if (res.ok) {
@@ -94,28 +96,42 @@ const ProfileComponent = () => {
         }
       })
       .then((resData) => {
-        setProfile(resData.data[0]);
+        setSchoolData(resData.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [userId, token]);
+  }, [userData.photo]);
+  //
 
-  const formik = useFormik({
-    enableReinitialize: true,
+  const submitHandler = (event) => {
+    event.preventdefault();
+    console.log(1);
+  };
 
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      birth: "",
-      gender: 0,
-      school: "",
-      about: "",
-    },
+  const genderHandler = (event) => {
+    setGender(event.target.value);
+  };
 
-    onSubmit: (values) => {},
-  });
+  const schoolHandler = (event) => {
+    setSchool(event.target.value);
+  };
+
+  const imageHandler = (event) => {
+    if (event.target.files[0]) {
+      setImage(event.target.files[0]);
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onloadend = (e) => {
+        setAvatar(reader.result);
+      };
+    }
+  };
+
+  const uploadHandler = () => {
+    UploadImageToFirebase(image);
+    setImage(null);
+  };
 
   return (
     <Page title="account">
@@ -127,150 +143,188 @@ const ProfileComponent = () => {
           </Typography>
         </Stack>
 
-        <form onSubmit={formik.handleSubmit}>
-          <Box sx={{ display: "flex" }}>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={4}>
-                <Paper elevation={6} sx={{ py: 10 }}>
-                  <ImageContaier>
-                    <ImageHolder>
-                      <input
-                        accept=".jpg, .png"
-                        type="file"
-                        hidden
-                        autoComplete="off"
-                        tabIndex="-1"
-                      />
-                      <img src={ACCOUNT.photoURL} alt="Ava" />
-                    </ImageHolder>
-                  </ImageContaier>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <Button component="label">
-                      Choose Image
-                      <input accept=".jpg, .jpeg, .png" type="file" hidden />
-                    </Button>
-                    <Typography variant="caption">
-                      Allowed *.jpeg, *.jpg, *.png
-                    </Typography>
-                    <Typography variant="caption">max size of 3 MB</Typography>
-                  </Box>
-                </Paper>
-              </Grid>
-
-              <Grid item xs={12} md={8}>
-                <Paper elevation={6} sx={{ p: 3 }}>
-                  <FormRoot>
-                    <FormRow>
-                      <TextField
-                        id="name"
-                        className={classes.inputControl}
-                        fullWidth
-                        label="Name"
-                        variant="outlined"
-                        value={formik.values.name}
-                        onChange={formik.handleChange}
-                      />
-                      <TextField
-                        id="email"
-                        className={classes.inputControl}
-                        fullWidth
-                        label="Email Address"
-                        variant="outlined"
-                        type="email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                      />
-                    </FormRow>
-                    <FormRow>
-                      <TextField
-                        id="phone"
-                        className={classes.inputControl}
-                        fullWidth
-                        label="Phone"
-                        variant="outlined"
-                        type="tel"
-                        value={formik.values.phone}
-                        onChange={formik.handleChange}
-                      />
-                      <TextField
-                        id="birth"
-                        className={classes.inputControl}
-                        fullWidth
-                        label="Birthday"
-                        variant="outlined"
-                        type="date"
-                        value={formik.values.birth}
-                        onChange={formik.handleChange}
-                        InputLabelProps={{
-                          shrink: true,
+        <Formik initialValues={userData} onSubmit={submitHandler}>
+          {({
+            errors,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+            isSubmitting,
+            touched,
+            values,
+          }) => (
+            <form onSubmit={handleSubmit}>
+              <Box sx={{ display: "flex" }}>
+                <Grid container spacing={4}>
+                  <Grid item xs={12} md={4}>
+                    <Paper elevation={6} sx={{ py: 10 }}>
+                      <ImageContaier>
+                        <ImageHolder
+                          onMouseOver={() => setIsAvatarHover(true)}
+                          onMouseLeave={() => setIsAvatarHover(false)}
+                        >
+                          <img src={avatar} alt="Ava" />
+                          {isAvatarHover && (
+                            <Button
+                              component="label"
+                              sx={{ position: "absolute", background: "white" }}
+                            >
+                              Change Avatar
+                              <input
+                                accept=".jpg, .jpeg, .png"
+                                type="file"
+                                hidden
+                                onChange={imageHandler}
+                              />
+                            </Button>
+                          )}
+                        </ImageHolder>
+                      </ImageContaier>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
                         }}
-                      />
-                    </FormRow>
-                    <FormRow>
-                      <FormControl fullWidth className={classes.inputControl}>
-                        <InputLabel id="gender-label">Gender</InputLabel>
-                        <Select
-                          labelId="gender-label"
-                          id="gender"
-                          label="Gender"
-                          value={formik.values.gender}
-                          onChange={formik.handleChange}
-                        >
-                          <MenuItem value={0}>Male</MenuItem>
-                          <MenuItem value={1}>Female</MenuItem>
-                          <MenuItem value={2}>Other</MenuItem>
-                        </Select>
-                      </FormControl>
+                      >
+                        <Typography variant="caption">
+                          Allowed *.jpeg, *.jpg, *.png
+                        </Typography>
+                        <Typography variant="caption">
+                          max size of 3 MB
+                        </Typography>
+                        <Button onClick={uploadHandler}>Save</Button>
+                      </Box>
+                    </Paper>
+                  </Grid>
 
-                      <FormControl fullWidth className={classes.inputControl}>
-                        <InputLabel id="university-label">School</InputLabel>
-                        <Select
-                          labelId="university-label"
-                          label="Gender"
-                          value={formik.values.school}
-                          onChange={formik.handleChange}
+                  <Grid item xs={12} md={8}>
+                    <Paper elevation={6} sx={{ p: 3 }}>
+                      <FormRoot>
+                        <FormRow>
+                          <TextField
+                            id="name"
+                            className={classes.inputControl}
+                            fullWidth
+                            label="Name"
+                            variant="outlined"
+                            value={values.name}
+                            onChange={handleChange}
+                          />
+                          <TextField
+                            id="email"
+                            className={classes.inputControl}
+                            fullWidth
+                            label="Email Address"
+                            variant="outlined"
+                            type="email"
+                            value={values.email}
+                            onChange={handleChange}
+                          />
+                        </FormRow>
+                        <FormRow>
+                          <TextField
+                            id="phone"
+                            className={classes.inputControl}
+                            fullWidth
+                            label="Phone"
+                            variant="outlined"
+                            type="tel"
+                            value={values.phone}
+                            onChange={handleChange}
+                          />
+                          <TextField
+                            id="birthday"
+                            className={classes.inputControl}
+                            fullWidth
+                            label="Birthday"
+                            variant="outlined"
+                            type="date"
+                            value={fDate(values.birthday)}
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </FormRow>
+                        <FormRow>
+                          <FormControl
+                            fullWidth
+                            className={classes.inputControl}
+                          >
+                            <InputLabel id="gender-label">Gender</InputLabel>
+                            <Select
+                              labelId="university-label"
+                              label="School"
+                              value={gender}
+                              onChange={genderHandler}
+                            >
+                              <MenuItem key={1} value={1}>
+                                Male
+                              </MenuItem>
+                              <MenuItem key={2} value={2}>
+                                Female
+                              </MenuItem>
+                              <MenuItem key={3} value={3}>
+                                Other
+                              </MenuItem>
+                            </Select>
+                          </FormControl>
+
+                          <FormControl
+                            fullWidth
+                            className={classes.inputControl}
+                          >
+                            <InputLabel id="university-label">
+                              School
+                            </InputLabel>
+                            <Select
+                              labelId="university-label"
+                              label="School"
+                              value={school}
+                              onChange={schoolHandler}
+                            >
+                              {schoolData.map((item) => {
+                                return (
+                                  <MenuItem key={item.id} value={item.id}>
+                                    {item.name}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </FormControl>
+                        </FormRow>
+                        <FormRow>
+                          <TextField
+                            id="about"
+                            className={classes.inputControl}
+                            label="About"
+                            fullWidth
+                            multiline
+                            rows={5}
+                            value={values.bio}
+                            onChange={handleChange}
+                          />
+                        </FormRow>
+                        <Box
+                          sx={{
+                            mt: 2,
+                            mr: { xs: 0, lg: "10px" },
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
                         >
-                          <MenuItem value={0}>Male</MenuItem>
-                          <MenuItem value={1}>Female</MenuItem>
-                          <MenuItem value={2}>Other</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </FormRow>
-                    <FormRow>
-                      <TextField
-                        id="about"
-                        className={classes.inputControl}
-                        label="About"
-                        fullWidth
-                        multiline
-                        rows={5}
-                        value={formik.values.about}
-                        onChange={formik.handleChange}
-                      />
-                    </FormRow>
-                    <Box
-                      sx={{
-                        mt: 2,
-                        mr: { xs: 0, lg: "10px" },
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      <Button variant="contained">Save Changes</Button>
-                    </Box>
-                  </FormRoot>
-                </Paper>
-              </Grid>
-            </Grid>
-          </Box>
-        </form>
+                          <Button variant="contained">Save Changes</Button>
+                        </Box>
+                      </FormRoot>
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Box>
+            </form>
+          )}
+        </Formik>
       </Container>
     </Page>
   );

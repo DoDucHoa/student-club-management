@@ -16,6 +16,7 @@ namespace FClub.Data.Helper
         public DateTime? BeginDate { get; set; } = null;
         public DateTime? DueDate { get; set; } = null;
         public string Location { get; set; } = null;
+        public bool? Status { get; set; } = null;
 
         public string dir { get; set; } = "asc";
         public string sort { get; set; } = null;

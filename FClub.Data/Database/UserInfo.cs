@@ -47,6 +47,14 @@ namespace FClub.Data.Database
         [Column("bio")]
         [StringLength(3000)]
         public string Bio { get; set; }
+        [Column("isAdmin")]
+        public bool IsAdmin { get; set; }
+        [Required]
+        [Column("status")]
+        public bool? Status { get; set; }
+        [Column("device_id")]
+        [StringLength(500)]
+        public string DeviceId { get; set; }
 
         [ForeignKey(nameof(UniversityId))]
         [InverseProperty("UserInfos")]

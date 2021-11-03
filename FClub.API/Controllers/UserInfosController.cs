@@ -52,7 +52,7 @@ namespace FClub.API.Controllers
         }
         //Update User  
         [HttpPut]
-        public IActionResult UpdateUser(UserInfo _object)
+        public IActionResult UpdateUser([FromBody] UserInfo _object)
         {
             if (_userInforService.GetUsersById(_object.Id) == null)
             {
@@ -60,6 +60,25 @@ namespace FClub.API.Controllers
             }
             _userInforService.UpdateUser(_object);
             return Ok();
+        }
+
+        [HttpPut("{id}/{status}")]
+        public IActionResult UpdateUserStatus(int id, bool status)
+        {
+
+            UserInfo userInfo = _userInforService.GetUsersById(id);
+            if (userInfo != null)
+            {
+                userInfo.Status = status;
+                if (_userInforService.UpdateUser(userInfo))
+                {
+                    return Ok();
+                }
+            } else
+            {
+                return NotFound();
+            }
+            return BadRequest();
         }
         //GET All User by Name
         [HttpGet]
@@ -77,6 +96,13 @@ namespace FClub.API.Controllers
             };
             //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(new { data, metadata});
+        }
+
+        [HttpGet]
+        [Route("rank")]
+        public IActionResult RankUser()
+        {
+            return Ok(_userInforService.GetUserJoinClubRank());
         }
     }
 }

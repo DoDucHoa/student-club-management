@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 
 // icon
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 // material
 import { alpha, useTheme, styled } from "@mui/material/styles";
@@ -100,7 +100,7 @@ function NavItem({ item, active }) {
           <ListItemText disableTypography primary={title} />
           {info && info}
           <Box sx={{ width: 16, height: 16, ml: 1 }}>
-            {open ? <ArrowDownwardIcon /> : <ArrowForwardIosIcon />}
+            {open ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
           </Box>
         </ListItemStyle>
 

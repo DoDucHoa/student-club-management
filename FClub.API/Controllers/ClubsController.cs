@@ -53,6 +53,22 @@ namespace FClub.API.Controllers
             return BadRequest();
         }
 
+        [HttpPut("{id}/{status}")]
+        public IActionResult UpdateClubStatus(string id, bool status)
+        {
+
+            Club club = _clubService.GetClubById(id);
+            if (club != null)
+            {
+                club.Status = status;
+                if (_clubService.Update(club))
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+        }
+
         [HttpDelete("{id}")]
         public IActionResult DeleteClubById(string id)
         {
@@ -61,6 +77,13 @@ namespace FClub.API.Controllers
                 return Ok();
             }
             return BadRequest();
+        }
+
+        [HttpGet]
+        [Route("rank")]
+        public IActionResult RankClub()
+        {
+            return Ok(_clubService.GetClubAmountMemberRank());
         }
     }
 }

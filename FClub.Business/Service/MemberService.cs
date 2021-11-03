@@ -19,8 +19,19 @@ namespace FClub.Business.Service
 
         public List<Member> Get() => _repository.GetAll().ToList();
 
+        public int CountByClub(string clubID)
+        {
+            return _repository.GetAll().Where(x => x.ClubId == clubID).Count();
+        }
+
+        public int CountByUserId(int userId)
+        {
+            return _repository.GetAll().Where(x => x.UserId == userId).Count();
+        }
+
         public PagedList<Member> GetBy(MemberParameter member, PagingParameter paging)
         {
+
             var values = _repository.GetAll(includeProperties: member.includeProperties);
 
             if (member.Id != null)
@@ -53,7 +64,26 @@ namespace FClub.Business.Service
                 }
             }
 
-            return PagedList<Member>.ToPagedList(values.AsQueryable(),
+            if (member.includeProperties != null)
+            {
+                string[] includeList = member.includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var item in values)
+                {
+                    if (includeList.Contains("User"))
+                    {
+                        //item.User.Members = new HashSet<Member>();
+                        item.User.Members.Clear();
+                    }
+                    if (includeList.Contains("Club"))
+                    {
+                        item.Club.Members.Clear();
+                    }
+                }
+            }
+
+            var orderValues = values.OrderBy(x => x.RoleId == 1 ? 1: x.RoleId == 3 ? 2: x.RoleId == 4 ? 3: 4);
+
+            return PagedList<Member>.ToPagedList(orderValues.AsQueryable(),
             paging.PageNumber,
             paging.PageSize);
         }
@@ -62,6 +92,7 @@ namespace FClub.Business.Service
 
         public void Create(Member _object)
         {
+            _object.IsApproved = false;
             _repository.Add(_object);
             _repository.SaveDbChange();
         }

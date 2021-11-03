@@ -2,6 +2,7 @@
 using FClub.Data.Helper;
 using FClub.Data.Interface;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,12 @@ namespace FClub.Business.Service
     public class ClubService
     {
         private readonly IClubRepository _clubRepository;
+        private readonly MemberService _memberService;
 
-        public ClubService(IClubRepository clubRepository)
+        public ClubService(IClubRepository clubRepository, MemberService memberService)
         {
             _clubRepository = clubRepository;
+            _memberService = memberService;
         }
 
         public IEnumerable<Club> GetClubByName(String clubName)
@@ -24,7 +27,7 @@ namespace FClub.Business.Service
 
         public PagedList<Club> GetAllClub(ClubParameter club, PagingParameter paging)
         {
-            var values = _clubRepository.GetAll();
+            var values = _clubRepository.GetAll(includeProperties: club.includeProperties);
 
             if (!string.IsNullOrWhiteSpace(club.id))
             {
@@ -38,6 +41,11 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.UniversityId == club.universityID);
             }
+            if (!club.Status)
+            {
+                values = values.Where(x => x.Status == false);
+            }
+
             if (!string.IsNullOrWhiteSpace(club.sort))
             {
                 switch (club.sort)
@@ -111,6 +119,28 @@ namespace FClub.Business.Service
         {
             var club = _clubRepository.Get(id);
             return club;
+        }
+
+        public IEnumerable GetClubAmountMemberRank()
+        {
+            Hashtable hashtable = new Hashtable();
+
+            var clubs = _clubRepository.GetAll();
+            
+            foreach (Club club in clubs)
+            {
+                hashtable.Add(club, _memberService.CountByClub(club.Id));
+            };
+
+            foreach (DictionaryEntry item in hashtable)
+            {
+                var club = (Club) item.Key;
+                club.Members = null;
+            }
+
+            var listRank = hashtable.Cast<DictionaryEntry>().OrderByDescending(entry => entry.Value);
+
+            return listRank;
         }
     }
 }

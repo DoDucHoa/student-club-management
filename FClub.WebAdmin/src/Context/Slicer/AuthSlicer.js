@@ -15,15 +15,23 @@ const retrieveStoredUserData = () => {
   return storedUserData;
 };
 
+const retrieveAdminValidation = () => {
+  const isAdmin = localStorage.getItem("isAdmin");
+  return isAdmin;
+};
+
 const removeToken = () => {
   localStorage.clear();
 };
 
 const initialAuthState = {
   token: retrieveStoredToken(),
+  firebaseToken: "",
   userId: retrieveStoredUserId(),
   userData: retrieveStoredUserData(),
+  isAdmin: retrieveAdminValidation(),
   isLoggedIn: !!retrieveStoredToken(),
+  isRegistered: true,
   isLoading: false,
 };
 
@@ -39,6 +47,11 @@ const authSlice = createSlice({
       localStorage.setItem("userId", state.userId);
       localStorage.setItem("userData", JSON.stringify(state.userData));
       state.isLoggedIn = true;
+      state.isRegistered = true;
+    },
+    registerHandler(state, action) {
+      state.isRegistered = false;
+      state.firebaseToken = action.payload.firebaseToken;
     },
     signOutHandler(state) {
       state.token = "";
@@ -46,6 +59,10 @@ const authSlice = createSlice({
       state.userId = 0;
       state.userData = {};
       removeToken();
+    },
+    isAdminHandler(state, action) {
+      state.isAdmin = action.payload.isAdmin;
+      localStorage.setItem("isAdmin", state.isAdmin);
     },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 // component
 import Page from "../../UI/Page";
-import "./ClubComponents/ClubList";
 import ClubList from "./ClubComponents/ClubList";
 
 // material
@@ -11,6 +10,8 @@ import { Container, Typography } from "@mui/material";
 
 const ClubComponent = () => {
   const token = useSelector((state) => state.auth.token);
+
+  const [clubs, setClubs] = useState([]);
 
   const url =
     "https://club-management-service.azurewebsites.net/api/v1/clubs?PageSize=100";
@@ -35,8 +36,6 @@ const ClubComponent = () => {
         console.log(err);
       });
   }, [url, token]);
-
-  const [clubs, setClubs] = useState([]);
 
   return (
     <Page title="Club">
