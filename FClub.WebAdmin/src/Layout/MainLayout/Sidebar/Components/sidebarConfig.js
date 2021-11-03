@@ -19,7 +19,7 @@ export const sidebarConfigAdmin = [
     icon: <MeetingRoomIcon />,
   },
   {
-    title: "manage User",
+    title: "Manage User",
     path: "/dashboard/user",
     icon: <GroupIcon />,
   },
