@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 
-import { createActivityHandler } from "./action";
+import { editActivityHandler } from "./action";
 
 // materials
 import {
@@ -28,6 +29,7 @@ const ImageContaier = styled("div")(({ theme }) => ({
 }));
 
 const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
+  const { idActivity } = useParams();
   const userId = useSelector((state) => state.auth.userId);
   const token = useSelector((state) => state.auth.token);
 
@@ -75,9 +77,15 @@ const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
   };
 
   function submitHandler(data) {
-    console.log(regisDate);
-    // createActivityHandler(uploadImage, token, data, memberId);
-    // setIsSnackbarOpen(true);
+    const finalData = {
+      regisDate: regisDate,
+      endRegisDate: endRegisDate,
+      beginDate: beginDate,
+      dueDate: dueDate,
+      ...data,
+    };
+    editActivityHandler(uploadImage, token, idActivity, finalData, memberId);
+    setIsSnackbarOpen(true);
   }
 
   const handleCloseSnackbar = (event, reason) => {
@@ -109,7 +117,7 @@ const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
           resetForm();
         }}
       >
-        {({ values, resetForm }) => (
+        {() => (
           <Form>
             <Paper elevation={5} sx={{ p: 5, width: { lg: "65%" } }}>
               <Grid container spacing={3}>
@@ -293,7 +301,7 @@ const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
           severity="success"
           sx={{ width: "100%", bgcolor: "#2E7D32", color: "white" }}
         >
-          Create success!
+          Edit success!
         </Alert>
       </Snackbar>
     </>

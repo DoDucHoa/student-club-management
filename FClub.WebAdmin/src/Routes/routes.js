@@ -32,6 +32,10 @@ const AdditionalForm = Loadable(
   lazy(() => import("../Pages/Authenticate/AdditionalForm"))
 );
 
+const MemberManagePage = Loadable(
+  lazy(() => import("../Pages/ManageMember/ManageMemberPage"))
+);
+
 const ClubDetail = Loadable(
   lazy(() => import("../Components/Views/Club/ClubDetailComponents/ClubDetail"))
 );
@@ -126,6 +130,11 @@ export default function ThemeRoutes() {
           path: "main",
           element: <MainPage />,
         },
+        {
+          path: "club-manage",
+          element: <MemberManagePage />,
+        },
+
         {
           path: "activity",
           element: <ActivityPage />,

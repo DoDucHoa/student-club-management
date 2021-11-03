@@ -104,10 +104,11 @@ const CreateActivity = () => {
           initialValues={initialValues}
           onSubmit={(data, { resetForm }) => {
             submitHandler(data);
+            setImageUrl("");
             resetForm();
           }}
         >
-          {({ values, resetForm }) => (
+          {({ resetForm }) => (
             <Form>
               <Paper elevation={5} sx={{ p: 5, width: { lg: "65%" } }}>
                 <Grid container spacing={3}>

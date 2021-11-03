@@ -26,15 +26,31 @@ export async function GetMemberId(token, userId, clubId) {
   }
 }
 
-function createActivity(token, data, memberId, responseImageUrl) {
+export function deleteActivity(token, idActivity) {
+  fetch(
+    `https://club-management-service.azurewebsites.net/api/v1/events/${idActivity}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  )
+    .then((response) => response.ok)
+    .catch((error) => console.log(error));
+}
+
+function editActivity(token, idActivity, data, memberId, responseImageUrl) {
   fetch("https://club-management-service.azurewebsites.net/api/v1/events", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
     body: JSON.stringify({
       ...data,
+      id: idActivity,
       creatorId: memberId,
       status: 1,
       image: responseImageUrl,
@@ -44,7 +60,7 @@ function createActivity(token, data, memberId, responseImageUrl) {
     .catch((error) => console.log(error));
 }
 
-export function createActivityHandler(image, token, data, memberId) {
+export function editActivityHandler(image, token, idActivity, data, memberId) {
   const storage = getStorage();
   const storageRef = ref(storage, `images/${image.name}`); // folder path in firebase console
 
@@ -71,7 +87,7 @@ export function createActivityHandler(image, token, data, memberId) {
     },
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        createActivity(token, data, memberId, downloadURL);
+        editActivity(token, idActivity, data, memberId, downloadURL);
       });
     }
   );
