@@ -14,5 +14,6 @@ namespace FClub.Data.Helper
         public string dir { get; set; } = "asc";
         public string sort { get; set; } = null;
         public string fields { get; set; } = null;
+        public string includeProperties { get; set; } = null;
     }
 }
