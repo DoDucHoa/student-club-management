@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // materials
 import { Container, Typography, Grid } from "@mui/material";
@@ -6,8 +6,37 @@ import { Container, Typography, Grid } from "@mui/material";
 import Page from "../../UI/Page";
 import UserReport from "./Components/UserReport";
 import ClubReport from "./Components/ClubReport";
+import { useSelector } from "react-redux";
+import { getClubRank, getUserRank } from "./Components/action";
+import ClubRankList from "./Components/ClubRankList";
 
 const ReportBody = () => {
+  const token = useSelector((state) => state.auth.token);
+
+  // user chart
+  const [userName, setUserName] = useState([]);
+  const [userValue, setUserValue] = useState([]);
+
+  // club chart
+  const [clubName, setClubName] = useState([]);
+  const [clubValue, setClubValue] = useState([]);
+
+  // club rank list
+  const [clubList, setClubList] = useState({});
+
+  useEffect(() => {
+    getUserRank(token).then((data) => {
+      setUserValue(data.slice(0, 5).map((user) => user.value));
+      setUserName(data.slice(0, 5).map((user) => user.key.name));
+    });
+
+    getClubRank(token).then((data) => {
+      setClubList(data);
+      setClubValue(data.slice(0, 5).map((club) => club.value));
+      setClubName(data.slice(0, 5).map((club) => club.key.name));
+    });
+  }, [token]);
+
   return (
     <Page title="Report">
       <Container>
@@ -17,10 +46,13 @@ const ReportBody = () => {
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <UserReport />
+            <UserReport userName={userName} value={userValue} />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ClubReport />
+            <ClubReport clubName={clubName} value={clubValue} />
+          </Grid>
+          <Grid item xs={12}>
+            <ClubRankList data={clubList} token={token} />
           </Grid>
         </Grid>
       </Container>

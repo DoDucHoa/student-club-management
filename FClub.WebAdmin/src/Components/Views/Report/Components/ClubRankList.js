@@ -1,39 +1,32 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 
-// material
 import {
-  Card,
-  Table,
-  Stack,
   Avatar,
-  TableRow,
+  Card,
+  Stack,
+  Table,
   TableBody,
   TableCell,
-  Typography,
   TableContainer,
   TablePagination,
+  TableRow,
+  Typography,
 } from "@mui/material";
 
-// components
-import Scrollbar from "../../../../UI/Scrollbar";
-import SearchNotFound from "../../../../UI/SearchNotFound";
-import { UserListToolbar } from "../../../../UI/_dashboard/user";
-import { fVNDate } from "../../../../../Utils/formatTime";
-import MemberListHead from "../../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
-
-// ----------------------------------------------------------------------
+import Label from "../../../UI/Label";
+import Scrollbar from "../../../UI/Scrollbar";
+import SearchNotFound from "../../../UI/SearchNotFound";
+import { UserListToolbar } from "../../../UI/_dashboard/user";
+import MemberListHead from "../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
-  { id: "email", label: "Email", alignRight: false },
-  { id: "birthday", label: "Birthday", alignRight: false },
-  { id: "gender", label: "Gender", alignRight: false },
+  { id: "member", label: "Members", alignRight: false },
+  { id: "status", label: "Status", alignRight: false },
+  { id: "", label: "", alignRight: false },
 ];
 
-// ----------------------------------------------------------------------
-
-const ParticipantList = ({ idActivity, ...others }) => {
+const ClubRankList = ({ token, data }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -43,16 +36,15 @@ const ParticipantList = ({ idActivity, ...others }) => {
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const token = useSelector((state) => state.auth.token);
-
-  const url = `https://club-management-service.azurewebsites.net/api/v1/participants?includeProperties=Member.User&EventId=${idActivity}&PageNumber=${page}&PageSize=${rowsPerPage}`;
-
   useEffect(() => {
-    fetch(url, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/clubs/rank",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -64,24 +56,24 @@ const ParticipantList = ({ idActivity, ...others }) => {
         const members = [];
         resData.data.map((row) => {
           return members.push({
-            id: row.member.user.id,
-            universityId: row.member.user.universityId,
-            email: row.member.user.email,
-            name: row.member.user.name,
-            photo: row.member.user.photo,
-            gender: row.member.user.gender,
-            age: row.member.user.birthday,
-            isAdmin: row.member.user.isAdmin,
-            status: row.member.user.status,
+            id: row.key.id,
+            value: row.value,
+            name: row.key.name,
+            photo: row.key.logo,
+            status: row.key.status,
           });
         });
         setTotalCount(resData.metadata.totalCount);
-        setMembersData(members);
+        setMembersData(members.filter((value) => value.isApproved === true));
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [url, token]);
+  }, [page, rowsPerPage, token]);
+
+  const handleFilterByName = (event) => {
+    setFilterName(event.target.value);
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -98,23 +90,11 @@ const ParticipantList = ({ idActivity, ...others }) => {
     setSelected([]);
   };
 
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
+  const getGender = (gender) => {
+    if (gender === 1) return "Male";
+    if (gender === 2) return "Female";
+    if (gender === 3) return "Other";
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -125,14 +105,35 @@ const ParticipantList = ({ idActivity, ...others }) => {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
-  const getGender = (gender) => {
-    if (gender === 1) return "Male";
-    if (gender === 2) return "Female";
-    if (gender === 3) return "Other";
+  const renderRole = (memberRole) => {
+    if (memberRole === 1) {
+      return (
+        <Label variant="ghost" color="primary">
+          Manager
+        </Label>
+      );
+    }
+    if (memberRole === 2) {
+      return (
+        <Label variant="ghost" color="default">
+          Member
+        </Label>
+      );
+    }
+    if (memberRole === 3) {
+      return (
+        <Label variant="ghost" color="warning">
+          Treasurer
+        </Label>
+      );
+    }
+    if (memberRole === 4) {
+      return (
+        <Label variant="ghost" color="secondary">
+          Creator
+        </Label>
+      );
+    }
   };
 
   const emptyRows =
@@ -162,7 +163,7 @@ const ParticipantList = ({ idActivity, ...others }) => {
             />
             <TableBody>
               {membersData.map((row) => {
-                const { id, name, photo, email, age: birthDay, gender } = row;
+                const { id, name, photo, value, status } = row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
@@ -187,9 +188,15 @@ const ParticipantList = ({ idActivity, ...others }) => {
                         </Typography>
                       </Stack>
                     </TableCell>
-                    <TableCell align="left">{email}</TableCell>
-                    <TableCell align="left">{fVNDate(birthDay)}</TableCell>
-                    <TableCell align="left">{getGender(gender)}</TableCell>
+                    <TableCell align="left">
+                      <Label
+                        variant="ghost"
+                        color={status ? "success" : "error"}
+                      >
+                        {status ? "Active" : "Unactive"}
+                      </Label>
+                    </TableCell>
+                    <TableCell align="left">{value}</TableCell>
                   </TableRow>
                 );
               })}
@@ -225,4 +232,4 @@ const ParticipantList = ({ idActivity, ...others }) => {
   );
 };
 
-export default ParticipantList;
+export default ClubRankList;
