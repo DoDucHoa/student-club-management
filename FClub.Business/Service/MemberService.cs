@@ -50,6 +50,14 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.RoleId.Equals(member.RoleId));
             }
+            if (member.Status != null)
+            {
+                values = values.Where(x => x.Status == member.Status);
+            }
+            if (member.IsApproved != null)
+            {
+                values = values.Where(x => x.IsApproved == member.IsApproved);
+            }
 
             if (!string.IsNullOrWhiteSpace(member.sort))
             {
