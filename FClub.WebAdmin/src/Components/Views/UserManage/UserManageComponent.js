@@ -27,13 +27,14 @@ import {
   UserListToolbar,
   UserMoreMenu,
 } from "../../UI/_dashboard/user";
+import { fVNDate } from "../../../Utils/formatTime";
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "email", label: "Email", alignRight: false },
-  { id: "age", label: "Age", alignRight: true },
+  { id: "birthday", label: "Birthday", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
   { id: "isAdmin", label: "Role", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
@@ -41,17 +42,6 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
-
-function getAge(dateString) {
-  var today = new Date();
-  var birthDate = new Date(dateString);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-    age--;
-  }
-  return age;
-}
 
 const User = () => {
   const [page, setPage] = useState(0);
@@ -94,7 +84,7 @@ const User = () => {
             name: row.name,
             photo: row.photo,
             gender: row.gender,
-            age: getAge(row.birthday),
+            age: row.birthday,
             isAdmin: row.isAdmin,
             status: row.status,
           });
@@ -239,7 +229,7 @@ const User = () => {
                           </Stack>
                         </TableCell>
                         <TableCell align="left">{email}</TableCell>
-                        <TableCell align="right">{age}</TableCell>
+                        <TableCell align="left">{fVNDate(age)}</TableCell>
                         <TableCell align="left">{getGender(gender)}</TableCell>
                         <TableCell align="left">
                           <Label
