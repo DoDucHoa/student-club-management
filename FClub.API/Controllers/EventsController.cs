@@ -54,7 +54,7 @@ namespace FClub.API.Controllers
             {
                 Club club = _clubService.GetClubById(_memberService.GetById(eventinfo.CreatorId).ClubId);
 
-                var members = _memberService.Get().Where(x => x.ClubId.EndsWith(club.Id));
+                var members = _memberService.Get().Where(x => x.ClubId.Equals(club.Id));
 
                 List<string> registrationTokens = new List<string>();
 
