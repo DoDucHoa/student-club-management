@@ -37,7 +37,7 @@ class _ClubEventState extends State<ClubEvent> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+        padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
         child: Column(children: [
           Visibility(
             visible: showCalendar,
@@ -87,7 +87,7 @@ class _ClubEventState extends State<ClubEvent> {
           ),
           Flexible(
               child: ListView.separated(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
             itemCount: data?.length ?? 0,
             itemBuilder: (context, index) {
               return EventCard(

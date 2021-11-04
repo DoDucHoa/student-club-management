@@ -37,6 +37,8 @@ class ListClubState extends State<DiscoveryClub> {
       itemCount: data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
+            Status: "",
+            isJoined: false,
             pageRoute: ClubDetail(data?[index].id, false),
             logoUrl: '${data?[index].logo}',
             Id: '${data?[index].id}',

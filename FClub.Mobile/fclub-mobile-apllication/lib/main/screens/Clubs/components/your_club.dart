@@ -49,7 +49,9 @@ class ListClubState extends State<YourClub> {
       itemCount: data?.data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
-            pageRoute: ClubHome(),
+            isJoined: true,
+            Status: "data?.data?[index].isApproved ?? false",
+            pageRoute: ClubHome(data?.data?[index].clubId),
             logoUrl: '${data?.data?[index].club?.logo}',
             Id: '${data?.data?[index].club?.id}',
             Name: '${data?.data?[index].club?.name}');

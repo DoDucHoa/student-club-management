@@ -83,6 +83,11 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
           break;
         case 4:
           setState(() {
+            title = "Wallet";
+          });
+          break;
+        case 4:
+          setState(() {
             title = "Profile";
           });
           break;

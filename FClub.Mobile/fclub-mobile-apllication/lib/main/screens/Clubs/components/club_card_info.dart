@@ -6,21 +6,26 @@ class ClubCard extends StatelessWidget {
   final String logoUrl;
   final String Id;
   final String Name;
-
-  const ClubCard(
+  final String Status;
+  bool? isJoined = false;
+  ClubCard(
       {Key? key,
+      this.isJoined,
       required this.pageRoute,
       required this.logoUrl,
       required this.Id,
-      required this.Name})
+      required this.Name,
+      required this.Status})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return InkWell(
-      onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => pageRoute)),
+      onTap: () => isJoined == true
+          ? Navigator.push(
+              context, MaterialPageRoute(builder: (context) => pageRoute))
+          : null,
       child: Container(
         width: size.width,
         height: 80.0,
@@ -53,13 +58,32 @@ class ClubCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                      Text(Id,
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: size.width * 0.4,
+                              child: Text(Id,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              Status,
+                              style: TextStyle(
+                                  color: Status == true
+                                      ? Colors.green
+                                      : Colors.orange,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ]),
                       SizedBox(
                         height: 7,
                       ),

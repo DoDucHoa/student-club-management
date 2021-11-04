@@ -1,4 +1,6 @@
 import 'package:UniClub/main/components/sub_appbar.dart';
+import 'package:UniClub/main/screens/Clubs/components/club_event.dart';
+import 'package:UniClub/main/screens/Clubs/components/club_task.dart';
 import 'package:UniClub/main/screens/Events/event_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/Screens/Clubs/components/discovery_club.dart';
@@ -6,6 +8,8 @@ import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/Clubs/components/your_club.dart';
 
 class ClubHome extends StatefulWidget {
+  final String? clubId;
+  ClubHome(this.clubId, {Key? key}) : super(key: key);
   @override
   _ClubState createState() => _ClubState();
 }
@@ -35,12 +39,12 @@ class _ClubState extends State<ClubHome> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: SubBar("Club Dashboard"),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         child: Column(
           children: [
             // give the tab bar a height [can change hheight to preferred height]
             Container(
-              width: size.width * 0.6,
+              width: size.width * 0.8,
               height: 45,
               decoration: BoxDecoration(
                 color: kSubColor,
@@ -84,8 +88,8 @@ class _ClubState extends State<ClubHome> with SingleTickerProviderStateMixin {
                 controller: controller,
                 children: [
                   // first tab bar view widget
-                  EventScreen(),
-                  YourClub(),
+                  ClubEvent(widget.clubId),
+                  ClubTask(widget.clubId),
 
                   // second tab bar view widget
                   DiscoveryClub(),
