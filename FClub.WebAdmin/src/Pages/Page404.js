@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Link as RouterLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // material
 import { styled } from "@mui/material/styles";
@@ -22,6 +23,8 @@ const RootStyle = styled(Page)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function Page404() {
+  const userData = useSelector((state) => state.auth.userData);
+
   return (
     <RootStyle title="404 Page Not Found">
       <Container>
@@ -46,7 +49,7 @@ function Page404() {
             </motion.div>
 
             <Button
-              to="/"
+              to={userData.isAdmin ? "/dashboard/main" : "/dashboard/activity"}
               size="large"
               variant="contained"
               component={RouterLink}

@@ -3,18 +3,23 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import AssessmentRoundedIcon from "@mui/icons-material/AssessmentRounded";
+import PieChartIcon from "@mui/icons-material/PieChart";
 
 // ----------------------------------------------------------------------
 
 export const sidebarConfigAdmin = [
+  {
+    title: "Dashboard",
+    path: "/dashboard/main",
+    icon: <PieChartIcon />,
+  },
   {
     title: "manage club",
     path: "/dashboard/club",
     icon: <MeetingRoomIcon />,
   },
   {
-    title: "manage User",
+    title: "Manage User",
     path: "/dashboard/user",
     icon: <GroupIcon />,
   },
@@ -35,10 +40,5 @@ export const sidebarConfigNormal = [
     title: "Budget",
     path: "/dashboard/budget",
     icon: <AttachMoneyIcon />,
-  },
-  {
-    title: "Report",
-    path: "/dashboard/report",
-    icon: <AssessmentRoundedIcon />,
   },
 ];

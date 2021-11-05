@@ -11,7 +11,6 @@ import {
   Button,
   Container,
   Grid,
-  IconButton,
   Paper,
   Slide,
   Snackbar,
@@ -23,7 +22,6 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Box } from "@mui/system";
 import { GetMemberId } from "./Components/action";
-import CloseIcon from "@mui/icons-material/Close";
 
 const ImageContaier = styled("div")(({ theme }) => ({
   borderRadius: "10px",
@@ -106,10 +104,11 @@ const CreateActivity = () => {
           initialValues={initialValues}
           onSubmit={(data, { resetForm }) => {
             submitHandler(data);
+            setImageUrl("");
             resetForm();
           }}
         >
-          {({ values, resetForm }) => (
+          {({ resetForm }) => (
             <Form>
               <Paper elevation={5} sx={{ p: 5, width: { lg: "65%" } }}>
                 <Grid container spacing={3}>

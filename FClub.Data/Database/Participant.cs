@@ -29,6 +29,8 @@ namespace FClub.Data.Database
         public decimal? BonusPoint { get; set; }
         [Column("attendance")]
         public bool? Attendance { get; set; }
+        [Column("rate")]
+        public double? Rate { get; set; }
 
         [ForeignKey(nameof(EventId))]
         [InverseProperty(nameof(EventInfo.Participants))]

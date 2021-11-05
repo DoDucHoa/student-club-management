@@ -32,6 +32,10 @@ const AdditionalForm = Loadable(
   lazy(() => import("../Pages/Authenticate/AdditionalForm"))
 );
 
+const MemberManagePage = Loadable(
+  lazy(() => import("../Pages/ManageMember/ManageMemberPage"))
+);
+
 const ClubDetail = Loadable(
   lazy(() => import("../Components/Views/Club/ClubDetailComponents/ClubDetail"))
 );
@@ -40,7 +44,11 @@ const CreateActivity = Loadable(
   lazy(() => import("../Components/Views/Activity/CreateActivityPage/index"))
 );
 
-const ReportPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
+const ActivityDetail = Loadable(
+  lazy(() => import("../Components/Views/Activity/ActivityDetail/index"))
+);
+
+const MainPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
 
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
@@ -96,7 +104,7 @@ export default function ThemeRoutes() {
         {
           element: (
             <Navigate
-              to={isAdmin ? "/dashboard/club" : "/dashboard/activity"}
+              to={isAdmin ? "/dashboard/main" : "/dashboard/activity"}
               replace
             />
           ),
@@ -119,6 +127,15 @@ export default function ThemeRoutes() {
         },
         // Manager
         {
+          path: "main",
+          element: <MainPage />,
+        },
+        {
+          path: "club-manage",
+          element: <MemberManagePage />,
+        },
+
+        {
           path: "activity",
           element: <ActivityPage />,
         },
@@ -127,8 +144,8 @@ export default function ThemeRoutes() {
           element: <CreateActivity />,
         },
         {
-          path: "report",
-          element: <ReportPage />,
+          path: "activity/:idActivity",
+          element: <ActivityDetail />,
         },
       ],
     },
