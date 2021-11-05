@@ -53,13 +53,17 @@ class ClubRequest {
   }
 
   static Future<List<Approve>> fetchClubsWithApprove(int? id) async {
-    var queryParameters = {'userId': id, 'includeProperties': 'Members'};
+    var queryParameters = {
+      'userId': id.toString(),
+      'includeProperties': 'Members'
+    };
     var uri = Uri.https('club-management-service.azurewebsites.net',
-        '/api/v1/clubs', queryParameters);
+        '/api/v1/clubs/withapproved', queryParameters);
     final response = await http.get(
       uri,
       headers: {HttpHeaders.authorizationHeader: tokenauthor},
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return parseApprove(response.body);
     } else if (response.statusCode == 404) {

@@ -1,12 +1,10 @@
-import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
 import 'package:UniClub/main/screens/Clubs/components/club_home.dart';
+import 'package:UniClub/model/approve.dart';
+import 'package:UniClub/network/club_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
-import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
-import 'package:UniClub/model/member.dart';
 import 'package:UniClub/model/user.dart';
-import 'package:UniClub/network/member_request.dart';
 import 'package:UniClub/network/user_request.dart';
 
 class YourClub extends StatefulWidget {
@@ -16,8 +14,9 @@ class YourClub extends StatefulWidget {
 
 class ListClubState extends State<YourClub> {
   Student? user;
-  Member? data;
-  // }
+  List<Approve>? clubs;
+  List<Approve>? data;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -27,10 +26,15 @@ class ListClubState extends State<YourClub> {
       setState(() {
         user = dataFromServer;
       });
-      MemberRequest.fetchMembersById(user?.data?.first.id)!
+      ClubRequest.fetchClubsWithApprove(user?.data?.first.id)
           .then((dataFromServer) {
         setState(() {
-          data = dataFromServer;
+          clubs = dataFromServer;
+          data = clubs
+              ?.where((element) =>
+                  element.value!.startsWith("W") ||
+                  element.value!.startsWith("J"))
+              .toList();
         });
       });
     });
@@ -46,15 +50,15 @@ class ListClubState extends State<YourClub> {
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.all(8),
-      itemCount: data?.data?.length ?? 0,
+      itemCount: data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
-            isJoined: true,
-            Status: "data?.data?[index].isApproved ?? false",
-            pageRoute: ClubHome(data?.data?[index].clubId),
-            logoUrl: '${data?.data?[index].club?.logo}',
-            Id: '${data?.data?[index].club?.id}',
-            Name: '${data?.data?[index].club?.name}');
+            isJoined: data?[index].value == "Not join" ? false : true,
+            Status: data?[index].value ?? "",
+            pageRoute: ClubHome(data?[index].key?.id),
+            logoUrl: data?[index].key?.logo ?? "",
+            Id: data?[index].key?.id ?? "",
+            Name: data?[index].key?.name ?? "");
       },
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 10),

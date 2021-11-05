@@ -1,3 +1,5 @@
+import 'package:UniClub/model/member.dart';
+
 class Approve {
   Key? key;
   String? value;
@@ -23,12 +25,12 @@ class Key {
   String? id;
   String? universityId;
   String? name;
-  int? balance;
+  double? balance;
   String? logo;
   String? about;
   bool? status;
   // Null university;
-  // List<Members> members;
+  List<Member>? members;
 
   Key(
       {this.id,
@@ -37,10 +39,9 @@ class Key {
       this.balance,
       this.logo,
       this.about,
-      this.status
+      this.status,
       // this.university,
-      // this.members
-      });
+      this.members});
 
   Key.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,12 +52,12 @@ class Key {
     about = json['about'];
     status = json['status'];
     // university = json['university'];
-    // if (json['members'] != null) {
-    //   members = new List<Members>();
-    //   json['members'].forEach((v) {
-    //     members.add(new Members.fromJson(v));
-    //   });
-    // }
+    if (json['members'] != null) {
+      members = <Member>[];
+      json['members'].forEach((v) {
+        members?.add(new Member.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -69,9 +70,9 @@ class Key {
     data['about'] = this.about;
     data['status'] = this.status;
     // data['university'] = this.university;
-    // if (this.members != null) {
-    //   data['members'] = this.members.map((v) => v.toJson()).toList();
-    // }
+    if (this.members != null) {
+      data['members'] = this.members?.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
