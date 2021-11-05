@@ -30,7 +30,6 @@ class AuthService {
       );
       AuthCredential? cre =
           (await _auth.signInWithCredential(credential)).credential;
-      print(cre);
       User? user = (await _auth.signInWithCredential(credential)).user;
       print(await cre?.token);
       _request.signIn(await user?.getIdToken());

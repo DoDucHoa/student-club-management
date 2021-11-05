@@ -34,7 +34,7 @@ class EventCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
-                padding: EdgeInsets.fromLTRB(18, 5, 18, 5),
+                padding: EdgeInsets.fromLTRB(8, 5, 8, 5),
                 width: size.width,
                 decoration: BoxDecoration(
                     color: kPrimaryColor.withOpacity(0.7),
