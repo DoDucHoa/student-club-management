@@ -1,8 +1,10 @@
 import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
+import 'package:UniClub/model/approve.dart';
+import 'package:UniClub/model/user.dart';
+import 'package:UniClub/network/user_request.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:UniClub/main/Screens/Clubs/components/club_card_info.dart';
-import 'package:UniClub/main/Screens/Signup/signup_screen.dart';
-import 'package:UniClub/model/club.dart';
 import 'package:UniClub/network/club_request.dart';
 
 class DiscoveryClub extends StatefulWidget {
@@ -11,15 +13,27 @@ class DiscoveryClub extends StatefulWidget {
 }
 
 class ListClubState extends State<DiscoveryClub> {
-  List<Club>? data;
+  Student? user;
+  List<Approve>? clubs;
+  List<Approve>? data;
   // }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    ClubRequest.fetchClubs().then((dataFromServer) {
+    UserRequest.fetchUserByEmail(FirebaseAuth.instance.currentUser!.email)!
+        .then((dataFromServer) {
       setState(() {
-        data = dataFromServer;
+        user = dataFromServer;
+      });
+      ClubRequest.fetchClubsWithApprove(user?.data?.first.id)
+          .then((dataFromServer) {
+        setState(() {
+          clubs = dataFromServer;
+          data = clubs
+              ?.where((element) => element.value!.startsWith("N"))
+              .toList();
+        });
       });
     });
   }
@@ -37,12 +51,12 @@ class ListClubState extends State<DiscoveryClub> {
       itemCount: data?.length ?? 0,
       itemBuilder: (context, index) {
         return ClubCard(
-            Status: "",
+            Status: "Not joined",
             isJoined: false,
-            pageRoute: ClubDetail(data?[index].id, false),
-            logoUrl: '${data?[index].logo}',
-            Id: '${data?[index].id}',
-            Name: '${data?[index].name}');
+            pageRoute: ClubDetail(data?[index].key?.id, false),
+            logoUrl: '${data?[index].key?.logo}',
+            Id: '${data?[index].key?.id}',
+            Name: '${data?[index].key?.name}');
       },
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 10),
