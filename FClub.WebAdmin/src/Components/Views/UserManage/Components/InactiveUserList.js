@@ -1,37 +1,41 @@
-import React, { useEffect, useState } from "react";
-
+import { useState, useEffect } from "react";
+// material
 import {
-  Avatar,
   Card,
-  Stack,
   Table,
+  Stack,
+  Avatar,
+  TableRow,
   TableBody,
   TableCell,
+  Typography,
   TableContainer,
   TablePagination,
-  TableRow,
-  Typography,
 } from "@mui/material";
 
-import Label from "../../../UI/Label";
+// components
 import Scrollbar from "../../../UI/Scrollbar";
 import SearchNotFound from "../../../UI/SearchNotFound";
-import { UserListToolbar } from "../../../UI/_dashboard/user";
-import MemberListHead from "../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
+import Label from "../../../UI/Label";
+import { UserListHead, UserListToolbar } from "../../../UI/_dashboard/user";
 import { fVNDate } from "../../../../Utils/formatTime";
-import MoreMenuMember from "./MoreMenuMember";
+import UserInactiveMoreMenu from "./MoreMenuInactiveUser";
+
+// ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "email", label: "Email", alignRight: false },
   { id: "birthday", label: "Birthday", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
-  { id: "role", label: "Member Role", alignRight: false },
+  { id: "isAdmin", label: "Role", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
-  { id: "", label: "", alignRight: false },
+  { id: "" },
 ];
 
-const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
+// ----------------------------------------------------------------------
+
+const InactiveUserList = ({ token }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -41,13 +45,15 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const url = `https://club-management-service.azurewebsites.net/api/v1/members?PageNumber=${page}&PageSize=${rowsPerPage}&includeProperties=User&clubId=${clubId}&IsApproved=true`;
   useEffect(() => {
-    fetch(url, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -60,14 +66,14 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
         resData.data.map((row) => {
           return members.push({
             id: row.id,
-            memberRole: row.roleId,
-            email: row.user.email,
-            name: row.user.name,
-            photo: row.user.photo,
-            gender: row.user.gender,
-            age: row.user.birthday,
-            status: row.user.status,
-            isApproved: row.isApproved,
+            universityId: row.universityId,
+            email: row.email,
+            name: row.name,
+            photo: row.photo,
+            gender: row.gender,
+            age: row.birthday,
+            isAdmin: row.isAdmin,
+            status: row.status,
           });
         });
         setTotalCount(resData.metadata.totalCount);
@@ -76,11 +82,7 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, rowsPerPage, token, url, isRefresh]);
-
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
+  }, [page, rowsPerPage, token]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -97,12 +99,6 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
     setSelected([]);
   };
 
-  const getGender = (gender) => {
-    if (gender === 1) return "Male";
-    if (gender === 2) return "Female";
-    if (gender === 3) return "Other";
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -112,41 +108,21 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
     setPage(0);
   };
 
-  const renderRole = (memberRole) => {
-    if (memberRole === 1) {
-      return (
-        <Label variant="ghost" color="primary">
-          Manager
-        </Label>
-      );
-    }
-    if (memberRole === 2) {
-      return (
-        <Label variant="ghost" color="default">
-          Member
-        </Label>
-      );
-    }
-    if (memberRole === 3) {
-      return (
-        <Label variant="ghost" color="warning">
-          Treasurer
-        </Label>
-      );
-    }
-    if (memberRole === 4) {
-      return (
-        <Label variant="ghost" color="secondary">
-          Creator
-        </Label>
-      );
-    }
+  const handleFilterByName = (event) => {
+    setFilterName(event.target.value);
+  };
+
+  const getGender = (gender) => {
+    if (gender === 1) return "Male";
+    if (gender === 2) return "Female";
+    if (gender === 3) return "Other";
   };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalCount) : 0;
 
   const isUserNotFound = membersData.length === 0;
+
   return (
     <Card>
       <UserListToolbar
@@ -158,7 +134,7 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
-            <MemberListHead
+            <UserListHead
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
@@ -169,16 +145,8 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
             />
             <TableBody>
               {membersData.map((row) => {
-                const {
-                  id,
-                  name,
-                  email,
-                  photo,
-                  age,
-                  gender,
-                  memberRole,
-                  isApproved,
-                } = row;
+                const { id, name, photo, email, age, gender, isAdmin, status } =
+                  row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
@@ -190,12 +158,7 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
                     selected={isItemSelected}
                     aria-checked={isItemSelected}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      padding="normal"
-                      sx={{ pl: 2 }}
-                    >
+                    <TableCell component="th" scope="row" padding="normal">
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={name} src={photo} />
                         <Typography variant="subtitle2" noWrap>
@@ -206,21 +169,27 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
                     <TableCell align="left">{email}</TableCell>
                     <TableCell align="left">{fVNDate(age)}</TableCell>
                     <TableCell align="left">{getGender(gender)}</TableCell>
-                    <TableCell align="left">{renderRole(memberRole)}</TableCell>
                     <TableCell align="left">
                       <Label
                         variant="ghost"
-                        color={isApproved ? "success" : "error"}
+                        color={isAdmin ? "primary" : "default"}
                       >
-                        {isApproved ? "Approved" : "Not approve"}
+                        {isAdmin ? "Admin" : "Normal"}
+                      </Label>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Label
+                        variant="ghost"
+                        color={status ? "success" : "error"}
+                      >
+                        {status ? "Active" : "Disabled"}
                       </Label>
                     </TableCell>
                     <TableCell align="right">
-                      <MoreMenuMember
-                        token={token}
+                      <UserInactiveMoreMenu
                         userId={id}
-                        refreshHandler={refreshHandler}
-                        memberRole={memberRole}
+                        isAdmin={isAdmin}
+                        token={token}
                       />
                     </TableCell>
                   </TableRow>
@@ -258,4 +227,4 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
   );
 };
 
-export default MemberList;
+export default InactiveUserList;

@@ -9,6 +9,7 @@ import ClubReport from "./Components/ClubReport";
 import { useSelector } from "react-redux";
 import { getClubRank, getUserRank } from "./Components/action";
 import ClubRankList from "./Components/ClubRankList";
+import UserRankList from "./Components/UserRankList";
 
 const ReportBody = () => {
   const token = useSelector((state) => state.auth.token);
@@ -22,7 +23,6 @@ const ReportBody = () => {
   const [clubValue, setClubValue] = useState([]);
 
   // club rank list
-  const [clubList, setClubList] = useState({});
 
   useEffect(() => {
     getUserRank(token).then((data) => {
@@ -31,7 +31,6 @@ const ReportBody = () => {
     });
 
     getClubRank(token).then((data) => {
-      setClubList(data);
       setClubValue(data.slice(0, 5).map((club) => club.value));
       setClubName(data.slice(0, 5).map((club) => club.key.name));
     });
@@ -52,7 +51,10 @@ const ReportBody = () => {
             <ClubReport clubName={clubName} value={clubValue} />
           </Grid>
           <Grid item xs={12}>
-            <ClubRankList data={clubList} token={token} />
+            <ClubRankList token={token} />
+          </Grid>
+          <Grid item xs={12}>
+            <UserRankList token={token} />
           </Grid>
         </Grid>
       </Container>

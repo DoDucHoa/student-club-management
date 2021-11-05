@@ -19,10 +19,14 @@ import Scrollbar from "../../../UI/Scrollbar";
 import SearchNotFound from "../../../UI/SearchNotFound";
 import MemberListHead from "../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
 import RankListToolbar from "./ClubListToolbar";
+import { fVNDate } from "../../../../Utils/formatTime";
 
 const TABLE_HEAD = [
-  { id: "name", label: "Club Name", alignRight: false },
-  { id: "member", label: "Members", alignRight: false },
+  { id: "name", label: "User Name", alignRight: false },
+  { id: "email", label: "Email", alignRight: false },
+  { id: "birthday", label: "Birthday", alignRight: false },
+  { id: "gender", label: "Gender", alignRight: false },
+  { id: "clubJoins", label: "Club joins", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
 ];
 
@@ -44,6 +48,12 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
+const getGender = (gender) => {
+  if (gender === 1) return "Male";
+  if (gender === 2) return "Female";
+  if (gender === 3) return "Other";
+};
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -54,7 +64,7 @@ function descendingComparator(a, b, orderBy) {
   return 0;
 }
 
-const ClubRankList = ({ token }) => {
+const UserRankList = ({ token }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -66,7 +76,7 @@ const ClubRankList = ({ token }) => {
 
   useEffect(() => {
     fetch(
-      "https://club-management-service.azurewebsites.net/api/v1/clubs/rank",
+      "https://club-management-service.azurewebsites.net/api/v1/users/rank",
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -86,8 +96,11 @@ const ClubRankList = ({ token }) => {
           return clubs.push({
             id: row.key.id,
             value: row.value,
+            gender: row.key.gender,
+            email: row.key.email,
+            birthday: row.key.birthday,
             name: row.key.name,
-            photo: row.key.logo,
+            photo: row.key.photo,
             status: row.key.status,
           });
         });
@@ -140,7 +153,7 @@ const ClubRankList = ({ token }) => {
 
   return (
     <Card>
-      <RankListToolbar isClub={true} />
+      <RankListToolbar isClub={false} />
 
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
@@ -158,7 +171,16 @@ const ClubRankList = ({ token }) => {
               {filteredClubs
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  const { id, name, photo, value, status } = row;
+                  const {
+                    id,
+                    name,
+                    email,
+                    gender,
+                    photo,
+                    value,
+                    status,
+                    birthday,
+                  } = row;
                   const isItemSelected = selected.indexOf(name) !== -1;
 
                   return (
@@ -183,6 +205,9 @@ const ClubRankList = ({ token }) => {
                           </Typography>
                         </Stack>
                       </TableCell>
+                      <TableCell align="left">{email}</TableCell>
+                      <TableCell align="left">{fVNDate(birthday)}</TableCell>
+                      <TableCell align="left">{getGender(gender)}</TableCell>
                       <TableCell align="left">{value}</TableCell>
                       <TableCell align="left">
                         <Label
@@ -227,4 +252,4 @@ const ClubRankList = ({ token }) => {
   );
 };
 
-export default ClubRankList;
+export default UserRankList;
