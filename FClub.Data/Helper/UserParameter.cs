@@ -10,8 +10,8 @@ namespace FClub.Data.Helper
         public string name { get; set; } = null;
         public string email { get; set; } = null;
         public string phone { get; set; } = null;
-        public bool IsAdmin { get; set; } = false;
-        public bool Status { get; set; } = true;
+        public bool? IsAdmin { get; set; } = null;
+        public bool? Status { get; set; } = null;
         public string dir { get; set; } = "asc";
         public string sort { get; set; } = null;
         public string fields { get; set; } = null;
