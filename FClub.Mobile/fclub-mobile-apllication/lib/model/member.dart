@@ -36,6 +36,7 @@ class Data {
   String? clubId;
   int? roleId;
   bool? status;
+  bool? isApproved;
   Club? club;
   // Null role;
   // Null user;
@@ -51,6 +52,7 @@ class Data {
     this.clubId,
     this.roleId,
     this.status,
+    this.isApproved,
     this.club,
     // this.role,
     // this.user,
@@ -67,6 +69,7 @@ class Data {
     clubId = json['clubId'];
     roleId = json['roleId'];
     status = json['status'];
+    isApproved = json['isApproved'];
     club = json['club'] != null ? new Club.fromJson(json['club']) : null;
     // role = json['role'];
     // user = json['user'];
@@ -109,6 +112,7 @@ class Data {
     data['clubId'] = this.clubId;
     data['roleId'] = this.roleId;
     data['status'] = this.status;
+    data['isApproved'] = this.isApproved;
     if (this.club != null) {
       data['club'] = this.club?.toJson();
     }

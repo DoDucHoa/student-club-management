@@ -41,8 +41,7 @@ class _EventState extends State<EventScreen> {
           Visibility(
             visible: showCalendar,
             child: Container(
-              width: size.width * 0.7,
-              height: size.height * 0.2,
+              height: size.height * 0.3,
               child: EventCalender(),
             ),
           ),
