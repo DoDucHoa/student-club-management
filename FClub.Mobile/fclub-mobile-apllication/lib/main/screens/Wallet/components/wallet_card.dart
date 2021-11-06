@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:UniClub/main/constants.dart';
 
 class WalletCard extends StatelessWidget {
-  final String title;
-  final String content;
-  final String time;
+  final String clubname;
+  final String balance;
   final String logo;
 
   const WalletCard(
       {Key? key,
-      required this.title,
-      required this.content,
-      required this.time,
+      required this.clubname,
+      required this.balance,
       required this.logo})
       : super(key: key);
 
