@@ -4,7 +4,7 @@ import 'package:UniClub/main/constants.dart';
 
 class WalletCard extends StatelessWidget {
   final String clubname;
-  final String balance;
+  final double balance;
   final String logo;
 
   const WalletCard(
