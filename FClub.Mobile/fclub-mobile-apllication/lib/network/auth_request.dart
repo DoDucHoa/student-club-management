@@ -2,7 +2,6 @@ import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class AuthRequest {
@@ -13,9 +12,8 @@ class AuthRequest {
         '/api/v1/auths/sign-in', queryParameters);
     print("ggid: ${tokenId}");
     final response = await http.post(uri);
-
+    global.tokenauthor = "Bearer " + parseAuth(response.body).jwtToken!;
     if (response.statusCode == 200) {
-      global.tokenauthor = "Bearer " + parseAuth(response.body).jwtToken!;
       print('sign in succesful!' + response.body);
     } else if (response.statusCode == 404) {
       throw Exception("Not found.");
