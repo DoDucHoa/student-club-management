@@ -1,4 +1,4 @@
-import ManageUserComponent from "../../Components/Views/UserManage/UserManageComponent";
+import ManageUserComponent from "../../Components/Views/UserManage/index";
 
 const MangageUserPage = () => {
   return (

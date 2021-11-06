@@ -1,6 +1,9 @@
+import 'package:UniClub/main/screens/Welcome/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/constants.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class TitleBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -17,15 +20,28 @@ class TitleBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    signOut() async {
+      await GoogleSignIn().signOut();
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return WelcomeScreen();
+          },
+        ),
+      );
+    }
+
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // IconButton(
         //   onPressed: () => Navigator.pop(context),
         //   icon: Icon(Icons.arrow_back_ios_new),
         //   color: kPrimaryColor,
         // ),
-        // SizedBox(width: 115.0),
+        SizedBox(width: 50.0),
         Container(
             alignment: Alignment.center,
             child:
@@ -43,6 +59,14 @@ class TitleBar extends StatelessWidget with PreferredSizeWidget {
                     letterSpacing: 2.0),
               ),
             ])),
+        IconButton(
+            onPressed:
+                // ignore: unnecessary_statements
+                signOut,
+            icon: Icon(
+              Icons.logout,
+              color: kPrimaryColor,
+            ))
       ],
     );
   }

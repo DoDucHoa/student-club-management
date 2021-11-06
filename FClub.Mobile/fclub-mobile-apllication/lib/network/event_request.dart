@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/event.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -12,7 +12,7 @@ class EventRequest {
   static Future<Event> fetchAvailableEvents() async {
     final response = await http.get(
       Uri.parse(url),
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {
@@ -32,7 +32,7 @@ class EventRequest {
         '/api/v1/events', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {

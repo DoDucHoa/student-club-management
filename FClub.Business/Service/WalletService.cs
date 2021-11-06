@@ -22,6 +22,10 @@ namespace FClub.Business.Service
         {
             try
             {
+                if (_walletRepository.GetAll().Where(x => x.MemberId == wallet.MemberId) != null)
+                {
+                    return false;
+                }
                 _walletRepository.Add(wallet);
                 _walletRepository.SaveDbChange();
                 return true;

@@ -53,13 +53,13 @@ namespace FClub.Business.Service
             {
                 values = values.Where(x => x.Phone.Equals(user.phone));
             }
-            if (user.IsAdmin)
+            if (user.IsAdmin != null)
             {
-                values = values.Where(x => x.IsAdmin == true);
+                values = values.Where(x => x.IsAdmin == user.IsAdmin);
             }
-            if (!user.Status)
+            if (user.Status != null)
             {
-                values = values.Where(x => x.Status == false);
+                values = values.Where(x => x.Status == user.Status);
             }
 
             if (!string.IsNullOrWhiteSpace(user.sort))

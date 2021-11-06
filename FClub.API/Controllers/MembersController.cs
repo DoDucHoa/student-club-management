@@ -84,9 +84,9 @@ namespace FClub.API.Controllers
 
             List<string> registrationTokens = new List<string>();
 
-            registrationTokens.Add("csgoZF1BTLKWX8z1ldqGnn:APA91bG9aJAz88dH84X1bPGCMWWptdcPVZijpdjWyM-xUf8Kwtv7iA959xXE1k8UNZyYl6B5OPOtcRoscvagI8SZRblwWBtzxkEo3M-KUkslMez_vq36nggFYT1RWT9MWTSHyhVP9WIA");
-            registrationTokens.Add("dYe7INjeQm2bmIf6AUypKM:APA91bGRQPU7vWYqt_jTezFCjncLcMb0LfovTtMtXIuxEOPg3TLbxTWCVfJpZpUinhzUGGGbQFzKRxGlLhKrUwb6bdBC32Y7ZIkY-A1oNe7Kc7snIEXyuvNRf5vdt9bTV9lgv88pIwEZ");
-            registrationTokens.Add("elvZ4HINTAiHUeHP2NHSF9:APA91bFPL52KFOrzUHZF71N6eycBfHR49G7UKSCtVjeWQDQvWju6nZEzSUBmxLgZrH-bTiovDYLHiawiT4ioLczFxE7xc3AJHggIcPqyjshOuHqGnP_Xx7ow8QZdlAKw5uNzZh4_hRh1");
+            //registrationTokens.Add("csgoZF1BTLKWX8z1ldqGnn:APA91bG9aJAz88dH84X1bPGCMWWptdcPVZijpdjWyM-xUf8Kwtv7iA959xXE1k8UNZyYl6B5OPOtcRoscvagI8SZRblwWBtzxkEo3M-KUkslMez_vq36nggFYT1RWT9MWTSHyhVP9WIA");
+            //registrationTokens.Add("dYe7INjeQm2bmIf6AUypKM:APA91bGRQPU7vWYqt_jTezFCjncLcMb0LfovTtMtXIuxEOPg3TLbxTWCVfJpZpUinhzUGGGbQFzKRxGlLhKrUwb6bdBC32Y7ZIkY-A1oNe7Kc7snIEXyuvNRf5vdt9bTV9lgv88pIwEZ");
+            //registrationTokens.Add("elvZ4HINTAiHUeHP2NHSF9:APA91bFPL52KFOrzUHZF71N6eycBfHR49G7UKSCtVjeWQDQvWju6nZEzSUBmxLgZrH-bTiovDYLHiawiT4ioLczFxE7xc3AJHggIcPqyjshOuHqGnP_Xx7ow8QZdlAKw5uNzZh4_hRh1");
 
             var deviceId = _userService.GetUsersById(member.UserId).DeviceId;
             if (deviceId != null && !registrationTokens.Contains(deviceId))
