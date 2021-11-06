@@ -20,7 +20,7 @@ class AuthRequest {
     } else if (response.statusCode == 401) {
       throw Exception("Unauthorized");
     } else {
-      throw Exception("Can't sign in");
+      throw Exception("Can't sign in" + response.body);
     }
   }
 

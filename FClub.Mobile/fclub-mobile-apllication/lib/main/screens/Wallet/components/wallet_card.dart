@@ -22,14 +22,29 @@ class WalletCard extends StatelessWidget {
         width: size.width,
         height: size.height * 0.3,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: kPrimaryColor,
-            ),
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15.0)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [],
+          border: Border.all(
+            color: kPrimaryColor,
+          ),
+          color: kPrimaryColor,
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+                width: size.width * 0.5,
+                height: size.height * 0.15,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: kPrimaryColor,
+                    ),
+                    color: kPrimaryColor,
+                    image: new DecorationImage(
+                      image: NetworkImage(logo),
+                      fit: BoxFit.fitHeight,
+                    ))),
+          ],
         ),
       ),
     );
