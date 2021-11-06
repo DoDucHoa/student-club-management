@@ -53,6 +53,7 @@ class Members {
   int? roleId;
   bool? status;
   List<EventInfos>? eventInfos;
+  List<Tasks>? tasks;
 
   Members(
       {this.id,
@@ -60,7 +61,8 @@ class Members {
       this.clubId,
       this.roleId,
       this.status,
-      this.eventInfos});
+      this.eventInfos,
+      this.tasks});
 
   Members.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -74,6 +76,12 @@ class Members {
         eventInfos?.add(new EventInfos.fromJson(v));
       });
     }
+    if (json['tasks'] != null) {
+      tasks = <Tasks>[];
+      json['tasks'].forEach((v) {
+        tasks?.add(new Tasks.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +93,9 @@ class Members {
     data['status'] = this.status;
     if (this.eventInfos != null) {
       data['eventInfos'] = this.eventInfos?.map((v) => v.toJson()).toList();
+    }
+    if (this.tasks != null) {
+      data['tasks'] = this.tasks?.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -100,7 +111,7 @@ class EventInfos {
   DateTime? endRegisDate;
   DateTime? beginDate;
   DateTime? dueDate;
-  int? bonusPoint;
+  double? bonusPoint;
   int? limitJoin;
   String? image;
   String? location;
@@ -155,6 +166,82 @@ class EventInfos {
     data['image'] = this.image;
     data['location'] = this.location;
     data['status'] = this.status;
+    return data;
+  }
+}
+
+class Tasks {
+  int? id;
+  String? typeId;
+  int? creatorId;
+  double? awardPoint;
+  double? pennaltyPoint;
+  DateTime? createDate;
+  DateTime? beginDate;
+  DateTime? dueDate;
+  String? title;
+  String? content;
+  int? limitJoin;
+  bool? status;
+  // List<Null> memberTasks;
+
+  Tasks({
+    this.id,
+    this.typeId,
+    this.creatorId,
+    this.awardPoint,
+    this.pennaltyPoint,
+    this.createDate,
+    this.beginDate,
+    this.dueDate,
+    this.title,
+    this.content,
+    this.limitJoin,
+    this.status,
+    // this.type,
+    // this.memberTasks
+  });
+
+  Tasks.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    typeId = json['typeId'];
+    creatorId = json['creatorId'];
+    awardPoint = json['awardPoint'];
+    pennaltyPoint = json['pennaltyPoint'];
+    createDate = DateTime.parse(json['createDate'].toString());
+    beginDate = DateTime.parse(json['beginDate'].toString());
+    dueDate = DateTime.parse(json['dueDate'].toString());
+    title = json['title'];
+    content = json['content'];
+    limitJoin = json['limitJoin'];
+    status = json['status'];
+    // type = json['type'];
+    // if (json['memberTasks'] != null) {
+    //   memberTasks = new List<Null>();
+    //   json['memberTasks'].forEach((v) {
+    //     memberTasks.add(new Null.fromJson(v));
+    //   });
+    // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['typeId'] = this.typeId;
+    data['creatorId'] = this.creatorId;
+    data['awardPoint'] = this.awardPoint;
+    data['pennaltyPoint'] = this.pennaltyPoint;
+    data['createDate'] = this.createDate;
+    data['beginDate'] = this.beginDate;
+    data['dueDate'] = this.dueDate;
+    data['title'] = this.title;
+    data['content'] = this.content;
+    data['limitJoin'] = this.limitJoin;
+    data['status'] = this.status;
+    // data['type'] = this.type;
+    // if (this.memberTasks != null) {
+    //   data['memberTasks'] = this.memberTasks.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }

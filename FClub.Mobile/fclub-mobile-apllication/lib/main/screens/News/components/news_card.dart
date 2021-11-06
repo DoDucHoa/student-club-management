@@ -33,7 +33,7 @@ class NewsCard extends StatelessWidget {
           children: [
             Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 18, 5),
-                width: size.width,
+                // width: size.width,
                 decoration: BoxDecoration(
                     color: kPrimaryColor.withOpacity(0.7),
                     borderRadius: BorderRadius.only(

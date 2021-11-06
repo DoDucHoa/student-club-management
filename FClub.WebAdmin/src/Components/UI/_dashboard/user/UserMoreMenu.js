@@ -16,12 +16,31 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({ userId, isAdmin }) {
+export default function UserMoreMenu({
+  userId,
+  isAdmin,
+  token,
+  refreshHandler,
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
   function disableUserHandler() {
-    console.log(userId);
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/users/${userId}/false`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
+      .then((response) => {
+        if (response.ok) {
+          refreshHandler();
+        }
+      })
+      .catch((error) => console.log(error));
   }
 
   return (

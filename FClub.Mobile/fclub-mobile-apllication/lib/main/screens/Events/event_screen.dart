@@ -41,39 +41,45 @@ class _EventState extends State<EventScreen> {
           Visibility(
             visible: showCalendar,
             child: Container(
-              width: size.width * 0.7,
-              height: size.height * 0.2,
+              height: size.height * 0.3,
               child: EventCalender(),
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_drop_down, color: kPrimaryColor),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: kPrimaryColor),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: <String>[
-                  'All Available Events',
-                  'Incoming Events',
-                  'Joined Events'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              Text("Following All The Events !",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                      color: kPrimaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      decorationStyle: TextDecorationStyle.solid)),
+              // DropdownButton<String>(
+              //   value: dropdownValue,
+              //   icon: const Icon(Icons.arrow_drop_down, color: kPrimaryColor),
+              //   iconSize: 24,
+              //   elevation: 16,
+              //   style: const TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold,
+              //       color: kPrimaryColor),
+              //   onChanged: (String? newValue) {
+              //     setState(() {
+              //       dropdownValue = newValue!;
+              //     });
+              //   },
+              //   items: <String>[
+              //     'All Available Events',
+              //     'Incoming Events',
+              //     'Joined Events'
+              //   ].map<DropdownMenuItem<String>>((String value) {
+              //     return DropdownMenuItem<String>(
+              //       value: value,
+              //       child: Text(value),
+              //     );
+              //   }).toList(),
+              // ),
               IconButton(
                   onPressed: () => setState(() {
                         !showCalendar

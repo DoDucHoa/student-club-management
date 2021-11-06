@@ -9,14 +9,11 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  CardActions,
-  Button,
   CardHeader,
 } from "@mui/material";
 
 // components
 import CreatorAvartar from "./CreatorAvartar";
-import { Box } from "@mui/system";
 
 const ActivityCard = ({ activity }) => {
   const { id, image, title, content, createDate } = activity;
@@ -51,23 +48,8 @@ const ActivityCard = ({ activity }) => {
         avatar={<CreatorAvartar photo={photo} />}
         title={name}
         subheader={"Created: " + fVNDate(createDate)}
+        sx={{ mb: 3 }}
       />
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-        }}
-      >
-        <CardActions>
-          <Button size="small" color="error">
-            Delete
-          </Button>
-        </CardActions>
-        <CardActions>
-          <Button size="small">Edit</Button>
-        </CardActions>
-      </Box>
     </Card>
   );
 };

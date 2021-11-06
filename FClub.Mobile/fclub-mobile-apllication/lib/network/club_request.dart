@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
+import 'package:UniClub/model/approve.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:UniClub/model/club.dart';
 import 'dart:convert';
@@ -15,7 +16,7 @@ class ClubRequest {
     print(token);
     final response = await http.get(
       Uri.parse(url),
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClubs(response.body);
@@ -32,16 +33,39 @@ class ClubRequest {
     print(id);
     var queryParameters = {
       'id': id,
-      'includeProperties': 'Members,Members.EventInfos'
+      'includeProperties': 'Members,Members.Tasks,Members.EventInfos'
     };
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/clubs', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClub(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception("Not found.");
+    } else if (response.statusCode == 401) {
+      throw Exception("Unauthorized");
+    } else {
+      throw Exception("Can't get club");
+    }
+  }
+
+  static Future<List<Approve>> fetchClubsWithApprove(int? id) async {
+    var queryParameters = {
+      'userId': id.toString(),
+      'includeProperties': 'Members'
+    };
+    var uri = Uri.https('club-management-service.azurewebsites.net',
+        '/api/v1/clubs/withapproved', queryParameters);
+    final response = await http.get(
+      uri,
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return parseApprove(response.body);
     } else if (response.statusCode == 404) {
       throw Exception("Not found.");
     } else if (response.statusCode == 401) {
@@ -61,5 +85,11 @@ class ClubRequest {
     var list = json.decode(responseBody) as List<dynamic>;
     Club club = list.map((model) => Club.fromJson(model)).first;
     return club;
+  }
+
+  static List<Approve> parseApprove(String responseBody) {
+    var list = json.decode(responseBody) as List<dynamic>;
+    List<Approve> clubs = list.map((model) => Approve.fromJson(model)).toList();
+    return clubs;
   }
 }

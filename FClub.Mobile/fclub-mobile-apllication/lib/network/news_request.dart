@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/news.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -15,7 +15,7 @@ class NewsRequest {
         '/api/v1/news', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {

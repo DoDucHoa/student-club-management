@@ -31,6 +31,14 @@ namespace FClub.API.Controllers
             return Ok(data);
         }
 
+        [HttpGet]
+        [Route("withapproved")]
+        public IActionResult GetClubsForMobile([FromQuery] ClubParameter club, [FromQuery] PagingParameter paging, int userId)
+        {
+            var data = _clubService.GetAllClubWithMemberApproved(club, paging, userId);
+            return Ok(data);
+        }
+
         [HttpPost]
         public IActionResult AddClub(Club club)
         {

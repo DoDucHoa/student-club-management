@@ -4,6 +4,7 @@ import 'package:UniClub/main/screens/Clubs/clubs_screen.dart';
 import 'package:UniClub/main/screens/Events/event_screen.dart';
 import 'package:UniClub/main/screens/News/news_screen.dart';
 import 'package:UniClub/main/screens/Profile/profile_screen.dart';
+import 'package:UniClub/main/screens/Wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -55,10 +56,7 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
     // NewsScreen(),
     EventScreen(),
     NewsScreen(),
-    Text(
-      'Index 3: Wallet',
-      style: TextStyle(fontStyle: FontStyle.italic),
-    ),
+    WalletScreen(),
     ProfileScreen()
     // ProfilePage()
   ];
@@ -79,6 +77,11 @@ class _SnakeNavigationBarExampleScreenState extends State<BottomBar> {
         case 2:
           setState(() {
             title = "Home";
+          });
+          break;
+        case 3:
+          setState(() {
+            title = "Wallet";
           });
           break;
         case 4:

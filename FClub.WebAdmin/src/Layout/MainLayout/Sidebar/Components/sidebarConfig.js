@@ -4,6 +4,7 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import GroupsIcon from "@mui/icons-material/Groups";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import PieChartIcon from "@mui/icons-material/PieChart";
+import HomeIcon from "@mui/icons-material/Home";
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +31,11 @@ export const sidebarConfigNormal = [
     title: "Activities",
     path: "/dashboard/activity",
     icon: <NotificationsActiveIcon />,
+  },
+  {
+    title: "My Club",
+    path: "/dashboard/my-club",
+    icon: <HomeIcon />,
   },
   {
     title: "Manage Member",

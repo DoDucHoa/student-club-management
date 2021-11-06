@@ -162,16 +162,7 @@ const ParticipantList = ({ idActivity, ...others }) => {
             />
             <TableBody>
               {membersData.map((row) => {
-                const {
-                  id,
-                  name,
-                  photo,
-                  email,
-                  age: birthDay,
-                  gender,
-                  isAdmin,
-                  status,
-                } = row;
+                const { id, name, photo, email, age: birthDay, gender } = row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
