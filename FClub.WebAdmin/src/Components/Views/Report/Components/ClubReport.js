@@ -1,36 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { Card } from "@mui/material";
 import { Bar } from "react-chartjs-2";
-import { useSelector } from "react-redux";
 
-const ClubReport = () => {
-  const token = useSelector((state) => state.auth.token);
-  const [clubName, setClubName] = useState([]);
-  const [value, setValue] = useState([]);
-
-  useEffect(() => {
-    fetch(
-      "https://club-management-service.azurewebsites.net/api/v1/clubs/rank",
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setValue(data.map((club) => club.value));
-        setClubName(data.map((club) => club.key.name));
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  }, [token]);
-
+const ClubReport = ({ clubName, value }) => {
   return (
     <Card sx={{ p: 3 }}>
       <Bar
