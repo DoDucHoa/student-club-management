@@ -49,6 +49,7 @@ const ActivityDetail = Loadable(
 );
 
 const MainPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
+const MyClubPage = Loadable(lazy(() => import("../Pages/MyClub/MyClubPage")));
 
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
@@ -146,6 +147,10 @@ export default function ThemeRoutes() {
         {
           path: "activity/:idActivity",
           element: <ActivityDetail />,
+        },
+        {
+          path: "my-club",
+          element: <MyClubPage />,
         },
       ],
     },

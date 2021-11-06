@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { Container, Divider, Typography } from "@mui/material";
@@ -9,18 +9,31 @@ import InactiveUserList from "./Components/InactiveUserList";
 const UserManage = () => {
   const token = useSelector((state) => state.auth.token);
 
+  const [isRefresh, setIsRefresh] = useState(false);
+  function refreshHandler() {
+    setIsRefresh((prev) => !prev);
+  }
+
   return (
     <Page title="User Management">
       <Container>
         <Typography variant="h4" gutterBottom>
           Users Management
         </Typography>
-        <ActiveUserList token={token} />
+        <ActiveUserList
+          token={token}
+          refreshHandler={refreshHandler}
+          isRefresh={isRefresh}
+        />
         <Divider sx={{ my: 5 }} />
         <Typography variant="h4" gutterBottom>
           Inactive User
         </Typography>
-        <InactiveUserList token={token} />
+        <InactiveUserList
+          token={token}
+          refreshHandler={refreshHandler}
+          isRefresh={isRefresh}
+        />
       </Container>
     </Page>
   );

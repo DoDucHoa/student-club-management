@@ -35,7 +35,7 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-const InactiveUserList = ({ token }) => {
+const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -82,7 +82,7 @@ const InactiveUserList = ({ token }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, rowsPerPage, token]);
+  }, [page, rowsPerPage, token, isRefresh]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -190,6 +190,7 @@ const InactiveUserList = ({ token }) => {
                         userId={id}
                         isAdmin={isAdmin}
                         token={token}
+                        refreshHandler={refreshHandler}
                       />
                     </TableCell>
                   </TableRow>

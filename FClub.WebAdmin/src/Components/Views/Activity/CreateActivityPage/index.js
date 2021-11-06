@@ -34,6 +34,7 @@ const CreateActivity = () => {
   const navigate = useNavigate();
   const userId = useSelector((state) => state.auth.userId);
   const token = useSelector((state) => state.auth.token);
+  const clubId = useSelector((state) => state.auth.clubId);
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
@@ -42,8 +43,8 @@ const CreateActivity = () => {
   const [memberId, setMemberId] = useState(null);
 
   useEffect(() => {
-    GetMemberId(token, userId, "BAS").then((data) => setMemberId(data));
-  }, [token, userId]);
+    GetMemberId(token, userId, clubId).then((data) => setMemberId(data));
+  }, [token, userId, clubId]);
 
   function uploadImageHandler(event) {
     if (event.target.files[0]) {

@@ -14,7 +14,12 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function UserInactiveMoreMenu({ userId, isAdmin, token }) {
+export default function UserInactiveMoreMenu({
+  userId,
+  isAdmin,
+  token,
+  refreshHandler,
+}) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,7 +33,11 @@ export default function UserInactiveMoreMenu({ userId, isAdmin, token }) {
         },
       }
     )
-      .then((response) => response.ok)
+      .then((response) => {
+        if (response.ok) {
+          refreshHandler();
+        }
+      })
       .catch((error) => console.log(error));
   }
 

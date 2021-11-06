@@ -29,6 +29,7 @@ const initialAuthState = {
   firebaseToken: "",
   userId: retrieveStoredUserId(),
   userData: retrieveStoredUserData(),
+  clubId: "",
   isAdmin: retrieveAdminValidation(),
   isLoggedIn: !!retrieveStoredToken(),
   isRegistered: true,
@@ -66,6 +67,9 @@ const authSlice = createSlice({
     },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
+    },
+    clubIdHandler(state, action) {
+      state.clubId = action.payload.clubId;
     },
   },
 });
