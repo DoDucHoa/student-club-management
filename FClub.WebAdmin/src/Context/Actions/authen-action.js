@@ -90,6 +90,10 @@ export const signInWithGoogle = () => {
           backendResponse.jwtToken,
           backendResponse.id
         );
+        const clubId = await getManagerClubID(
+          backendResponse.jwtToken,
+          backendResponse.id
+        );
         console.log(backendResponse.jwtToken);
         dispatch(
           authActions.signInHandler({
@@ -97,6 +101,8 @@ export const signInWithGoogle = () => {
             userData: userData.data[0],
           })
         );
+
+        dispatch(authActions.clubIdHandler({ clubId: clubId }));
 
         dispatch(
           authActions.isAdminHandler({ isAdmin: userData.data[0].isAdmin })
@@ -227,6 +233,25 @@ const updateUserInfo = async (token, userData) => {
     );
     if (response.ok) {
       return true;
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const getManagerClubID = async (token, userId) => {
+  try {
+    const response = await fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/members?userId=${userId}&roleId=1`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return data.data[0].clubId;
     }
   } catch (error) {
     console.log(error.message);

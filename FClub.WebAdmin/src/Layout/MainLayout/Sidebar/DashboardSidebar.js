@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signOutWeb } from "../../../Context/Actions/authen-action";
@@ -59,11 +58,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     dispatch(signOutWeb());
   };
 
-  useEffect(() => {
-    if (isOpenSidebar) {
-      onCloseSidebar();
-    }
-  }, [isOpenSidebar, onCloseSidebar]);
+  // useEffect(() => {
+  //   if (isOpenSidebar) {
+  //     onCloseSidebar();
+  //   }
+  // }, [isOpenSidebar, onCloseSidebar]);
 
   const renderSidebarContent = (
     <Scrollbar
