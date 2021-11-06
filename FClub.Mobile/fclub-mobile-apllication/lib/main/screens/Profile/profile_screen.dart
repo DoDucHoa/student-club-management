@@ -1,11 +1,13 @@
 import 'package:UniClub/main/components/outlined_text.dart';
 import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/screens/Welcome/welcome_screen.dart';
 import 'package:UniClub/model/user.dart';
 import 'package:UniClub/network/user_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileState extends State<ProfileScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   Student? user;
   bool _status = false;
   DateTime selectedDate = DateTime.now();
@@ -104,7 +107,7 @@ class ProfileState extends State<ProfileScreen> {
             SizedBox(
               height: size.height * 0.015,
             ),
-            !_status ? _getEditIcon() : _getActionButtons(),
+            !_status ? _getEditIcon() : _getActionButtons()
           ],
         )),
       ),

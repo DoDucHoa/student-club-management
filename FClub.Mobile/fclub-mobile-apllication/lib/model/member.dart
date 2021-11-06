@@ -44,24 +44,23 @@ class Data {
   // List<Null> memberTasks;
   // List<Null> participants;
   // List<Null> tasks;
-  // List<Null> wallets;
+  List<Wallets>? wallets;
 
-  Data({
-    this.id,
-    this.userId,
-    this.clubId,
-    this.roleId,
-    this.status,
-    this.isApproved,
-    this.club,
-    // this.role,
-    // this.user,
-    // this.NewsInfos,
-    // this.memberTasks,
-    // this.participants,
-    // this.tasks,
-    // this.wallets
-  });
+  Data(
+      {this.id,
+      this.userId,
+      this.clubId,
+      this.roleId,
+      this.status,
+      this.isApproved,
+      this.club,
+      // this.role,
+      // this.user,
+      // this.NewsInfos,
+      // this.memberTasks,
+      // this.participants,
+      // this.tasks,
+      this.wallets});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -97,12 +96,12 @@ class Data {
     //     tasks.add(new Null.fromJson(v));
     //   });
     // }
-    // if (json['wallets'] != null) {
-    //   wallets = new List<Null>();
-    //   json['wallets'].forEach((v) {
-    //     wallets.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['wallets'] != null) {
+      wallets = <Wallets>[];
+      json['wallets'].forEach((v) {
+        wallets?.add(new Wallets.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -130,9 +129,9 @@ class Data {
     // if (this.tasks != null) {
     //   data['tasks'] = this.tasks.map((v) => v.toJson()).toList();
     // }
-    // if (this.wallets != null) {
-    //   data['wallets'] = this.wallets.map((v) => v.toJson()).toList();
-    // }
+    if (this.wallets != null) {
+      data['wallets'] = this.wallets?.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -184,6 +183,39 @@ class Club {
     // data['university'] = this.university;
     // if (this.members != null) {
     //   data['members'] = this.members.map((v) => v.toJson()).toList();
+    // }
+    return data;
+  }
+}
+
+class Wallets {
+  int? id;
+  int? memberId;
+  double? point;
+  // List<Null> transactionDetails;
+
+  Wallets({this.id, this.memberId, this.point});
+
+  Wallets.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    memberId = json['memberId'];
+    point = json['point'];
+    // if (json['transactionDetails'] != null) {
+    //   transactionDetails = new List<Null>();
+    //   json['transactionDetails'].forEach((v) {
+    //     transactionDetails.add(new Null.fromJson(v));
+    //   });
+    // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['memberId'] = this.memberId;
+    data['point'] = this.point;
+    // if (this.transactionDetails != null) {
+    //   data['transactionDetails'] =
+    //       this.transactionDetails.map((v) => v.toJson()).toList();
     // }
     return data;
   }

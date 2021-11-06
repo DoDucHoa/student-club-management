@@ -1,3 +1,6 @@
+import 'package:UniClub/main/screens/Authenticate/wrapper.dart';
+import 'package:UniClub/main/screens/GoogleSignup/signup_google_screen.dart';
+import 'package:UniClub/service/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/Screens/Signin/login_screen.dart';
 import 'package:UniClub/main/Screens/Signup/components/background.dart';
@@ -18,6 +21,7 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final AuthService _auth = AuthService();
   final formKey = GlobalKey<FormState>();
   final TextEditingController _pass = TextEditingController();
   final TextEditingController _confirmPass = TextEditingController();
@@ -28,6 +32,8 @@ class _BodyState extends State<Body> {
     _confirmPass.dispose();
     super.dispose();
   }
+
+  String error = "";
 
   var confirmPass;
   @override
@@ -93,7 +99,22 @@ class _BodyState extends State<Body> {
                 ),
                 SocalIcon(
                   iconSrc: "assets/icons/google-plus.svg",
-                  press: () {},
+                  press: () async {
+                    dynamic result = await _auth.signInWithGoogle();
+                    print(result);
+                    if (result == null) {
+                      setState(() => error = "EMAIL OR PASSWORD IS INCORRECT");
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return Wrapper();
+                          },
+                        ),
+                      );
+                    }
+                  },
                 ),
               ],
             )
