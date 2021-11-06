@@ -62,7 +62,7 @@ class ClubCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
-                              width: size.width * 0.4,
+                              width: size.width * 0.3,
                               child: Text(Id,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -70,9 +70,6 @@ class ClubCard extends StatelessWidget {
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   )),
-                            ),
-                            SizedBox(
-                              width: 10,
                             ),
                             Text(
                               Status,

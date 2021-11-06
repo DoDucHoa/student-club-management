@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/approve.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:UniClub/model/club.dart';
@@ -16,7 +16,7 @@ class ClubRequest {
     print(token);
     final response = await http.get(
       Uri.parse(url),
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClubs(response.body);
@@ -39,7 +39,7 @@ class ClubRequest {
         '/api/v1/clubs', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     if (response.statusCode == 200) {
       return parseClub(response.body);
@@ -61,7 +61,7 @@ class ClubRequest {
         '/api/v1/clubs/withapproved', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {

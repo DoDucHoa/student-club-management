@@ -1,26 +1,39 @@
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/main/screens/News/components/news_card.dart';
+import 'package:UniClub/main/screens/Wallet/components/wallet_card.dart';
+import 'package:UniClub/model/member.dart';
+import 'package:UniClub/model/user.dart';
+import 'package:UniClub/network/member_request.dart';
 import 'package:UniClub/network/news_request.dart';
+import 'package:UniClub/network/user_request.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/painting.dart';
 import 'package:UniClub/model/news.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NewsScreen extends StatefulWidget {
+class WalletScreen extends StatefulWidget {
   @override
-  _NewsState createState() => _NewsState();
+  _WalletState createState() => _WalletState();
 }
 
-class _NewsState extends State<NewsScreen> {
-  List<Data>? data;
-  String? logo;
+class _WalletState extends State<WalletScreen> {
+  Student? user;
+  Member? member;
   @override
   void initState() {
     // TODO: implement initState
-    NewsRequest.fetchNews().then((dataFromServer) {
+    UserRequest.fetchUserByEmail(FirebaseAuth.instance.currentUser!.email)!
+        .then((dataFromServer) {
       setState(() {
-        data = dataFromServer.data?.toList();
+        user = dataFromServer;
+      });
+      MemberRequest.fetchMembersById(user?.data?.first.id)!
+          .then((dataFromServer) {
+        setState(() {
+          member = dataFromServer;
+        });
       });
     });
   }
@@ -31,8 +44,8 @@ class _NewsState extends State<NewsScreen> {
     return Padding(
         padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
         child: Column(children: [
-          Text("Keep up with news !",
-              textAlign: TextAlign.justify,
+          Text("Club Point Balance",
+              textAlign: TextAlign.left,
               style: TextStyle(
                   color: kPrimaryColor,
                   fontSize: 24,
@@ -41,14 +54,9 @@ class _NewsState extends State<NewsScreen> {
           Expanded(
               child: ListView.separated(
             padding: EdgeInsets.all(20),
-            itemCount: data?.length ?? 0,
+            itemCount: member?.data?.length ?? 0,
             itemBuilder: (context, index) {
-              return NewsCard(
-                  logo: data?[index].creator?.club?.logo ?? "",
-                  time: (DateFormat("h:mm - dd/MM/yyyy")
-                      .format(data?[index].createDate ?? DateTime.now())),
-                  content: data?[index].content ?? "null",
-                  title: data?[index].topic ?? "null");
+              return WalletCard(content: "", logo: "", time: "", title: "");
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const SizedBox(height: 20),
