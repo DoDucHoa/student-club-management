@@ -46,6 +46,9 @@ class AuthService {
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      print("token:");
+      print(await user?.getIdToken());
+      _request.signIn(await user?.getIdToken());
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
