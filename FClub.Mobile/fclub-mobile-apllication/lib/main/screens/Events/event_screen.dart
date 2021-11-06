@@ -36,7 +36,7 @@ class _EventState extends State<EventScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(children: [
           Visibility(
             visible: showCalendar,
@@ -47,9 +47,10 @@ class _EventState extends State<EventScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Following All The Events !",
-                  textAlign: TextAlign.justify,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: 24,
@@ -81,13 +82,17 @@ class _EventState extends State<EventScreen> {
               //   }).toList(),
               // ),
               IconButton(
+                  iconSize: 24,
                   onPressed: () => setState(() {
                         !showCalendar
                             ? showCalendar = true
                             : showCalendar = false;
                       }),
-                  icon:
-                      Icon(Icons.calendar_today_outlined, color: kPrimaryColor))
+                  icon: Icon(
+                    Icons.calendar_today_outlined,
+                    color: kPrimaryColor,
+                    size: 20,
+                  ))
             ],
           ),
           Flexible(

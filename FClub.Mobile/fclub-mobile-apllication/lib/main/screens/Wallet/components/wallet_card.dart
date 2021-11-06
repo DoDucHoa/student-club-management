@@ -1,6 +1,7 @@
 import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:UniClub/main/constants.dart';
+import 'package:flutter/painting.dart';
 
 class WalletCard extends StatelessWidget {
   final String clubname;
@@ -32,8 +33,8 @@ class WalletCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-                width: size.width * 0.5,
-                height: size.height * 0.15,
+                width: size.width * 0.3,
+                height: size.height * 0.1,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -44,6 +45,35 @@ class WalletCard extends StatelessWidget {
                       image: NetworkImage(logo),
                       fit: BoxFit.fitHeight,
                     ))),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 50.0),
+              width: size.width * 0.5,
+              decoration: BoxDecoration(
+                  color: kSubColor2.withOpacity(0.7),
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15.0),
+                      bottomRight: Radius.circular(15.0))),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(clubname,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54)),
+                  Text("Remaining Balance :",
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black45)),
+                  Text(balance.toString() + " pts.",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black45)),
+                ],
+              ),
+            )
           ],
         ),
       ),
