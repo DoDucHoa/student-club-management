@@ -1,3 +1,4 @@
+import 'package:UniClub/main/components/search_widget.dart';
 import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
 import 'package:UniClub/model/approve.dart';
 import 'package:UniClub/model/member.dart';
@@ -17,6 +18,7 @@ class ListClubState extends State<DiscoveryClub> {
   Student? user;
   List<Approve>? clubs;
   List<Approve>? data;
+  String text = "";
   // }
   @override
   void initState() {
@@ -39,14 +41,39 @@ class ListClubState extends State<DiscoveryClub> {
     });
   }
 
+  Future search(String text) async {
+    UserRequest.fetchUserByEmail(FirebaseAuth.instance.currentUser!.email)!
+        .then((dataFromServer) {
+      setState(() {
+        user = dataFromServer;
+      });
+      ClubRequest.fetchSearchClubsWithApprove(user?.data?.first.id, text)
+          .then((dataFromServer) {
+        setState(() {
+          clubs = dataFromServer;
+          data = clubs
+              ?.where((element) => element.value!.startsWith("N"))
+              .toList();
+        });
+      });
+    });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
   }
 
+  Widget buildSearch() => SearchWidget(
+        text: text,
+        hintText: 'Search club',
+        onChanged: search,
+      );
+
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     return ListView.separated(
       padding: EdgeInsets.all(8),
       itemCount: data?.length ?? 0,
@@ -61,6 +88,31 @@ class ListClubState extends State<DiscoveryClub> {
       },
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 10),
+=======
+    return Column(
+      children: <Widget>[
+        buildSearch(),
+        Expanded(
+          child: SizedBox(
+            child: new ListView.separated(
+              padding: EdgeInsets.all(8),
+              itemCount: data?.length ?? 0,
+              itemBuilder: (context, index) {
+                return ClubCard(
+                    Status: "Not joined",
+                    isJoined: false,
+                    pageRoute: ClubDetail(data?[index].key?.id, false),
+                    logoUrl: '${data?[index].key?.logo}',
+                    Id: '${data?[index].key?.id}',
+                    Name: '${data?[index].key?.name}');
+              },
+              separatorBuilder: (BuildContext context, int index) =>
+                  const SizedBox(height: 10),
+            ),
+          ),
+        ),
+      ],
+>>>>>>> 6a5c98c46b1061fabb4ce34a939b8ae984db7223
     );
   }
 }

@@ -25,7 +25,8 @@ class _EventState extends State<EventScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    EventRequest.fetchAvailableEvents().then((dataFromServer) {
+    EventRequest.fetchAvailableEventsSortDate("CreateDate", "desc")
+        .then((dataFromServer) {
       setState(() {
         data = dataFromServer.data!.toList();
       });

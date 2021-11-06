@@ -26,6 +26,30 @@ class EventRequest {
     }
   }
 
+  static Future<Event> fetchAvailableEventsSortDate(
+      String sort, String dir) async {
+    var queryParameters = {
+      'sort': sort,
+      'dir': dir,
+    };
+    var uri = Uri.https('club-management-service.azurewebsites.net',
+        '/api/v1/events', queryParameters);
+    final response = await http.get(
+      uri,
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return parseEvents(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception("Not found.");
+    } else if (response.statusCode == 401) {
+      throw Exception("Unauthorized");
+    } else {
+      throw Exception("Can't get event");
+    }
+  }
+
   static Future<Event> fetchEventById(int? id) async {
     var queryParameters = {'id': id.toString()};
     var uri = Uri.https('club-management-service.azurewebsites.net',

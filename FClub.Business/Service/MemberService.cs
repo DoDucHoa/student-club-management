@@ -100,7 +100,8 @@ namespace FClub.Business.Service
 
         public void Create(Member _object)
         {
-            _object.IsApproved = false;
+            //_object.IsApproved = false;
+            if (_repository.GetAll().Where(x => x.UserId == _object.UserId && x.ClubId.Equals(_object.ClubId)) != null) throw new Exception();
             _repository.Add(_object);
             _repository.SaveDbChange();
         }
