@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -29,12 +28,12 @@ class UserRequest {
   // }
 
   static Future<Student>? fetchUserByEmail(String? email) async {
-    var queryParameters = {'email': 'vhnguyen2k@gmail.com'};
+    var queryParameters = {'email': email};
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/users', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     if (response.statusCode == 200) {
       print(response.body);
@@ -42,6 +41,7 @@ class UserRequest {
     } else if (response.statusCode == 404) {
       throw Exception("Not found.");
     } else if (response.statusCode == 401) {
+      print(global.tokenauthor);
       throw Exception("Unauthorized");
     } else {
       throw Exception("Can't get club");
