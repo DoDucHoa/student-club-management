@@ -1,9 +1,7 @@
 import { useRef, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import BlockIcon from "@mui/icons-material/Block";
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
+import GppGoodIcon from "@mui/icons-material/GppGood";
 
 // material
 import {
@@ -16,7 +14,7 @@ import {
 
 // ----------------------------------------------------------------------
 
-export default function UserMoreMenu({
+export default function UserInactiveMoreMenu({
   userId,
   isAdmin,
   token,
@@ -25,9 +23,9 @@ export default function UserMoreMenu({
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  function disableUserHandler() {
+  function activateUserHandler() {
     fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/users/${userId}/false`,
+      `https://club-management-service.azurewebsites.net/api/v1/users/${userId}/true`,
       {
         method: "PUT",
         headers: {
@@ -59,25 +57,15 @@ export default function UserMoreMenu({
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: "text.secondary" }} onClick={disableUserHandler}>
-          <ListItemIcon>
-            <BlockIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary="Disable User"
-            primaryTypographyProps={{ variant: "body2" }}
-          />
-        </MenuItem>
         <MenuItem
-          component={RouterLink}
-          to="#"
           sx={{ color: "text.secondary" }}
+          onClick={activateUserHandler}
         >
           <ListItemIcon>
-            <ArrowCircleUpIcon />
+            <GppGoodIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Promote To Admin"
+            primary="Activate User"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>

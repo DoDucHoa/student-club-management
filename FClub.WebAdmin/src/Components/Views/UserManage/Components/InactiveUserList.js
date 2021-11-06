@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-
 // material
 import {
   Card,
@@ -16,11 +14,12 @@ import {
 } from "@mui/material";
 
 // components
-import Scrollbar from "../../../../UI/Scrollbar";
-import SearchNotFound from "../../../../UI/SearchNotFound";
-import { UserListToolbar } from "../../../../UI/_dashboard/user";
-import { fVNDate } from "../../../../../Utils/formatTime";
-import MemberListHead from "../../../Club/ClubDetailComponents/DetailComponents/MemberListHead";
+import Scrollbar from "../../../UI/Scrollbar";
+import SearchNotFound from "../../../UI/SearchNotFound";
+import Label from "../../../UI/Label";
+import { UserListHead, UserListToolbar } from "../../../UI/_dashboard/user";
+import { fVNDate } from "../../../../Utils/formatTime";
+import UserInactiveMoreMenu from "./MoreMenuInactiveUser";
 
 // ----------------------------------------------------------------------
 
@@ -29,11 +28,14 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignRight: false },
   { id: "birthday", label: "Birthday", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
+  { id: "isAdmin", label: "Role", alignRight: false },
+  { id: "status", label: "Status", alignRight: false },
+  { id: "" },
 ];
 
 // ----------------------------------------------------------------------
 
-const ParticipantList = ({ idActivity, ...others }) => {
+const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -43,16 +45,15 @@ const ParticipantList = ({ idActivity, ...others }) => {
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const token = useSelector((state) => state.auth.token);
-
-  const url = `https://club-management-service.azurewebsites.net/api/v1/participants?includeProperties=Member.User&EventId=${idActivity}&PageNumber=${page}&PageSize=${rowsPerPage}`;
-
   useEffect(() => {
-    fetch(url, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false`,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -64,15 +65,15 @@ const ParticipantList = ({ idActivity, ...others }) => {
         const members = [];
         resData.data.map((row) => {
           return members.push({
-            id: row.member.user.id,
-            universityId: row.member.user.universityId,
-            email: row.member.user.email,
-            name: row.member.user.name,
-            photo: row.member.user.photo,
-            gender: row.member.user.gender,
-            age: row.member.user.birthday,
-            isAdmin: row.member.user.isAdmin,
-            status: row.member.user.status,
+            id: row.id,
+            universityId: row.universityId,
+            email: row.email,
+            name: row.name,
+            photo: row.photo,
+            gender: row.gender,
+            age: row.birthday,
+            isAdmin: row.isAdmin,
+            status: row.status,
           });
         });
         setTotalCount(resData.metadata.totalCount);
@@ -81,7 +82,7 @@ const ParticipantList = ({ idActivity, ...others }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [url, token]);
+  }, [page, rowsPerPage, token, isRefresh]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -97,24 +98,6 @@ const ParticipantList = ({ idActivity, ...others }) => {
     }
     setSelected([]);
   };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -151,7 +134,7 @@ const ParticipantList = ({ idActivity, ...others }) => {
       <Scrollbar>
         <TableContainer sx={{ minWidth: 800 }}>
           <Table>
-            <MemberListHead
+            <UserListHead
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
@@ -162,7 +145,8 @@ const ParticipantList = ({ idActivity, ...others }) => {
             />
             <TableBody>
               {membersData.map((row) => {
-                const { id, name, photo, email, age: birthDay, gender } = row;
+                const { id, name, photo, email, age, gender, isAdmin, status } =
+                  row;
                 const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
@@ -174,12 +158,7 @@ const ParticipantList = ({ idActivity, ...others }) => {
                     selected={isItemSelected}
                     aria-checked={isItemSelected}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      padding="normal"
-                      sx={{ pl: 2 }}
-                    >
+                    <TableCell component="th" scope="row" padding="normal">
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={name} src={photo} />
                         <Typography variant="subtitle2" noWrap>
@@ -188,8 +167,32 @@ const ParticipantList = ({ idActivity, ...others }) => {
                       </Stack>
                     </TableCell>
                     <TableCell align="left">{email}</TableCell>
-                    <TableCell align="left">{fVNDate(birthDay)}</TableCell>
+                    <TableCell align="left">{fVNDate(age)}</TableCell>
                     <TableCell align="left">{getGender(gender)}</TableCell>
+                    <TableCell align="left">
+                      <Label
+                        variant="ghost"
+                        color={isAdmin ? "primary" : "default"}
+                      >
+                        {isAdmin ? "Admin" : "Normal"}
+                      </Label>
+                    </TableCell>
+                    <TableCell align="left">
+                      <Label
+                        variant="ghost"
+                        color={status ? "success" : "error"}
+                      >
+                        {status ? "Active" : "Disabled"}
+                      </Label>
+                    </TableCell>
+                    <TableCell align="right">
+                      <UserInactiveMoreMenu
+                        userId={id}
+                        isAdmin={isAdmin}
+                        token={token}
+                        refreshHandler={refreshHandler}
+                      />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -225,4 +228,4 @@ const ParticipantList = ({ idActivity, ...others }) => {
   );
 };
 
-export default ParticipantList;
+export default InactiveUserList;

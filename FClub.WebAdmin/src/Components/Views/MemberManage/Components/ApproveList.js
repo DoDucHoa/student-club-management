@@ -40,7 +40,7 @@ const ApproveList = ({ clubId, token, isRefresh, refreshHandler }) => {
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const url = `https://club-management-service.azurewebsites.net/api/v1/members?PageNumber=${page}&PageSize=${rowsPerPage}&includeProperties=User&clubId=${clubId}`;
+  const url = `https://club-management-service.azurewebsites.net/api/v1/members?PageNumber=${page}&PageSize=${rowsPerPage}&includeProperties=User&clubId=${clubId}&IsApproved=false`;
   useEffect(() => {
     fetch(url, {
       headers: {
@@ -70,7 +70,7 @@ const ApproveList = ({ clubId, token, isRefresh, refreshHandler }) => {
           });
         });
         setTotalCount(resData.metadata.totalCount);
-        setMembersData(members.filter((value) => value.isApproved !== true));
+        setMembersData(members);
       })
       .catch((err) => {
         console.log(err);
