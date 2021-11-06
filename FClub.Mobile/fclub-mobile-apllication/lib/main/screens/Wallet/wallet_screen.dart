@@ -56,7 +56,10 @@ class _WalletState extends State<WalletScreen> {
             padding: EdgeInsets.all(20),
             itemCount: member?.data?.length ?? 0,
             itemBuilder: (context, index) {
-              return WalletCard(content: "", logo: "", time: "", title: "");
+              return WalletCard(
+                  balance: member?.data?[index].wallets?.first.point ?? 0,
+                  clubname: member?.data?[index].club?.name ?? "",
+                  logo: member?.data?[index].club?.logo ?? "");
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const SizedBox(height: 20),

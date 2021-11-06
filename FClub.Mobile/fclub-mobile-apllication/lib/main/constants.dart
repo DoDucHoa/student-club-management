@@ -1,5 +1,6 @@
 library uniclub.global;
 
+import 'package:UniClub/model/user.dart';
 import 'package:flutter/material.dart';
 
 const kSubColor2 = Color(0xFFffbc93);
@@ -8,3 +9,4 @@ const kSubColor = Color(0xFFffe88e);
 const kPrimaryColor = Color(0xffff914c);
 
 String tokenauthor = "";
+Student? user;

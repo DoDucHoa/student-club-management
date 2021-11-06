@@ -2,6 +2,7 @@ import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class AuthRequest {
