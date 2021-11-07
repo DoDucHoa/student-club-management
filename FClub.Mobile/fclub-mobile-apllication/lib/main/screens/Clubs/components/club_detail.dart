@@ -166,7 +166,7 @@ class _ClubDetailState extends State<ClubDetail> {
                                 userId: global.user?.data?.first.id,
                                 isApproved: false,
                                 status: true,
-                                roleId: 1);
+                                roleId: 2);
                           });
                           await MemberRequest.createMember(create!);
                           int? memberid = await createWalletForNewMember();
