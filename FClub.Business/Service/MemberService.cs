@@ -117,5 +117,13 @@ namespace FClub.Business.Service
             _repository.Update(_object);
             _repository.SaveDbChange();
         }
+
+        public void ChangeStatus(int id)
+        {
+            Member mem = _repository.GetFirstOrDefault(x => x.Id == id);
+            mem.Status = !mem.Status;
+            _repository.Update(mem);
+            _repository.SaveDbChange();
+        }
     }
 }
