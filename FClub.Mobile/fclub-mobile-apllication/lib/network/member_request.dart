@@ -47,7 +47,7 @@ class MemberRequest {
     }
   }
 
-  static Future<Data>? createMember(Data data) async {
+  static Future createMember(Data data) async {
     var queryParameters = {'includeProperties': 'Club,Wallets'};
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/members', queryParameters);
@@ -59,7 +59,7 @@ class MemberRequest {
         },
         body: jsonEncode(data.toJson()));
     if (response.statusCode == 200) {
-      return Data.fromJson(jsonDecode(response.body));
+      print("join club successful");
     } else {
       throw Exception("Failed to join club." + response.body);
     }
