@@ -39,6 +39,8 @@ namespace FClub.Business.Service
         {
             try
             {
+                var check = _participantRepo.GetFirstOrDefault(x => x.EventId == participant.EventId && x.MemberId == participant.MemberId);
+                if (check != null) throw new Exception(message: "Joined!!!");
                 _participantRepo.Add(participant);
                 _participantRepo.SaveDbChange();
                 return true;
