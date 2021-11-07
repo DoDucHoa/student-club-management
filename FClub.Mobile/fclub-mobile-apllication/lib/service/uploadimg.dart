@@ -1,19 +1,19 @@
-// import 'dart:io';
+import 'dart:io';
 
-// import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase/firestore.dart';
 
-// class UploadService{
-//   File? _imageFile;
+class UploadService {
+  File? _imageFile;
 
-
-//   Future uploadImageToFirebase(BuildContext context) async {
-//     String fileName = basename(_imageFile?.path);
-//     StorageReference firebaseStorageRef =
-//         FirebaseStorage.instance.ref().child('uploads/$fileName');
-//     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
-//     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
-//     taskSnapshot.ref.getDownloadURL().then(
-//           (value) => print("Done: $value"),
-//         );
-//   }
-// }
+  Future uploadImageToFirebase(BuildContext context) async {
+    String? fileName = _imageFile?.path;
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('images/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(_imageFile!);
+    uploadTask.then(
+      (res) => print(res.ref.getDownloadURL()),
+    );
+  }
+}

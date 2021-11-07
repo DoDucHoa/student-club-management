@@ -1,6 +1,7 @@
 import 'package:UniClub/main/components/search_widget.dart';
 import 'package:UniClub/main/screens/Clubs/components/club_detail.dart';
 import 'package:UniClub/model/approve.dart';
+import 'package:UniClub/model/member.dart';
 import 'package:UniClub/model/user.dart';
 import 'package:UniClub/network/user_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -83,7 +84,7 @@ class ListClubState extends State<DiscoveryClub> {
               itemBuilder: (context, index) {
                 return ClubCard(
                     Status: "Not joined",
-                    isJoined: false,
+                    isJoined: data?[index].value == "Waitting" ? false : true,
                     pageRoute: ClubDetail(data?[index].key?.id, false),
                     logoUrl: '${data?[index].key?.logo}',
                     Id: '${data?[index].key?.id}',

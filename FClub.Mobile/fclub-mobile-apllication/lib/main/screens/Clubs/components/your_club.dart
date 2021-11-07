@@ -86,7 +86,7 @@ class ListClubState extends State<YourClub> {
           itemCount: data?.length ?? 0,
           itemBuilder: (context, index) {
             return ClubCard(
-                isJoined: data?[index].value == "Not join" ? false : true,
+                isJoined: data?[index].value == "Waitting" ? false : true,
                 Status: data?[index].value ?? "",
                 pageRoute: ClubHome(data?[index].key?.id),
                 logoUrl: data?[index].key?.logo ?? "",
