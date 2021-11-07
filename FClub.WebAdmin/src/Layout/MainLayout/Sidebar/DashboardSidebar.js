@@ -98,7 +98,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 {name}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {userData.isAdmin ? "Admin" : ""}
+                {userData.isAdmin ? "Admin" : "Club Manager"}
               </Typography>
             </Box>
           </AccountStyle>
