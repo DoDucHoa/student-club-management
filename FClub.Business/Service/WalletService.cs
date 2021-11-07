@@ -22,7 +22,7 @@ namespace FClub.Business.Service
         {
             try
             {
-                if (_walletRepository.GetAll().Where(x => x.MemberId == wallet.MemberId) != null)
+                if (_walletRepository.GetAll().Where(x => x.MemberId == wallet.MemberId).FirstOrDefault() != null)
                 {
                     return false;
                 }

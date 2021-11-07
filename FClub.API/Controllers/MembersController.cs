@@ -62,8 +62,9 @@ namespace FClub.API.Controllers
                 _service.Create(_object);
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return BadRequest();
             }
         }
