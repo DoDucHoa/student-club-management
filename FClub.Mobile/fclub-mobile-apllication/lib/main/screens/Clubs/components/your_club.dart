@@ -76,22 +76,6 @@ class ListClubState extends State<YourClub> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return ListView.separated(
-      padding: EdgeInsets.all(8),
-      itemCount: data?.length ?? 0,
-      itemBuilder: (context, index) {
-        return ClubCard(
-            isJoined: data?[index].value == "Waitting" ? false : true,
-            Status: data?[index].value ?? "",
-            pageRoute: ClubHome(data?[index].key?.id),
-            logoUrl: data?[index].key?.logo ?? "",
-            Id: data?[index].key?.id ?? "",
-            Name: data?[index].key?.name ?? "");
-      },
-      separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: 10),
-=======
     return Column(
       children: <Widget>[
         buildSearch(),
@@ -102,7 +86,7 @@ class ListClubState extends State<YourClub> {
           itemCount: data?.length ?? 0,
           itemBuilder: (context, index) {
             return ClubCard(
-                isJoined: data?[index].value == "Not join" ? false : true,
+                isJoined: data?[index].value == "Waitting" ? false : true,
                 Status: data?[index].value ?? "",
                 pageRoute: ClubHome(data?[index].key?.id),
                 logoUrl: data?[index].key?.logo ?? "",
@@ -113,7 +97,6 @@ class ListClubState extends State<YourClub> {
               const SizedBox(height: 10),
         ))),
       ],
->>>>>>> 6a5c98c46b1061fabb4ce34a939b8ae984db7223
     );
   }
 }
