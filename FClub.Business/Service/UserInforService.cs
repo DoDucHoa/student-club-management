@@ -123,6 +123,7 @@ namespace FClub.Business.Service
                 userDB.Bio = user.Bio;
                 userDB.IsAdmin = user.IsAdmin;
                 userDB.Status = user.Status;
+                userDB.DeviceId = user.DeviceId;
                 _userInfo.Update(userDB);
                 _userInfo.SaveDbChange();
                 return true;
