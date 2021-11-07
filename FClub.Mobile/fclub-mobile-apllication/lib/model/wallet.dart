@@ -1,4 +1,4 @@
-import 'member.dart';
+import 'package:UniClub/model/university.dart';
 
 class Wallet {
   List<Data>? data;
@@ -43,7 +43,7 @@ class Data {
     memberId = json['memberId'];
     point = json['point'];
     member =
-        json['member'] != null ? new Member.fromJson(json['member']) : null;
+        json['creator'] != null ? new Member.fromJson(json['member']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -54,6 +54,97 @@ class Data {
     if (this.member != null) {
       data['member'] = this.member?.toJson();
     }
+    return data;
+  }
+}
+
+class Member {
+  int? id;
+  int? userId;
+  String? clubId;
+  int? roleId;
+  bool? status;
+  Club? club;
+
+  Member(
+      {this.id, this.userId, this.clubId, this.roleId, this.status, this.club});
+
+  Member.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['userId'];
+    clubId = json['clubId'];
+    roleId = json['roleId'];
+    status = json['status'];
+    club = json['club'] != null ? new Club.fromJson(json['club']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['userId'] = this.userId;
+    data['clubId'] = this.clubId;
+    data['roleId'] = this.roleId;
+    data['status'] = this.status;
+    if (this.club != null) {
+      data['club'] = this.club?.toJson();
+    }
+    return data;
+  }
+}
+
+class Club {
+  String? id;
+  String? universityId;
+  String? name;
+  double? balance;
+  String? logo;
+  String? about;
+  // bool status;
+  // Null university;
+  // List<Null> members;
+
+  Club({
+    this.id,
+    this.universityId,
+    this.name,
+    this.balance,
+    this.logo,
+    this.about,
+    // this.status,
+    // this.university,
+    // this.members
+  });
+
+  Club.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    universityId = json['universityId'];
+    name = json['name'];
+    balance = json['balance'];
+    logo = json['logo'];
+    about = json['about'];
+    // status = json['status'];
+    // university = json['university'];
+    // if (json['members'] != null) {
+    //   members = new List<Null>();
+    //   json['members'].forEach((v) {
+    //     members.add(new Null.fromJson(v));
+    //   });
+    // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['universityId'] = this.universityId;
+    data['name'] = this.name;
+    data['balance'] = this.balance;
+    data['logo'] = this.logo;
+    data['about'] = this.about;
+    // data['status'] = this.status;
+    // data['university'] = this.university;
+    // if (this.members != null) {
+    //   data['members'] = this.members.map((v) => v.toJson()).toList();
+    // }
     return data;
   }
 }

@@ -8,6 +8,7 @@ import 'package:UniClub/model/club.dart' as Clubs;
 import 'package:UniClub/model/member.dart';
 import 'package:UniClub/network/club_request.dart';
 import 'package:UniClub/network/member_request.dart';
+import 'package:UniClub/network/wallet_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,7 @@ class ClubDetail extends StatefulWidget {
 
 class _ClubDetailState extends State<ClubDetail> {
   Clubs.Club? clubInfo;
+  Member? member;
   Data? create;
   @override
   void initState() {
@@ -34,6 +36,19 @@ class _ClubDetailState extends State<ClubDetail> {
         clubInfo = datafromserver;
       });
     });
+  }
+
+  Future<int?> createWalletForNewMember() async {
+    int? memberId = 0;
+    MemberRequest.fetchNewestMembers()!.then((datafromserver) {
+      setState(() async {
+        Member member = datafromserver;
+        memberId = member.data!.first.id;
+        print("___________________________" + memberId.toString());
+        await WalletRequest.createWalletForNewMember(memberId!);
+      });
+    });
+    return memberId;
   }
 
   @override
@@ -154,6 +169,8 @@ class _ClubDetailState extends State<ClubDetail> {
                                 roleId: 1);
                           });
                           await MemberRequest.createMember(create!);
+                          int? memberid = await createWalletForNewMember();
+
                           await Navigator.push(
                             context,
                             MaterialPageRoute(
