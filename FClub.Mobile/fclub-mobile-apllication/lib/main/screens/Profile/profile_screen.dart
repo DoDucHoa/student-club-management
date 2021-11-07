@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:UniClub/main/components/outlined_text.dart';
 import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:UniClub/main/constants.dart';
 import 'package:UniClub/model/user.dart';
 import 'package:UniClub/network/user_request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,6 +18,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileState extends State<ProfileScreen> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  final ImagePicker _picker = ImagePicker();
+  String? imageUrl;
   Student? user;
   bool _status = false;
   DateTime selectedDate = DateTime.now();
@@ -52,6 +59,28 @@ class ProfileState extends State<ProfileScreen> {
     });
   }
 
+  File? _image;
+  void selectImage() async {
+    final XFile? selected =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (selected!.path.isNotEmpty) {
+      setState(() {
+        _image = File(selected.path);
+      });
+      uploadImageToFirebase(context);
+    }
+  }
+
+  Future uploadImageToFirebase(BuildContext context) async {
+    String? fileName = _image?.path;
+    Reference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child('images/$fileName');
+    UploadTask uploadTask = firebaseStorageRef.putFile(_image!);
+    String downloadUrl;
+    downloadUrl = await (await uploadTask).ref.getDownloadURL();
+    print(downloadUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,15 +95,36 @@ class ProfileState extends State<ProfileScreen> {
             Container(
               height: size.height * 0.2,
               decoration: BoxDecoration(
-                  border: Border.all(
-                      color: kPrimaryColor,
-                      width: 5.0,
-                      style: BorderStyle.solid),
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                      image: NetworkImage(user?.data?.first.photo ?? "null"),
-                      fit: BoxFit.fitHeight)),
+                border: Border.all(
+                    color: kPrimaryColor, width: 5.0, style: BorderStyle.solid),
+                shape: BoxShape.circle,
+              ),
+              child: CircleAvatar(
+                  radius: size.height * 0.1,
+                  backgroundImage:
+                      NetworkImage(user?.data?.first.photo ?? "null"),
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 90.0, left: 90.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: kPrimaryColor),
+                      child: IconButton(
+                        onPressed: selectImage,
+                        icon: Icon(Icons.camera_alt),
+                        color: Colors.white,
+                      ),
+                    ),
+                  )),
             ),
+            // CircleAvatar(
+            //   maxRadius: size.height * 0.1,
+            //   backgroundImage: NetworkImage(user?.data?.first.photo ?? "null"),
+            // ),
+            // Icon(
+            //   Icons.camera_alt,
+            //   color: Colors.white,
+            // ),
+
             SizedBox(height: size.height * 0.05),
             Text(
               'Personal Information',
@@ -104,7 +154,7 @@ class ProfileState extends State<ProfileScreen> {
             SizedBox(
               height: size.height * 0.015,
             ),
-            !_status ? _getEditIcon() : _getActionButtons(),
+            !_status ? _getEditIcon() : _getActionButtons()
           ],
         )),
       ),

@@ -25,7 +25,8 @@ class _EventState extends State<EventScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    EventRequest.fetchAvailableEvents().then((dataFromServer) {
+    EventRequest.fetchAvailableEventsSortDate("CreateDate", "desc")
+        .then((dataFromServer) {
       setState(() {
         data = dataFromServer.data!.toList();
       });
@@ -36,7 +37,7 @@ class _EventState extends State<EventScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-        padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(children: [
           Visibility(
             visible: showCalendar,
@@ -47,40 +48,52 @@ class _EventState extends State<EventScreen> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_drop_down, color: kPrimaryColor),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: kPrimaryColor),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: <String>[
-                  'All Available Events',
-                  'Incoming Events',
-                  'Joined Events'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              Text("Following All The Events !",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kPrimaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      decorationStyle: TextDecorationStyle.solid)),
+              // DropdownButton<String>(
+              //   value: dropdownValue,
+              //   icon: const Icon(Icons.arrow_drop_down, color: kPrimaryColor),
+              //   iconSize: 24,
+              //   elevation: 16,
+              //   style: const TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold,
+              //       color: kPrimaryColor),
+              //   onChanged: (String? newValue) {
+              //     setState(() {
+              //       dropdownValue = newValue!;
+              //     });
+              //   },
+              //   items: <String>[
+              //     'All Available Events',
+              //     'Incoming Events',
+              //     'Joined Events'
+              //   ].map<DropdownMenuItem<String>>((String value) {
+              //     return DropdownMenuItem<String>(
+              //       value: value,
+              //       child: Text(value),
+              //     );
+              //   }).toList(),
+              // ),
               IconButton(
+                  iconSize: 24,
                   onPressed: () => setState(() {
                         !showCalendar
                             ? showCalendar = true
                             : showCalendar = false;
                       }),
-                  icon:
-                      Icon(Icons.calendar_today_outlined, color: kPrimaryColor))
+                  icon: Icon(
+                    Icons.calendar_today_outlined,
+                    color: kPrimaryColor,
+                    size: 20,
+                  ))
             ],
           ),
           Flexible(

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:UniClub/main/constants.dart';
+import 'package:UniClub/main/constants.dart' as global;
 import 'package:UniClub/model/event.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -12,7 +12,31 @@ class EventRequest {
   static Future<Event> fetchAvailableEvents() async {
     final response = await http.get(
       Uri.parse(url),
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      return parseEvents(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception("Not found.");
+    } else if (response.statusCode == 401) {
+      throw Exception("Unauthorized");
+    } else {
+      throw Exception("Can't get event");
+    }
+  }
+
+  static Future<Event> fetchAvailableEventsSortDate(
+      String sort, String dir) async {
+    var queryParameters = {
+      'sort': sort,
+      'dir': dir,
+    };
+    var uri = Uri.https('club-management-service.azurewebsites.net',
+        '/api/v1/events', queryParameters);
+    final response = await http.get(
+      uri,
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {
@@ -32,7 +56,7 @@ class EventRequest {
         '/api/v1/events', queryParameters);
     final response = await http.get(
       uri,
-      headers: {HttpHeaders.authorizationHeader: tokenauthor},
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
     );
     print(response.body);
     if (response.statusCode == 200) {

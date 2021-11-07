@@ -1,3 +1,4 @@
+import 'package:UniClub/model/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +32,8 @@ class _AppState extends State<MyApp> {
     // if (!_initialized) {
     //   print("Loading");
     // }
-    return StreamProvider.value(
-        value: AuthService().user,
-        initialData: null,
+    return ChangeNotifierProvider<Auth>(
+        create: (context) => Auth(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Flutter Auth',

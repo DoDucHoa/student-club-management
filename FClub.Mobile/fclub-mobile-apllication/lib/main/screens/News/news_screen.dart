@@ -35,7 +35,7 @@ class _NewsState extends State<NewsScreen> {
               textAlign: TextAlign.justify,
               style: TextStyle(
                   color: kPrimaryColor,
-                  fontSize: 30,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   decorationStyle: TextDecorationStyle.solid)),
           Expanded(
