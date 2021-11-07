@@ -47,7 +47,7 @@ class _WalletState extends State<WalletScreen> {
           Text("Club Point Balance",
               textAlign: TextAlign.left,
               style: TextStyle(
-                  color: kPrimaryColor,
+                  color: Colors.amber[700],
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   decorationStyle: TextDecorationStyle.solid)),

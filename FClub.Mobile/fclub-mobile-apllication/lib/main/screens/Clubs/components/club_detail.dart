@@ -1,15 +1,18 @@
 import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:UniClub/main/components/sub_appbar.dart';
-import 'package:UniClub/main/constants.dart';
-import 'package:UniClub/main/screens/Clubs/components/club_home.dart';
-import 'package:UniClub/model/club.dart';
+import 'package:UniClub/main/constants.dart' as global;
+import 'package:UniClub/model/club.dart' as Clubs;
+import 'package:UniClub/model/member.dart';
 import 'package:UniClub/network/club_request.dart';
+import 'package:UniClub/network/member_request.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ClubDetail extends StatefulWidget {
   final String? clubId;
+
   bool joined;
   ClubDetail(this.clubId, this.joined, {Key? key}) : super(key: key);
   @override
@@ -17,7 +20,8 @@ class ClubDetail extends StatefulWidget {
 }
 
 class _ClubDetailState extends State<ClubDetail> {
-  Club? clubInfo;
+  Clubs.Club? clubInfo;
+  Data? create;
   @override
   void initState() {
     // TODO: implement initState
@@ -75,7 +79,7 @@ class _ClubDetailState extends State<ClubDetail> {
                       Text(clubInfo?.id ?? "",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: kPrimaryColor,
+                              color: global.kPrimaryColor,
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                               decorationStyle: TextDecorationStyle.solid)),
@@ -90,7 +94,7 @@ class _ClubDetailState extends State<ClubDetail> {
                               TextSpan(
                                   text: "Name: ",
                                   style: TextStyle(
-                                      color: kPrimaryColor,
+                                      color: global.kPrimaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       decorationStyle:
@@ -111,7 +115,7 @@ class _ClubDetailState extends State<ClubDetail> {
                               TextSpan(
                                   text: "About: ",
                                   style: TextStyle(
-                                      color: kPrimaryColor,
+                                      color: global.kPrimaryColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
                                       decorationStyle:
@@ -136,12 +140,22 @@ class _ClubDetailState extends State<ClubDetail> {
                         text: widget.joined == false
                             ? "Request to join"
                             : "Requested",
-                        press: () {
+                        press: () async {
+                          setState(() {
+                            create = Data(
+                                clubId: widget.clubId,
+                                userId: global.user?.data?.first.id,
+                                isApproved: false,
+                                status: true,
+                                roleId: 1);
+                          });
+
+                          await MemberRequest.createMember(create!);
                           setState(() {
                             if (widget.joined == false) widget.joined = true;
                           });
                         },
-                        color: kPrimaryColor,
+                        color: global.kPrimaryColor,
                         textColor: Colors.white,
                       )
                     ]))
