@@ -62,15 +62,15 @@ namespace FClub.API.Controllers
                 _service.Create(_object);
                 return Ok();
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.Message);
                 return BadRequest();
             }
         }
 
         [HttpPut]
         [Route("approved")]
+        [AllowAnonymous]
         public IActionResult Approved(int id)
         {
             var member = _service.GetById(id);
@@ -93,6 +93,7 @@ namespace FClub.API.Controllers
             if (deviceId != null && !registrationTokens.Contains(deviceId))
             {
                 registrationTokens.Add(deviceId);
+                Console.WriteLine(deviceId);
             }
 
             Dictionary<string, string> data = new Dictionary<string, string>();
@@ -115,6 +116,19 @@ namespace FClub.API.Controllers
                 return NotFound();
             }
             _service.Update(_object);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("ban")]
+        [AllowAnonymous]
+        public IActionResult ChangeMemberStatus(int id)
+        {
+            if (_service.GetById(id) == null)
+            {
+                return NotFound();
+            }
+            _service.ChangeStatus(id);
             return Ok();
         }
 
