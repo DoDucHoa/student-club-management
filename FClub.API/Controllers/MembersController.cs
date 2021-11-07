@@ -70,6 +70,7 @@ namespace FClub.API.Controllers
 
         [HttpPut]
         [Route("approved")]
+        [AllowAnonymous]
         public IActionResult Approved(int id)
         {
             var member = _service.GetById(id);
