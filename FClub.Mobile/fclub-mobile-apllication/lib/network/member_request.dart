@@ -46,6 +46,24 @@ class MemberRequest {
       throw Exception("Can't get member");
     }
   }
+
+  static Future createMember(Data data) async {
+    var queryParameters = {'includeProperties': 'Club,Wallets'};
+    var uri = Uri.https('club-management-service.azurewebsites.net',
+        '/api/v1/members', queryParameters);
+    print(data.toJson());
+    final response = await http.post(uri,
+        headers: {
+          HttpHeaders.authorizationHeader: global.tokenauthor,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(data.toJson()));
+    if (response.statusCode == 200) {
+      print("join club successful");
+    } else {
+      throw Exception("Failed to join club." + response.body);
+    }
+  }
   // static Future<List<Post>> fetchClubs() async {
   //   var parsed = Uri.parse("https://jsonplaceholder.typicode.com/posts");
   //   final response = await http.get(parsed);

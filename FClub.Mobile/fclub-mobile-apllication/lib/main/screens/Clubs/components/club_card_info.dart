@@ -74,7 +74,7 @@ class ClubCard extends StatelessWidget {
                             Text(
                               Status,
                               style: TextStyle(
-                                  color: isJoined == true
+                                  color: Status == "Joined"
                                       ? Colors.green
                                       : Colors.orange,
                                   fontSize: 13,

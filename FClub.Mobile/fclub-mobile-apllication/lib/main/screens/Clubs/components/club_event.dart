@@ -17,18 +17,17 @@ class ClubEvent extends StatefulWidget {
 }
 
 class _ClubEventState extends State<ClubEvent> {
-  List<EventInfos>? data;
-  List<EventInfos>? incoming;
-  List<EventInfos>? available;
-  List<EventInfos>? joined;
-  String? dropdownValue = "All Available Events";
+  Club? data;
+  List<Members>? members;
   bool showCalendar = false;
   @override
   void initState() {
     // TODO: implement initState
     ClubRequest.fetchClubsById(widget.clubId).then((dataFromServer) {
       setState(() {
-        data = dataFromServer.members?.first.eventInfos;
+        data = dataFromServer;
+        members =
+            data?.members?.where((element) => element.roleId == 1).toList();
       });
     });
   }
@@ -50,31 +49,13 @@ class _ClubEventState extends State<ClubEvent> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DropdownButton<String>(
-                value: dropdownValue,
-                icon: const Icon(Icons.arrow_drop_down, color: kPrimaryColor),
-                iconSize: 24,
-                elevation: 16,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: kPrimaryColor),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
-                },
-                items: <String>[
-                  'All Available Events',
-                  'Incoming Events',
-                  'Joined Events'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
+              Text("Following All The Events !",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: kPrimaryColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      decorationStyle: TextDecorationStyle.solid)),
               IconButton(
                   onPressed: () => setState(() {
                         !showCalendar
@@ -88,15 +69,15 @@ class _ClubEventState extends State<ClubEvent> {
           Flexible(
               child: ListView.separated(
             padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
-            itemCount: data?.length ?? 0,
+            itemCount: members?.first.eventInfos?.length ?? 0,
             itemBuilder: (context, index) {
               return EventCard(
-                  pageRoute: EventDetail(data?[index].id),
-                  image: '${data?[index].image}',
-                  Time: '${DateFormat("dd/MM/yyyy").format(data?[index].beginDate ?? DateTime.now())}' +
+                  pageRoute: EventDetail(members?.first.eventInfos?[index].id),
+                  image: '${members?.first.eventInfos?[index].image}',
+                  Time: '${DateFormat("dd/MM/yyyy").format(members?.first.eventInfos?[index].beginDate ?? DateTime.now())}' +
                       ' - ' +
-                      '${DateFormat("dd/MM/yyyy").format(data?[index].dueDate ?? DateTime.now())}',
-                  Id: '${data?[index].title}');
+                      '${DateFormat("dd/MM/yyyy").format(members?.first.eventInfos?[index].dueDate ?? DateTime.now())}',
+                  Id: '${members?.first.eventInfos?[index].title}');
             },
             separatorBuilder: (BuildContext context, int index) =>
                 const SizedBox(height: 10),

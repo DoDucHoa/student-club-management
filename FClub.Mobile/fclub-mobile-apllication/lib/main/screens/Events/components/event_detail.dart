@@ -78,7 +78,7 @@ class _EventDetailState extends State<EventDetail> {
                                           eventinfo?.beginDate ??
                                               DateTime.now())),
                                   style: TextStyle(
-                                      color: kSubColor,
+                                      color: Colors.white,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                       decorationStyle:
