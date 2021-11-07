@@ -16,6 +16,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import DisapproveModal from "./DisapproveModal";
+import BanMemberModal from "./BanMemberModal";
 
 // ----------------------------------------------------------------------
 
@@ -28,29 +29,14 @@ export default function MoreMenuMember({
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalDisapproveOpen, setModalDisapproveOpen] = useState(false);
+  const [modalBanOpen, setModalBanOpen] = useState(false);
 
   function approveUserHandler() {
     fetch(
       `https://club-management-service.azurewebsites.net/api/v1/members/approved?id=${userId}`,
       {
         method: "PUT",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).then((response) => {
-      if (response.ok) {
-        refreshHandler();
-      }
-    });
-  }
-
-  function banMemberHandler() {
-    fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/members/${userId}`,
-      {
-        method: "DELETE",
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -96,7 +82,10 @@ export default function MoreMenuMember({
                 primaryTypographyProps={{ variant: "body2" }}
               />
             </MenuItem>
-            <MenuItem sx={{ color: "text.secondary" }} onClick={setModalOpen}>
+            <MenuItem
+              sx={{ color: "text.secondary" }}
+              onClick={setModalDisapproveOpen}
+            >
               <ListItemIcon>
                 <PermMediaIcon />
               </ListItemIcon>
@@ -121,7 +110,7 @@ export default function MoreMenuMember({
             />
           </MenuItem>
         )}
-        <MenuItem sx={{ color: "text.secondary" }} onClick={banMemberHandler}>
+        <MenuItem sx={{ color: "text.secondary" }} onClick={setModalBanOpen}>
           <ListItemIcon>
             <NotInterestedIcon />
           </ListItemIcon>
@@ -131,12 +120,19 @@ export default function MoreMenuMember({
           />
         </MenuItem>
       </Menu>
-
       <DisapproveModal
         token={token}
         userId={userId}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
+        modalOpen={modalDisapproveOpen}
+        setModalOpen={setModalDisapproveOpen}
+        refreshHandler={refreshHandler}
+      />
+
+      <BanMemberModal
+        token={token}
+        userId={userId}
+        modalOpen={modalBanOpen}
+        setModalOpen={setModalBanOpen}
         refreshHandler={refreshHandler}
       />
     </>
