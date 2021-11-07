@@ -1,6 +1,9 @@
 import 'package:UniClub/main/components/rounded_button.dart';
 import 'package:UniClub/main/components/sub_appbar.dart';
 import 'package:UniClub/main/constants.dart' as global;
+import 'package:UniClub/main/screens/Clubs/clubs_screen.dart';
+import 'package:UniClub/main/screens/Clubs/components/your_club.dart';
+import 'package:UniClub/main/screens/Home/home.dart';
 import 'package:UniClub/model/club.dart' as Clubs;
 import 'package:UniClub/model/member.dart';
 import 'package:UniClub/network/club_request.dart';
@@ -143,17 +146,22 @@ class _ClubDetailState extends State<ClubDetail> {
                         press: () async {
                           setState(() {
                             create = Data(
+                                id: 0,
                                 clubId: widget.clubId,
                                 userId: global.user?.data?.first.id,
                                 isApproved: false,
                                 status: true,
                                 roleId: 1);
                           });
-
                           await MemberRequest.createMember(create!);
-                          setState(() {
-                            if (widget.joined == false) widget.joined = true;
-                          });
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Home();
+                              },
+                            ),
+                          );
                         },
                         color: global.kPrimaryColor,
                         textColor: Colors.white,
