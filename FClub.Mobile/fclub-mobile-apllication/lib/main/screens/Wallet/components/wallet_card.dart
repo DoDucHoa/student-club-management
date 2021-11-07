@@ -47,7 +47,7 @@ class WalletCard extends StatelessWidget {
                     ))),
             Container(
               padding: EdgeInsets.symmetric(vertical: 50.0),
-              width: size.width * 0.5,
+              width: size.width * 0.47,
               decoration: BoxDecoration(
                   color: kSubColor2.withOpacity(0.7),
                   borderRadius: BorderRadius.only(
@@ -58,17 +58,17 @@ class WalletCard extends StatelessWidget {
                 children: [
                   Text(clubname,
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54)),
                   Text("Remaining Balance :",
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black45)),
                   Text(balance.toString() + " pts.",
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black45)),
                 ],

@@ -2,17 +2,24 @@ import 'package:UniClub/model/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:UniClub/main/Screens/Welcome/welcome_screen.dart';
 import 'package:UniClub/main/constants.dart';
-import 'package:UniClub/main/home.dart';
 import 'package:UniClub/main/screens/Authenticate/wrapper.dart';
-import 'package:UniClub/service/auth.dart';
 import 'package:provider/provider.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+    alert: true, // Required to display a heads up notification
+    badge: true,
+    sound: true,
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   _firebaseMessaging.getToken().then((token) {
     assert(token != null);
     print("Push Messaging token: $token");
@@ -38,7 +45,7 @@ class _AppState extends State<MyApp> {
         create: (context) => Auth(),
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Auth',
+          title: 'UniClub',
           theme: ThemeData(
             primaryColor: kPrimaryColor,
             scaffoldBackgroundColor: Colors.white,
