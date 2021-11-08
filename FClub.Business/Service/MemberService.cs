@@ -125,5 +125,13 @@ namespace FClub.Business.Service
             _repository.Update(mem);
             _repository.SaveDbChange();
         }
+
+        public void ChangeRole(int id, int roleId)
+        {
+            Member mem = _repository.GetFirstOrDefault(x => x.Id == id);
+            mem.RoleId = roleId;
+            _repository.Update(mem);
+            _repository.SaveDbChange();
+        }
     }
 }
