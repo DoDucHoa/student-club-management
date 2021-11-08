@@ -29,6 +29,7 @@ class MemberRequest {
     var queryParameters = {
       'sort': 'Id',
       'dir': 'desc',
+      'roleId': '2',
     };
     var uri = Uri.https('club-management-service.azurewebsites.net',
         '/api/v1/members', queryParameters);
