@@ -214,7 +214,7 @@ const UserRankList = ({ token }) => {
                           variant="ghost"
                           color={status ? "success" : "error"}
                         >
-                          {status ? "Active" : "Unactive"}
+                          {status ? "Active" : "Inactive"}
                         </Label>
                       </TableCell>
                     </TableRow>

@@ -37,7 +37,6 @@ const TABLE_HEAD = [
 const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [membersData, setMembersData] = useState([]);
@@ -47,7 +46,7 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
 
   useEffect(() => {
     fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=true&name=${searchName}&sort=asc`,
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=true&name=${searchName}&sort=Name&dir=${order}`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -117,7 +116,6 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
   return (
     <Card>
       <UserListToolbar
-        numSelected={selected.length}
         active={true}
         onChange={onSearchNameChangeHandler}
         searchName={searchName}
@@ -136,17 +134,9 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
               {membersData.map((row) => {
                 const { id, name, photo, email, age, gender, isAdmin, status } =
                   row;
-                const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
-                  <TableRow
-                    hover
-                    key={id}
-                    tabIndex={-1}
-                    role="checkbox"
-                    selected={isItemSelected}
-                    aria-checked={isItemSelected}
-                  >
+                  <TableRow hover key={id} tabIndex={-1} role="checkbox">
                     <TableCell component="th" scope="row" padding="normal">
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={name} src={photo} />

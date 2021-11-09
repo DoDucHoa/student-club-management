@@ -50,6 +50,7 @@ export default function UserMoreMenu({
   const [banModal, setBanModal] = useState(false);
 
   const [clubData, setClubData] = useState([]);
+  const [selectedClubId, setSelectedClubId] = useState("");
 
   useEffect(() => {
     fetch("https://club-management-service.azurewebsites.net/api/v1/clubs", {
@@ -66,7 +67,7 @@ export default function UserMoreMenu({
       })
       .then((resData) => {
         const result = [];
-        resData.map((row) => result.push({ label: row.name }));
+        resData.map((row) => result.push({ label: row.name, id: row.id }));
         setClubData(result);
       })
       .catch((err) => {
@@ -92,6 +93,29 @@ export default function UserMoreMenu({
         },
       }
     )
+      .then((response) => {
+        if (response.ok) {
+          refreshHandler();
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+  function managerPromoteHandler() {
+    fetch(`https://club-management-service.azurewebsites.net/api/v1/members`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        userId: userId,
+        clubId: selectedClubId,
+        roleId: 1,
+        status: true,
+        isApproved: true,
+      }),
+    })
       .then((response) => {
         if (response.ok) {
           refreshHandler();
@@ -167,6 +191,9 @@ export default function UserMoreMenu({
           <Autocomplete
             disablePortal
             options={clubData}
+            onChange={(event, value) => {
+              setSelectedClubId(value.id);
+            }}
             renderInput={(params) => <TextField {...params} label="Club" />}
           />
           <Box
@@ -190,7 +217,10 @@ export default function UserMoreMenu({
               sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
-              onClick={modalHandler}
+              onClick={() => {
+                managerPromoteHandler();
+                modalHandler();
+              }}
             >
               Assign
             </Button>

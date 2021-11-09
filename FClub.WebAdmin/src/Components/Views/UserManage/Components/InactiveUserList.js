@@ -38,7 +38,6 @@ const TABLE_HEAD = [
 const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [membersData, setMembersData] = useState([]);
@@ -48,7 +47,7 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
 
   useEffect(() => {
     fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false&name=${searchName}`,
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false&name=${searchName}&sort=Name&dir=${order}`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -83,7 +82,7 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, rowsPerPage, token, isRefresh, searchName]);
+  }, [page, rowsPerPage, token, isRefresh, searchName, order]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -118,7 +117,6 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
   return (
     <Card>
       <UserListToolbar
-        numSelected={selected.length}
         active={false}
         onChange={onSearchNameChangeHandler}
         searchName={searchName}
