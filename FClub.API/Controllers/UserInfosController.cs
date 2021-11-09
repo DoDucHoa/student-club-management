@@ -104,5 +104,12 @@ namespace FClub.API.Controllers
         {
             return Ok(_userInforService.GetUserJoinClubRank());
         }
+
+        [HttpGet]
+        [Route("is-manager")]
+        public IActionResult isManager()
+        {
+            return Ok(_userInforService.GetUserIsManager());
+        }
     }
 }

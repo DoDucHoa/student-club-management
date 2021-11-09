@@ -70,7 +70,6 @@ namespace FClub.API.Controllers
 
         [HttpPut]
         [Route("approved")]
-        [AllowAnonymous]
         public IActionResult Approved(int id)
         {
             var member = _service.GetById(id);
@@ -121,7 +120,6 @@ namespace FClub.API.Controllers
 
         [HttpPut]
         [Route("ban")]
-        [AllowAnonymous]
         public IActionResult ChangeMemberStatus(int id)
         {
             if (_service.GetById(id) == null)
@@ -129,6 +127,18 @@ namespace FClub.API.Controllers
                 return NotFound();
             }
             _service.ChangeStatus(id);
+            return Ok();
+        }
+
+        [HttpPut]
+        [Route("update-role")]
+        public IActionResult ChangeMemberRole(int id, int roleId)
+        {
+            if (_service.GetById(id) == null)
+            {
+                return NotFound();
+            }
+            _service.ChangeRole(id, roleId);
             return Ok();
         }
 

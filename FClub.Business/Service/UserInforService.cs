@@ -72,6 +72,12 @@ namespace FClub.Business.Service
                         else if (user.dir == "desc")
                             values = values.OrderByDescending(d => d.Id);
                         break;
+                    case "Name":
+                        if (user.dir == "asc")
+                            values = values.OrderBy(d => d.Name);
+                        else if (user.dir == "desc")
+                            values = values.OrderByDescending(d => d.Name);
+                        break;
                 }
             }
 
@@ -134,7 +140,6 @@ namespace FClub.Business.Service
             }
         }
 
-
         public IEnumerable GetUserJoinClubRank()
         {
             Hashtable hashtable = new Hashtable();
@@ -149,6 +154,30 @@ namespace FClub.Business.Service
             var listRank = hashtable.Cast<DictionaryEntry>().OrderByDescending(entry => entry.Value);
 
             return listRank;
+        }
+
+        public IEnumerable GetUserIsManager()
+        {
+            var users = _userInfo.GetAll(includeProperties: "Members");
+            List<UserInfo> userIsManager = new List<UserInfo>();
+            foreach (var item in users)
+            {
+                int check = -1;
+                var members = item.Members;
+                foreach (var member in members)
+                {
+                    if (member.RoleId == 1)
+                    {
+                        check = 1;
+                    }
+                }
+                if (check == 1)
+                {
+                    userIsManager.Add(item);
+                }
+            }
+
+            return userIsManager;
         }
     }
 }

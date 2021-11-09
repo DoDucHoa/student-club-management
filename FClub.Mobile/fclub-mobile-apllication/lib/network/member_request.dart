@@ -25,6 +25,29 @@ class MemberRequest {
     }
   }
 
+  static Future<Member>? fetchNewestMembers() async {
+    var queryParameters = {
+      'sort': 'Id',
+      'dir': 'desc',
+      'roleId': '2',
+    };
+    var uri = Uri.https('club-management-service.azurewebsites.net',
+        '/api/v1/members', queryParameters);
+    final response = await http.get(
+      uri,
+      headers: {HttpHeaders.authorizationHeader: global.tokenauthor},
+    );
+    if (response.statusCode == 200) {
+      return parseMember(response.body);
+    } else if (response.statusCode == 404) {
+      throw Exception("Not found.");
+    } else if (response.statusCode == 401) {
+      throw Exception("Unauthorized");
+    } else {
+      throw Exception("Can't get member");
+    }
+  }
+
   static Future<Member>? fetchMembersById(int? id) async {
     var queryParameters = {
       'userId': id.toString(),
