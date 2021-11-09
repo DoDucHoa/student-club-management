@@ -41,7 +41,7 @@ const MemberList = ({ clubId, token, isRefresh, refreshHandler }) => {
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
-  const url = `https://club-management-service.azurewebsites.net/api/v1/members?PageNumber=${page}&PageSize=${rowsPerPage}&includeProperties=User&clubId=${clubId}&IsApproved=true`;
+  const url = `https://club-management-service.azurewebsites.net/api/v1/members?PageNumber=${page}&PageSize=${rowsPerPage}&includeProperties=User&clubId=${clubId}&IsApproved=true&Status=true`;
   useEffect(() => {
     fetch(url, {
       headers: {

@@ -1,6 +1,6 @@
+import React from "react";
 import { Button, Modal, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
 
 const style = {
   position: "absolute",
@@ -17,32 +17,10 @@ const style = {
   textAlign: "center",
 };
 
-const BanMemberModal = ({
-  token,
-  userId,
-  modalOpen,
-  setModalOpen,
-  refreshHandler,
-}) => {
+const BanMemberModal = ({ modalOpen, setModalOpen, disapproveUserHandler }) => {
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
   };
-
-  function disapproveUserHandler() {
-    fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/members/ban/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    ).then((response) => {
-      if (response.ok) {
-        refreshHandler();
-      }
-    });
-  }
 
   return (
     <Modal
@@ -79,7 +57,10 @@ const BanMemberModal = ({
             fullWidth
             variant="contained"
             color="error"
-            onClick={disapproveUserHandler}
+            onClick={() => {
+              disapproveUserHandler();
+              modalHandler();
+            }}
           >
             Ban
           </Button>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -16,6 +16,8 @@ import {
   Modal,
   Typography,
   Button,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import { Box } from "@mui/system";
 
@@ -25,7 +27,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: 300, lg: 350 },
-  height: 220,
+  height: 275,
   bgcolor: "background.paper",
   borderRadius: "20px",
   border: "2px solid #000",
@@ -42,8 +44,34 @@ export default function UserMoreMenu({
   refreshHandler,
 }) {
   const ref = useRef(null);
+
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const [clubData, setClubData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://club-management-service.azurewebsites.net/api/v1/clubs", {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
+      .then((resData) => {
+        const result = [];
+        resData.map((row) => result.push({ label: row.name }));
+        setClubData(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [token]);
 
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
@@ -127,21 +155,28 @@ export default function UserMoreMenu({
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Confirm
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography id="modal-modal-description" sx={{ mt: 2, mb: 3 }}>
             Which club you want to assign?
           </Typography>
+          <Autocomplete
+            disablePortal
+            options={clubData}
+            renderInput={(params) => <TextField {...params} label="Club" />}
+          />
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
+              mt: 1,
             }}
           >
             <Button
               sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
-              color="primary"
+              color="error"
+              onClick={modalHandler}
             >
               Cancel
             </Button>
@@ -149,11 +184,9 @@ export default function UserMoreMenu({
               sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
-              color="error"
-              // id={idActivity}
-              // onClick={deleteActivityHandler}
+              onClick={modalHandler}
             >
-              Delete
+              Assign
             </Button>
           </Box>
         </Box>
