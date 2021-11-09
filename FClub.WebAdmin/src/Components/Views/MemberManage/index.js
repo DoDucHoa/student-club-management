@@ -15,7 +15,12 @@ const MemberManage = ({ clubId, token }) => {
       <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
         Manage Member
       </Typography>
-      <MemberList clubId={clubId} token={token} isRefresh={isRefresh} />
+      <MemberList
+        clubId={clubId}
+        token={token}
+        isRefresh={isRefresh}
+        refreshHandler={refreshHandler}
+      />
       <Divider sx={{ my: 5 }} />
       <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
         Approve Request
