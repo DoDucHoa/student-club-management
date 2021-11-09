@@ -72,6 +72,12 @@ namespace FClub.Business.Service
                         else if (user.dir == "desc")
                             values = values.OrderByDescending(d => d.Id);
                         break;
+                    case "Name":
+                        if (user.dir == "asc")
+                            values = values.OrderBy(d => d.Name);
+                        else if (user.dir == "desc")
+                            values = values.OrderByDescending(d => d.Name);
+                        break;
                 }
             }
 
