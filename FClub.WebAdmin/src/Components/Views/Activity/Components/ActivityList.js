@@ -14,6 +14,9 @@ export default function ActivityList({ ...other }) {
   const token = useSelector((state) => state.auth.token);
   const [activities, setActivities] = useState([]);
 
+  const clubId = useSelector((state) => state.auth.clubId);
+
+  console.log(clubId);
   useEffect(() => {
     fetch(
       "https://club-management-service.azurewebsites.net/api/v1/events?includeProperties=Creator.User",
@@ -29,9 +32,11 @@ export default function ActivityList({ ...other }) {
         }
       })
       .then((responseData) => {
-        setActivities(responseData.data);
+        setActivities(
+          responseData.data.filter((data) => data.creator.clubId === clubId)
+        );
       });
-  }, [token]);
+  }, [token, clubId]);
 
   return (
     <Grid container spacing={3} {...other}>

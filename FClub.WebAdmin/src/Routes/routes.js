@@ -50,6 +50,9 @@ const ActivityDetail = Loadable(
 
 const MainPage = Loadable(lazy(() => import("../Pages/Report/ReportPage")));
 const MyClubPage = Loadable(lazy(() => import("../Pages/MyClub/MyClubPage")));
+const CreateClubPage = Loadable(
+  lazy(() => import("../Pages/Club/CreateClubPage"))
+);
 
 // -----------------------------------------------------------------------------
 export default function ThemeRoutes() {
@@ -117,6 +120,10 @@ export default function ThemeRoutes() {
           ) : (
             <Navigate to="/404" replace />
           ),
+        },
+        {
+          path: "club/create",
+          element: <CreateClubPage />,
         },
         {
           path: "club/:id",
