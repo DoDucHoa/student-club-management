@@ -27,7 +27,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: 300, lg: 350 },
-  height: 275,
   bgcolor: "background.paper",
   borderRadius: "20px",
   border: "2px solid #000",
@@ -39,6 +38,7 @@ const style = {
 
 export default function UserMoreMenu({
   userId,
+  name,
   isAdmin,
   token,
   refreshHandler,
@@ -47,6 +47,7 @@ export default function UserMoreMenu({
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [banModal, setBanModal] = useState(false);
 
   const [clubData, setClubData] = useState([]);
 
@@ -75,6 +76,10 @@ export default function UserMoreMenu({
 
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
+  };
+
+  const banModalHandler = () => {
+    setBanModal((prev) => !prev);
   };
 
   function disableUserHandler() {
@@ -111,12 +116,12 @@ export default function UserMoreMenu({
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: "text.secondary" }} onClick={disableUserHandler}>
+        <MenuItem sx={{ color: "text.secondary" }} onClick={banModalHandler}>
           <ListItemIcon>
             <BlockIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Disable User"
+            primary="Inactivate User"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
@@ -145,6 +150,7 @@ export default function UserMoreMenu({
         </MenuItem>
       </Menu>
 
+      {/* Club assgin */}
       <Modal
         open={modalOpen}
         onClose={modalHandler}
@@ -187,6 +193,50 @@ export default function UserMoreMenu({
               onClick={modalHandler}
             >
               Assign
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      {/* Ban user */}
+      <Modal
+        open={banModal}
+        onClose={banModalHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Confirm
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2, mb: 3 }}>
+            Do you really want to inactivate <b>{name}</b> ?
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              mt: 1,
+            }}
+          >
+            <Button
+              sx={{ mt: 2, mx: 1 }}
+              fullWidth
+              variant="contained"
+              color="error"
+              onClick={banModalHandler}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{ mt: 2, mx: 1 }}
+              fullWidth
+              variant="contained"
+              onClick={disableUserHandler}
+            >
+              Inactivate
             </Button>
           </Box>
         </Box>

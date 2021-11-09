@@ -17,7 +17,8 @@ import {
 import Scrollbar from "../../../UI/Scrollbar";
 import SearchNotFound from "../../../UI/SearchNotFound";
 import Label from "../../../UI/Label";
-import { UserListHead, UserListToolbar } from "../../../UI/_dashboard/user";
+import { UserListHead } from "../../../UI/_dashboard/user";
+import UserListToolbar from "./UserListToolBar";
 import { fVNDate } from "../../../../Utils/formatTime";
 import UserInactiveMoreMenu from "./MoreMenuInactiveUser";
 
@@ -28,7 +29,6 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignRight: false },
   { id: "birthday", label: "Birthday", alignRight: false },
   { id: "gender", label: "Gender", alignRight: false },
-  { id: "isAdmin", label: "Role", alignRight: false },
   { id: "status", label: "Status", alignRight: false },
   { id: "" },
 ];
@@ -40,14 +40,15 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
-  const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  const [searchName, setSearchName] = useState("");
+
   useEffect(() => {
     fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false`,
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=false&name=${searchName}`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -82,21 +83,12 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, rowsPerPage, token, isRefresh]);
+  }, [page, rowsPerPage, token, isRefresh, searchName]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = membersData.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -108,15 +100,15 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const getGender = (gender) => {
     if (gender === 1) return "Male";
     if (gender === 2) return "Female";
     if (gender === 3) return "Other";
   };
+
+  function onSearchNameChangeHandler(event) {
+    setSearchName(event.target.value);
+  }
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalCount) : 0;
@@ -127,8 +119,9 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
     <Card>
       <UserListToolbar
         numSelected={selected.length}
-        filterName={filterName}
-        onFilterName={handleFilterByName}
+        active={false}
+        onChange={onSearchNameChangeHandler}
+        searchName={searchName}
       />
 
       <Scrollbar>
@@ -138,26 +131,15 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
-              rowCount={membersData.length}
-              numSelected={selected.length}
               onRequestSort={handleRequestSort}
-              onSelectAllClick={handleSelectAllClick}
             />
             <TableBody>
               {membersData.map((row) => {
                 const { id, name, photo, email, age, gender, isAdmin, status } =
                   row;
-                const isItemSelected = selected.indexOf(name) !== -1;
 
                 return (
-                  <TableRow
-                    hover
-                    key={id}
-                    tabIndex={-1}
-                    role="checkbox"
-                    selected={isItemSelected}
-                    aria-checked={isItemSelected}
-                  >
+                  <TableRow hover key={id} tabIndex={-1} role="checkbox">
                     <TableCell component="th" scope="row" padding="normal">
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={name} src={photo} />
@@ -172,17 +154,9 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
                     <TableCell align="left">
                       <Label
                         variant="ghost"
-                        color={isAdmin ? "primary" : "default"}
-                      >
-                        {isAdmin ? "Admin" : "Normal"}
-                      </Label>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Label
-                        variant="ghost"
                         color={status ? "success" : "error"}
                       >
-                        {status ? "Active" : "Disabled"}
+                        {status ? "Active" : "Inactive"}
                       </Label>
                     </TableCell>
                     <TableCell align="right">
@@ -206,7 +180,7 @@ const InactiveUserList = ({ token, refreshHandler, isRefresh }) => {
               <TableBody>
                 <TableRow>
                   <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                    <SearchNotFound searchQuery={filterName} />
+                    <SearchNotFound />
                   </TableCell>
                 </TableRow>
               </TableBody>

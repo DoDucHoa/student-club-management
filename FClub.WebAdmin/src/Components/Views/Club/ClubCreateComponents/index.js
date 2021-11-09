@@ -1,50 +1,39 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { Formik, Form, Field } from "formik";
+import { FormikProvider, Form, useFormik } from "formik";
 
 import {
   Alert,
+  Autocomplete,
   Button,
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Slide,
   Snackbar,
   TextField,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
+
 import { createClubHandler } from "./Components/action";
-import { useSelector } from "react-redux";
+import UploadSingleFile from "./Upload/UploadSingleFile";
 
-const initValue = {
-  id: "",
-  name: "",
-};
-
-const ImageContaier = styled("div")(({ theme }) => ({
-  borderRadius: "10px",
-  padding: "8px",
-  border: "1px",
-  borderStyle: "dashed",
+const LabelStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle2,
+  color: theme.palette.text.secondary,
+  marginBottom: theme.spacing(1),
 }));
 
 const CreateClubComponent = () => {
   const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
 
-  const schoolInputRef = useRef();
-
-  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-
-  const [school, setSchool] = useState("");
-  const [schoolData, setSchoolData] = useState([]);
-
-  const [imageUrl, setImageUrl] = useState("");
   const [uploadImage, setUploadImage] = useState(null);
+  const [selectedSchool, setSelectedSchool] = useState("");
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+  const [schoolData, setSchoolData] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -58,29 +47,14 @@ const CreateClubComponent = () => {
         }
       })
       .then((resData) => {
-        setSchoolData(resData.data);
+        const result = [];
+        resData.data.map((row) => result.push({ label: row.name, id: row.id }));
+        setSchoolData(result);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  const schoolHandler = (event) => {
-    setSchool(event.target.value);
-  };
-
-  function uploadImageHandler(event) {
-    if (event.target.files[0]) {
-      setUploadImage(event.target.files[0]);
-
-      // show the upload photo to the screen
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onloadend = (e) => {
-        setImageUrl(reader.result);
-      };
-    }
-  }
 
   function submitHandler(data) {
     createClubHandler(uploadImage, token, data);
@@ -95,129 +69,120 @@ const CreateClubComponent = () => {
     setIsSnackbarOpen(false);
   };
 
+  const formik = useFormik({
+    initialValues: {
+      id: "",
+      name: "",
+      universityId: "",
+      balance: 0,
+      about: "",
+      status: true,
+    },
+    onSubmit: async (data, { resetForm }) => {
+      submitHandler(data);
+      setSelectedSchool("");
+      resetForm();
+    },
+  });
+
+  const { values, handleSubmit, setFieldValue, getFieldProps } = formik;
+
   function TransitionSnackbarLeft(props) {
     return <Slide {...props} direction="left" />;
   }
 
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      if (file) {
+        setUploadImage(file);
+        setFieldValue("logo", {
+          preview: URL.createObjectURL(file),
+        });
+      }
+    },
+    [setFieldValue]
+  );
+
   return (
     <>
-      <Formik
-        initialValues={initValue}
-        onSubmit={(data, { resetForm }) => {
-          submitHandler({ universityId: school, ...data });
-          resetForm();
-          setImageUrl("");
-          setUploadImage(null);
-          setSchool("");
-        }}
-      >
-        {() => (
-          <Form>
-            <Paper elevation={8} sx={{ p: 5, width: "70%" }}>
-              <Grid container spacing={4}>
-                <Grid item xs={12}>
-                  <Field
-                    name="id"
-                    label="Club ID"
-                    fullWidth
-                    required
-                    inputProps={{
-                      maxLength: 32,
-                      style: { textTransform: "uppercase" },
-                    }}
-                    as={TextField}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    as={TextField}
-                    name="name"
-                    label="Club Name"
-                    fullWidth
-                    required
-                    placeholder="Enter club name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth required>
-                    <InputLabel id="university-label">School</InputLabel>
-                    <Select
-                      labelId="university-label"
-                      label="School"
-                      value={school}
-                      onChange={schoolHandler}
-                      inputRef={schoolInputRef}
-                    >
-                      {schoolData.length !== 0 ? (
-                        schoolData.map((item) => {
-                          return (
-                            <MenuItem key={item.id} value={item.id}>
-                              {item.name}
-                            </MenuItem>
-                          );
-                        })
-                      ) : (
-                        <MenuItem key="" value="">
-                          Loading...
-                        </MenuItem>
-                      )}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Button
-                    component="label"
-                    color="secondary"
-                    variant="contained"
-                  >
-                    Upload Logo
-                    <input
-                      name="image"
-                      accept=".jpg, .jpeg, .png"
-                      type="file"
-                      hidden
-                      onChange={uploadImageHandler}
-                    />
-                  </Button>
-                </Grid>
-                {imageUrl && (
-                  <Grid item xs={12} md={6}>
-                    <ImageContaier>
-                      <img
-                        style={{ maxWidth: 200 }}
-                        src={imageUrl}
-                        alt="Event"
-                      />
-                    </ImageContaier>
-                  </Grid>
-                )}
+      <FormikProvider value={formik}>
+        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <Paper elevation={8} sx={{ p: 5, width: "70%" }}>
+            <Grid container spacing={4}>
+              <Grid item xs={12}>
+                <TextField
+                  label="Club ID"
+                  fullWidth
+                  required
+                  inputProps={{
+                    maxLength: 32,
+                    style: { textTransform: "uppercase" },
+                  }}
+                  {...getFieldProps("id")}
+                />
               </Grid>
-              <Box
-                sx={{
-                  textAlign: "center",
-                  mt: 4,
-                  display: "flex",
-                  justifyContent: "space-between",
+              <Grid item xs={12}>
+                <TextField
+                  {...getFieldProps("name")}
+                  label="Club Name"
+                  fullWidth
+                  required
+                  placeholder="Enter club name"
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Autocomplete
+                  value={selectedSchool}
+                  onChange={(event, newValue) => {
+                    setFieldValue("universityId", newValue.id);
+                    setSelectedSchool(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="School" />
+                  )}
+                  options={schoolData}
+                  getOptionLabel={(option) => option.label || ""}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <LabelStyle>Club Logo</LabelStyle>
+
+                <UploadSingleFile
+                  maxSize={3145728}
+                  accept="image/*"
+                  file={values.logo}
+                  onDrop={handleDrop}
+                />
+              </Grid>
+            </Grid>
+            <Box
+              sx={{
+                textAlign: "center",
+                mt: 4,
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="error"
+                fullWidth
+                onClick={() => {
+                  navigate(-1);
                 }}
               >
-                <Button
-                  variant="contained"
-                  color="error"
-                  fullWidth
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button variant="contained" type="submit" fullWidth>
-                  Create
-                </Button>
-              </Box>
-            </Paper>
-          </Form>
-        )}
-      </Formik>
+                Cancel
+              </Button>
+              <Button variant="contained" type="submit" fullWidth>
+                Create
+              </Button>
+            </Box>
+          </Paper>
+        </Form>
+      </FormikProvider>
+
       <Snackbar
         open={isSnackbarOpen}
         autoHideDuration={5000}

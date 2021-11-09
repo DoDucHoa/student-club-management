@@ -17,13 +17,9 @@ import {
 import Scrollbar from "../../../UI/Scrollbar";
 import SearchNotFound from "../../../UI/SearchNotFound";
 import Label from "../../../UI/Label";
-import {
-  UserListHead,
-  UserListToolbar,
-  UserMoreMenu,
-} from "../../../UI/_dashboard/user";
+import { UserListHead, UserMoreMenu } from "../../../UI/_dashboard/user";
 import { fVNDate } from "../../../../Utils/formatTime";
-
+import UserListToolbar from "./UserListToolBar";
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
@@ -43,14 +39,15 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState("name");
-  const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [membersData, setMembersData] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
 
+  const [searchName, setSearchName] = useState("");
+
   useEffect(() => {
     fetch(
-      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=true`,
+      `https://club-management-service.azurewebsites.net/api/v1/users?PageNumber=${page}&PageSize=${rowsPerPage}&Status=true&name=${searchName}&sort=asc`,
       {
         headers: {
           Authorization: "Bearer " + token,
@@ -85,21 +82,12 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, rowsPerPage, token, isRefresh]);
+  }, [page, rowsPerPage, token, isRefresh, searchName, order]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = membersData.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -111,15 +99,15 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const getGender = (gender) => {
     if (gender === 1) return "Male";
     if (gender === 2) return "Female";
     if (gender === 3) return "Other";
   };
+
+  function onSearchNameChangeHandler(event) {
+    setSearchName(event.target.value);
+  }
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - totalCount) : 0;
@@ -130,8 +118,9 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
     <Card>
       <UserListToolbar
         numSelected={selected.length}
-        filterName={filterName}
-        onFilterName={handleFilterByName}
+        active={true}
+        onChange={onSearchNameChangeHandler}
+        searchName={searchName}
       />
 
       <Scrollbar>
@@ -141,10 +130,7 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
-              rowCount={membersData.length}
-              numSelected={selected.length}
               onRequestSort={handleRequestSort}
-              onSelectAllClick={handleSelectAllClick}
             />
             <TableBody>
               {membersData.map((row) => {
@@ -185,12 +171,13 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
                         variant="ghost"
                         color={status ? "success" : "error"}
                       >
-                        {status ? "Active" : "Disabled"}
+                        {status ? "Active" : "Inactive"}
                       </Label>
                     </TableCell>
                     <TableCell align="right">
                       <UserMoreMenu
                         userId={id}
+                        name={name}
                         isAdmin={isAdmin}
                         token={token}
                         refreshHandler={refreshHandler}
@@ -209,7 +196,7 @@ const ActiveUserList = ({ token, refreshHandler, isRefresh }) => {
               <TableBody>
                 <TableRow>
                   <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                    <SearchNotFound searchQuery={filterName} />
+                    <SearchNotFound />
                   </TableCell>
                 </TableRow>
               </TableBody>
