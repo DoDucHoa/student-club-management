@@ -39,6 +39,14 @@ namespace FClub.API.Controllers
             return Ok(data);
         }
 
+        [HttpGet]
+        [Route("without-manager")]
+        public IActionResult GetClubsWithOutManager()
+        {
+            var data = _clubService.getClubWithoutManager();
+            return Ok(data);
+        }
+
         [HttpPost]
         public IActionResult AddClub(Club club)
         {
