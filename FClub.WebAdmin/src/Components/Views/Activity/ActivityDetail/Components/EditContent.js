@@ -28,6 +28,11 @@ const ImageContaier = styled("div")(({ theme }) => ({
   borderStyle: "dashed",
 }));
 
+function getCurrentDay() {
+  const time = new Date();
+  return time.getDate();
+}
+
 const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
   const { idActivity } = useParams();
   const userId = useSelector((state) => state.auth.userId);
@@ -78,6 +83,7 @@ const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
 
   function submitHandler(data) {
     const finalData = {
+      createDate: getCurrentDay(),
       regisDate: regisDate,
       endRegisDate: endRegisDate,
       beginDate: beginDate,
