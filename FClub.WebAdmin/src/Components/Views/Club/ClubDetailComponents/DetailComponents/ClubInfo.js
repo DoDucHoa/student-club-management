@@ -39,7 +39,9 @@ const ClubInfo = ({ clubName, about, managerName, totalMember }) => {
       <Typography variant="h5" gutterBottom>
         <GroupOutlinedIcon className={classes.wrapIcon} /> Total Member
       </Typography>
-      <Typography variant="body1">{totalMember} members</Typography>
+      <Typography variant="body1">
+        {totalMember} {totalMember < 2 ? "member" : "members"}
+      </Typography>
     </Paper>
   );
 };

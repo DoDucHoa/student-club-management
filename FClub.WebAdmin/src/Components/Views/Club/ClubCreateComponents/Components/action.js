@@ -15,9 +15,6 @@ function dataHandler(token, data, responseImageUrl) {
     body: JSON.stringify({
       ...data,
       logo: responseImageUrl,
-      balance: 0,
-      about: "",
-      status: true,
     }),
   })
     .then((response) => response.ok)

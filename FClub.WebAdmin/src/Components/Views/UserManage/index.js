@@ -17,7 +17,7 @@ const UserManage = () => {
   return (
     <Page title="User Management">
       <Container>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
           Users Management
         </Typography>
         <ActiveUserList
@@ -26,9 +26,7 @@ const UserManage = () => {
           isRefresh={isRefresh}
         />
         <Divider sx={{ my: 5 }} />
-        <Typography variant="h4" gutterBottom>
-          Inactive User
-        </Typography>
+
         <InactiveUserList
           token={token}
           refreshHandler={refreshHandler}

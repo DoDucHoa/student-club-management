@@ -18,6 +18,8 @@ import {
   Button,
   Autocomplete,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 
@@ -27,7 +29,6 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: { xs: 300, lg: 350 },
-  height: 275,
   bgcolor: "background.paper",
   borderRadius: "20px",
   border: "2px solid #000",
@@ -39,6 +40,7 @@ const style = {
 
 export default function UserMoreMenu({
   userId,
+  name,
   isAdmin,
   token,
   refreshHandler,
@@ -47,15 +49,21 @@ export default function UserMoreMenu({
 
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [banModal, setBanModal] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const [clubData, setClubData] = useState([]);
+  const [selectedClubId, setSelectedClubId] = useState("");
 
   useEffect(() => {
-    fetch("https://club-management-service.azurewebsites.net/api/v1/clubs", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/clubs/without-manager",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -65,7 +73,7 @@ export default function UserMoreMenu({
       })
       .then((resData) => {
         const result = [];
-        resData.map((row) => result.push({ label: row.name }));
+        resData.map((row) => result.push({ label: row.name, id: row.id }));
         setClubData(result);
       })
       .catch((err) => {
@@ -75,6 +83,10 @@ export default function UserMoreMenu({
 
   const modalHandler = () => {
     setModalOpen((prev) => !prev);
+  };
+
+  const banModalHandler = () => {
+    setBanModal((prev) => !prev);
   };
 
   function disableUserHandler() {
@@ -95,6 +107,38 @@ export default function UserMoreMenu({
       .catch((error) => console.log(error));
   }
 
+  function managerPromoteHandler() {
+    fetch(`https://club-management-service.azurewebsites.net/api/v1/members`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        userId: userId,
+        clubId: selectedClubId,
+        roleId: 1,
+        status: true,
+        isApproved: true,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          refreshHandler();
+          setIsSnackbarOpen(true);
+        }
+      })
+      .catch((error) => console.log(error));
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setIsSnackbarOpen(false);
+  };
+
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)} disabled={isAdmin}>
@@ -111,12 +155,12 @@ export default function UserMoreMenu({
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem sx={{ color: "text.secondary" }} onClick={disableUserHandler}>
+        <MenuItem sx={{ color: "text.secondary" }} onClick={banModalHandler}>
           <ListItemIcon>
             <BlockIcon />
           </ListItemIcon>
           <ListItemText
-            primary="Disable User"
+            primary="Inactivate User"
             primaryTypographyProps={{ variant: "body2" }}
           />
         </MenuItem>
@@ -145,6 +189,7 @@ export default function UserMoreMenu({
         </MenuItem>
       </Menu>
 
+      {/* Club assgin */}
       <Modal
         open={modalOpen}
         onClose={modalHandler}
@@ -161,6 +206,9 @@ export default function UserMoreMenu({
           <Autocomplete
             disablePortal
             options={clubData}
+            onChange={(event, value) => {
+              setSelectedClubId(value.id);
+            }}
             renderInput={(params) => <TextField {...params} label="Club" />}
           />
           <Box
@@ -184,13 +232,75 @@ export default function UserMoreMenu({
               sx={{ mt: 2, mx: 1 }}
               fullWidth
               variant="contained"
-              onClick={modalHandler}
+              onClick={() => {
+                managerPromoteHandler();
+                modalHandler();
+              }}
             >
               Assign
             </Button>
           </Box>
         </Box>
       </Modal>
+
+      {/* Ban user */}
+      <Modal
+        open={banModal}
+        onClose={banModalHandler}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Confirm
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2, mb: 3 }}>
+            Do you really want to inactivate <b>{name}</b> ?
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              mt: 1,
+            }}
+          >
+            <Button
+              sx={{ mt: 2, mx: 1 }}
+              fullWidth
+              variant="contained"
+              color="error"
+              onClick={banModalHandler}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{ mt: 2, mx: 1 }}
+              fullWidth
+              variant="contained"
+              onClick={disableUserHandler}
+            >
+              Inactivate
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%", bgcolor: "#2E7D32", color: "white" }}
+        >
+          Assign success!
+        </Alert>
+      </Snackbar>
     </>
   );
 }
