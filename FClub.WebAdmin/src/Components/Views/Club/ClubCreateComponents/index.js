@@ -18,7 +18,7 @@ import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 
 import { createClubHandler } from "./Components/action";
-import UploadSingleFile from "./Upload/UploadSingleFile";
+import UploadSingleFile from "../../../UI/UploadSingleFile";
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { useSelector } from "react-redux";
@@ -22,12 +22,12 @@ import { styled } from "@mui/material/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Box } from "@mui/system";
 import { GetMemberId } from "./Components/action";
+import UploadSingleFile from "../../../UI/UploadSingleFile";
 
-const ImageContaier = styled("div")(({ theme }) => ({
-  borderRadius: "10px",
-  padding: "8px",
-  border: "1px",
-  borderStyle: "dashed",
+const LabelStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle2,
+  color: theme.palette.text.secondary,
+  marginBottom: theme.spacing(1),
 }));
 
 const CreateActivity = () => {
@@ -38,26 +38,13 @@ const CreateActivity = () => {
 
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
-  const [imageUrl, setImageUrl] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
   const [uploadImage, setUploadImage] = useState(null);
   const [memberId, setMemberId] = useState(null);
 
   useEffect(() => {
     GetMemberId(token, userId, clubId).then((data) => setMemberId(data));
   }, [token, userId, clubId]);
-
-  function uploadImageHandler(event) {
-    if (event.target.files[0]) {
-      setUploadImage(event.target.files[0]);
-
-      // show the upload photo to the screen
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onloadend = (e) => {
-        setImageUrl(reader.result);
-      };
-    }
-  }
 
   const goBackHandler = () => {
     navigate(-1);
@@ -79,6 +66,14 @@ const CreateActivity = () => {
   function TransitionSnackbarLeft(props) {
     return <Slide {...props} direction="left" />;
   }
+
+  const handleDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    if (file) {
+      setUploadImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  }, []);
 
   const initialValues = {
     title: "",
@@ -105,12 +100,13 @@ const CreateActivity = () => {
           initialValues={initialValues}
           onSubmit={(data, { resetForm }) => {
             submitHandler(data);
-            setImageUrl("");
+            setPreviewImage(null);
+            setUploadImage(null);
             resetForm();
           }}
         >
           {({ resetForm }) => (
-            <Form>
+            <Form autoComplete="off">
               <Paper elevation={5} sx={{ p: 5, width: { lg: "65%" } }}>
                 <Grid container spacing={3}>
                   <Grid item xs={12}>
@@ -211,33 +207,15 @@ const CreateActivity = () => {
                       fullWidth
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
-                    <Button
-                      component="label"
-                      color="secondary"
-                      variant="contained"
-                    >
-                      Upload Image
-                      <input
-                        name="image"
-                        accept=".jpg, .jpeg, .png"
-                        type="file"
-                        hidden
-                        onChange={uploadImageHandler}
-                      />
-                    </Button>
+                  <Grid item xs={12}>
+                    <LabelStyle>Event Image</LabelStyle>
+                    <UploadSingleFile
+                      maxSize={3145728}
+                      accept="image/*"
+                      file={previewImage}
+                      onDrop={handleDrop}
+                    />
                   </Grid>
-                  {imageUrl && (
-                    <Grid item xs={12} md={6}>
-                      <ImageContaier>
-                        <img
-                          style={{ maxWidth: 200 }}
-                          src={imageUrl}
-                          alt="Event"
-                        />
-                      </ImageContaier>
-                    </Grid>
-                  )}
                 </Grid>
                 <Grid item xs={12}>
                   <Box
@@ -256,8 +234,8 @@ const CreateActivity = () => {
                       color="error"
                       onClick={() => {
                         resetForm();
-                        setImageUrl("");
                         setUploadImage(null);
+                        setPreviewImage(null);
                       }}
                     >
                       Clear Form

@@ -48,6 +48,54 @@ export default function MoreMenuMember({
     });
   }
 
+  function promoteMemberToTreasurer() {
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/members/update-role?id=${userId}&roleId=3`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then((response) => {
+      if (response.ok) {
+        refreshHandler();
+      }
+    });
+  }
+
+  function promoteMemberToCreator() {
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/members/update-role?id=${userId}&roleId=4`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then((response) => {
+      if (response.ok) {
+        refreshHandler();
+      }
+    });
+  }
+
+  function demoteMember() {
+    fetch(
+      `https://club-management-service.azurewebsites.net/api/v1/members/update-role?id=${userId}&roleId=2`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    ).then((response) => {
+      if (response.ok) {
+        refreshHandler();
+      }
+    });
+  }
+
   return (
     <>
       <IconButton
@@ -70,7 +118,10 @@ export default function MoreMenuMember({
       >
         {memberRole === 2 && (
           <>
-            <MenuItem sx={{ color: "text.secondary" }}>
+            <MenuItem
+              sx={{ color: "text.secondary" }}
+              onClick={promoteMemberToTreasurer}
+            >
               <ListItemIcon>
                 <MonetizationOnIcon />
               </ListItemIcon>
@@ -79,7 +130,10 @@ export default function MoreMenuMember({
                 primaryTypographyProps={{ variant: "body2" }}
               />
             </MenuItem>
-            <MenuItem sx={{ color: "text.secondary" }}>
+            <MenuItem
+              sx={{ color: "text.secondary" }}
+              onClick={promoteMemberToCreator}
+            >
               <ListItemIcon>
                 <PermMediaIcon />
               </ListItemIcon>
@@ -92,7 +146,7 @@ export default function MoreMenuMember({
         )}
 
         {memberRole !== 2 && (
-          <MenuItem sx={{ color: "text.secondary" }}>
+          <MenuItem sx={{ color: "text.secondary" }} onClick={demoteMember}>
             <ListItemIcon>
               <PersonIcon />
             </ListItemIcon>

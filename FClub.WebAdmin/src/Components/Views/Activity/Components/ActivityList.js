@@ -16,7 +16,6 @@ export default function ActivityList({ ...other }) {
 
   const clubId = useSelector((state) => state.auth.clubId);
 
-  console.log(clubId);
   useEffect(() => {
     fetch(
       "https://club-management-service.azurewebsites.net/api/v1/events?includeProperties=Creator.User",

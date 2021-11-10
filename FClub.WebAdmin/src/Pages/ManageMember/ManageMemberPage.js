@@ -13,7 +13,6 @@ const MangageUserPage = () => {
 
   useEffect(() => {
     getClubCode(token, userId).then((response) => {
-      console.log(response);
       setClubId(response);
     });
   }, [token, userId]);
