@@ -101,7 +101,8 @@ namespace FClub.Business.Service
         public void Create(Member _object)
         {
             //_object.IsApproved = false;
-            if (_repository.GetAll().Where(x => x.UserId == _object.UserId && x.ClubId.Equals(_object.ClubId)) != null) throw new Exception();
+            var values = _repository.GetAll().Where(x => x.UserId == _object.UserId && x.ClubId.Equals(_object.ClubId)).FirstOrDefault();
+            if (values != null) throw new Exception();
             _repository.Add(_object);
             _repository.SaveDbChange();
         }
@@ -114,6 +115,22 @@ namespace FClub.Business.Service
         public void Update(Member _object)
         {
             _repository.Update(_object);
+            _repository.SaveDbChange();
+        }
+
+        public void ChangeStatus(int id)
+        {
+            Member mem = _repository.GetFirstOrDefault(x => x.Id == id);
+            mem.Status = !mem.Status;
+            _repository.Update(mem);
+            _repository.SaveDbChange();
+        }
+
+        public void ChangeRole(int id, int roleId)
+        {
+            Member mem = _repository.GetFirstOrDefault(x => x.Id == id);
+            mem.RoleId = roleId;
+            _repository.Update(mem);
             _repository.SaveDbChange();
         }
     }

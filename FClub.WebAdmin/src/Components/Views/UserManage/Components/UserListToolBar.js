@@ -1,20 +1,12 @@
-import PropTypes from "prop-types";
-
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import SearchIcon from "@mui/icons-material/Search";
-
 // material
 import { styled } from "@mui/material/styles";
 import {
-  Box,
-  Toolbar,
-  Tooltip,
-  IconButton,
-  Typography,
-  OutlinedInput,
   InputAdornment,
+  OutlinedInput,
+  Toolbar,
+  Typography,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +16,8 @@ const RootStyle = styled(Toolbar)(({ theme }) => ({
   justifyContent: "space-between",
   padding: theme.spacing(0, 1, 0, 3),
 }));
+
+// ----------------------------------------------------------------------
 
 const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -38,15 +32,12 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
-UserListToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
-};
-
-export default function UserListToolbar({ numSelected }) {
+export default function UserListToolbar({
+  numSelected,
+  active,
+  onChange,
+  searchName,
+}) {
   return (
     <RootStyle
       sx={{
@@ -56,7 +47,19 @@ export default function UserListToolbar({ numSelected }) {
         }),
       }}
     >
-      <Typography variant="h4">Member List</Typography>
+      <Typography variant="h4">
+        {active ? "User List" : "Inactive User"}
+      </Typography>
+      <SearchStyle
+        value={searchName}
+        onChange={onChange}
+        placeholder="Search user..."
+        startAdornment={
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        }
+      />
     </RootStyle>
   );
 }

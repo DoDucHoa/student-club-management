@@ -150,6 +150,25 @@ namespace FClub.Business.Service
             //return list;
         }
 
+        public IEnumerable getClubWithoutManager()
+        {
+            var values = _clubRepository.GetAll();
+
+            List<Club> clubWOManager = new List<Club>();
+
+            foreach (var item in values)
+            {
+
+                var member = _memberService.Get().Where(x => x.ClubId.Equals(item.Id) && x.RoleId == 1).FirstOrDefault();
+
+                if (member == null)
+                {
+                    clubWOManager.Add(item);
+                }
+            }
+            return clubWOManager;
+        }
+
         public bool Add(Club club)
         {
             try

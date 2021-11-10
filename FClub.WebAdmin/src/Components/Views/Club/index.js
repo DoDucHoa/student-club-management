@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 // component
 import Page from "../../UI/Page";
 import ClubList from "./ClubComponents/ClubList";
 
 // material
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import ControlPointIcon from "@mui/icons-material/ControlPoint";
 
 const ClubComponent = () => {
+  const navigate = useNavigate();
   const token = useSelector((state) => state.auth.token);
 
   const [clubs, setClubs] = useState([]);
@@ -37,12 +41,23 @@ const ClubComponent = () => {
       });
   }, [url, token]);
 
+  function createClubHandler() {
+    navigate("create");
+  }
+
   return (
     <Page title="Club">
       <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Clubs
-        </Typography>
+        <Box sx={{ mb: 5, display: "flex", justifyContent: "space-between" }}>
+          <Typography variant="h4">Clubs</Typography>
+          <Button
+            variant="contained"
+            startIcon={<ControlPointIcon />}
+            onClick={createClubHandler}
+          >
+            Create New Club
+          </Button>
+        </Box>
 
         <ClubList clubs={clubs} />
       </Container>
