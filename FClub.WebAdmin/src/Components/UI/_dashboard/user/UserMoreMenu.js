@@ -18,6 +18,8 @@ import {
   Button,
   Autocomplete,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 
@@ -48,16 +50,20 @@ export default function UserMoreMenu({
   const [isOpen, setIsOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [banModal, setBanModal] = useState(false);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const [clubData, setClubData] = useState([]);
   const [selectedClubId, setSelectedClubId] = useState("");
 
   useEffect(() => {
-    fetch("https://club-management-service.azurewebsites.net/api/v1/clubs", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      "https://club-management-service.azurewebsites.net/api/v1/clubs/without-manager",
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -119,10 +125,19 @@ export default function UserMoreMenu({
       .then((response) => {
         if (response.ok) {
           refreshHandler();
+          setIsSnackbarOpen(true);
         }
       })
       .catch((error) => console.log(error));
   }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setIsSnackbarOpen(false);
+  };
 
   return (
     <>
@@ -271,6 +286,21 @@ export default function UserMoreMenu({
           </Box>
         </Box>
       </Modal>
+
+      <Snackbar
+        open={isSnackbarOpen}
+        autoHideDuration={5000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ horizontal: "center", vertical: "bottom" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{ width: "100%", bgcolor: "#2E7D32", color: "white" }}
+        >
+          Assign success!
+        </Alert>
+      </Snackbar>
     </>
   );
 }
