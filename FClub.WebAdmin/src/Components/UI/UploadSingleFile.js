@@ -5,7 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { alpha, styled } from "@mui/material/styles";
 
 // utils
-import { fData } from "../../../../../Utils/formatNumber";
+import { fData } from "../../Utils/formatNumber";
 import { Box } from "@mui/system";
 import { Paper, Typography } from "@mui/material";
 //

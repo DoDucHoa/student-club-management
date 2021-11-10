@@ -106,7 +106,6 @@ const ProfileComponent = () => {
 
   const submitHandler = (event) => {
     event.preventdefault();
-    console.log(1);
   };
 
   const genderHandler = (event) => {
