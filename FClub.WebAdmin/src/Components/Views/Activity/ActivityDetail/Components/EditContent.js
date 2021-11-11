@@ -20,6 +20,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import { GetMemberId } from "./action";
+import { fVNDate } from "../../../../../Utils/formatTime";
 
 const ImageContaier = styled("div")(({ theme }) => ({
   borderRadius: "10px",
@@ -83,7 +84,7 @@ const EditContent = ({ changeEditHandler, activityDetails, ...others }) => {
 
   function submitHandler(data) {
     const finalData = {
-      createDate: getCurrentDay(),
+      createDate: fVNDate(getCurrentDay()),
       regisDate: regisDate,
       endRegisDate: endRegisDate,
       beginDate: beginDate,
